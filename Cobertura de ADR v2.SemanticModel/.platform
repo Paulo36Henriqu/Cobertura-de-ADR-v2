@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Cobertura de ADR v2"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "d6761400-011b-4bed-ae34-73a45458f2b7"
+  }
+}

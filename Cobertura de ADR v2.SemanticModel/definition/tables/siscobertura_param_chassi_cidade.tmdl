@@ -1,0 +1,65 @@
+table siscobertura_param_chassi_cidade
+	lineageTag: 00eb8c48-4e4e-4ef5-ae82-471c8a0514b6
+
+	column chassi
+		dataType: string
+		lineageTag: 2124aca2-022d-4de3-a32f-ffc2ece2bdfd
+		summarizeBy: none
+		sourceColumn: chassi
+
+		annotation SummarizationSetBy = Automatic
+
+	column cidade_antiga
+		dataType: string
+		lineageTag: 5496daf0-9903-477f-b652-805bc0df3792
+		summarizeBy: none
+		sourceColumn: cidade_antiga
+
+		annotation SummarizationSetBy = Automatic
+
+	column cidade_corrigida
+		dataType: string
+		lineageTag: 173bba62-1bbe-43b1-8d3e-1d713b4e36c1
+		summarizeBy: none
+		sourceColumn: cidade_corrigida
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: string
+		lineageTag: d5cfc180-a70a-4eb6-8e67-bd8b4bbe053c
+		summarizeBy: none
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = Automatic
+
+	column longitude
+		dataType: string
+		lineageTag: bdf6285f-2d48-4451-9ba7-848d3f49e90f
+		summarizeBy: none
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_ibge
+		dataType: double
+		lineageTag: 77e002da-d164-4481-ae44-85efbafe9414
+		summarizeBy: sum
+		sourceColumn: id_ibge
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition siscobertura_param_chassi_cidade = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Fonte{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "siscobertura_param_chassi_cidade"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

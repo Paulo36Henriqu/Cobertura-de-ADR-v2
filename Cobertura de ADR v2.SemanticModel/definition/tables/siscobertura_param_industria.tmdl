@@ -1,0 +1,70 @@
+table siscobertura_param_industria
+	lineageTag: 802d9f06-45c6-4b7d-ae66-9d6dfb25602b
+
+	column grupo
+		dataType: string
+		lineageTag: 443e307d-4686-433e-93fc-ba5920f3133f
+		summarizeBy: none
+		sourceColumn: grupo
+
+		annotation SummarizationSetBy = Automatic
+
+	column estado
+		dataType: string
+		lineageTag: 82ed2542-6b38-4fc6-9341-0a4a6a85c5a6
+		summarizeBy: none
+		sourceColumn: estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column industria_adr
+		dataType: int64
+		formatString: 0
+		lineageTag: aeeef08b-cd78-4a5a-a000-98bbdce0c996
+		summarizeBy: sum
+		sourceColumn: industria_adr
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_estado
+		dataType: double
+		lineageTag: a6f3fa02-2ec6-4634-b423-00ad9326fde3
+		summarizeBy: sum
+		sourceColumn: pct_estado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column meta_ms
+		dataType: double
+		lineageTag: f94a6d4d-5482-4bb5-931f-7bc5ab5a26ea
+		summarizeBy: sum
+		sourceColumn: meta_ms
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column taxa_conversao
+		dataType: double
+		lineageTag: 7c36449b-d1d7-4e2b-93fe-e5b766bf8773
+		summarizeBy: sum
+		sourceColumn: taxa_conversao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition siscobertura_param_industria = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Fonte{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "siscobertura_param_industria"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

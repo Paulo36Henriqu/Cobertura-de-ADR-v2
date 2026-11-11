@@ -1,0 +1,30 @@
+table logo_nissey
+	lineageTag: 091b422f-eb33-4061-bf2b-4366b28c29c5
+
+	column linha
+		dataType: string
+		lineageTag: 11de4430-5707-414d-a232-86708c0b82ab
+		summarizeBy: none
+		sourceColumn: linha
+
+		annotation SummarizationSetBy = Automatic
+
+	column img
+		dataType: string
+		lineageTag: fafcc653-bf5b-461e-abcd-10c13ada9e86
+		summarizeBy: none
+		sourceColumn: img
+
+		annotation SummarizationSetBy = Automatic
+
+	partition logo_nissey = m
+		mode: import
+		source =
+				let
+				  Origem = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("lc5NCsIwEEDhu2RdmuZ/4k5EPIKL0sVkMsGA1GKC4u0t3sDF2368eRbHixjErfetHaTErY5rbY0/9FiZOo4r9zE9Zal3bvJV+S0JyBgXc/acY/LAVhuTmTSmyM5NYhlmcTr/qabdQm2IjPWqBOXQJsRJQbRBkzI/9frvK0LwxRK4ghwU7GXw4HQqnIIuXizLFw==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [linha = _t, img = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Origem,{{"linha", type text}, {"img", type text}})
+				in
+				  #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+

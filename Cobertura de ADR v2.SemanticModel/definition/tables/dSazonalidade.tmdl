@@ -1,0 +1,141 @@
+/// Sazonalidade de vendas por produto no ano fiscal (nov–out): peso de cada mês (mes_fiscal 1 = nov … 12 = out).
+/// Fonte: faturamento de máquinas novas do ERP (VV0/VVA, NF válida) FY23–FY26 cruzado por chassi com siscobertura_chassis.produto; média das participações de cada ano, apurada por trimestre fiscal e dividida igualmente pelos 3 meses. PL segue a curva do TR G. CA (CA G / CA M / CA P, mesma curva) usa as vendas Nissey da planilha "Base de Vendas.xlsx" (aba Base CA, FY23–FY26 somados, por trimestre fiscal ÷ 3). Calculado em 09/11/2026.
+table dSazonalidade
+	lineageTag: 4f095fc9-8c96-4991-a85b-04a5318023cd
+
+	column produto
+		lineageTag: e85a977c-dd9a-4dc6-83cb-a7e39768cfcb
+		isNameInferred
+		sourceColumn: [produto]
+
+	column mes_fiscal
+		formatString: 0
+		lineageTag: 42aa448c-2f83-4b38-83cc-a602430c3358
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [mes_fiscal]
+
+	column peso
+		formatString: 0.0%
+		lineageTag: 2e7a3a17-d39f-47b1-a14f-4f892ec5c1a0
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [peso]
+
+	partition dSazonalidade = calculated
+		mode: import
+		source =
+				DATATABLE (
+				    "produto", STRING, "mes_fiscal", INTEGER, "peso", DOUBLE,
+				    {
+				        { "TR G", 1, 0.0629 },
+				        { "TR G", 2, 0.0629 },
+				        { "TR G", 3, 0.0629 },
+				        { "TR G", 4, 0.0274 },
+				        { "TR G", 5, 0.0274 },
+				        { "TR G", 6, 0.0274 },
+				        { "TR G", 7, 0.0844 },
+				        { "TR G", 8, 0.0844 },
+				        { "TR G", 9, 0.0844 },
+				        { "TR G", 10, 0.1586 },
+				        { "TR G", 11, 0.1586 },
+				        { "TR G", 12, 0.1587 },
+				        { "TR6", 1, 0.0466 },
+				        { "TR6", 2, 0.0466 },
+				        { "TR6", 3, 0.0466 },
+				        { "TR6", 4, 0.1451 },
+				        { "TR6", 5, 0.1451 },
+				        { "TR6", 6, 0.1451 },
+				        { "TR6", 7, 0.0544 },
+				        { "TR6", 8, 0.0544 },
+				        { "TR6", 9, 0.0544 },
+				        { "TR6", 10, 0.0873 },
+				        { "TR6", 11, 0.0873 },
+				        { "TR6", 12, 0.0871 },
+				        { "TR5", 1, 0.0644 },
+				        { "TR5", 2, 0.0644 },
+				        { "TR5", 3, 0.0644 },
+				        { "TR5", 4, 0.0571 },
+				        { "TR5", 5, 0.0571 },
+				        { "TR5", 6, 0.0571 },
+				        { "TR5", 7, 0.0888 },
+				        { "TR5", 8, 0.0888 },
+				        { "TR5", 9, 0.0888 },
+				        { "TR5", 10, 0.123 },
+				        { "TR5", 11, 0.123 },
+				        { "TR5", 12, 0.1231 },
+				        { "TRCE", 1, 0.0514 },
+				        { "TRCE", 2, 0.0514 },
+				        { "TRCE", 3, 0.0514 },
+				        { "TRCE", 4, 0.0497 },
+				        { "TRCE", 5, 0.0497 },
+				        { "TRCE", 6, 0.0497 },
+				        { "TRCE", 7, 0.1007 },
+				        { "TRCE", 8, 0.1007 },
+				        { "TRCE", 9, 0.1007 },
+				        { "TRCE", 10, 0.1315 },
+				        { "TRCE", 11, 0.1315 },
+				        { "TRCE", 12, 0.1316 },
+				        { "CA G", 1, 0.0962 },
+				        { "CA G", 2, 0.0962 },
+				        { "CA G", 3, 0.0962 },
+				        { "CA G", 4, 0.0352 },
+				        { "CA G", 5, 0.0352 },
+				        { "CA G", 6, 0.0352 },
+				        { "CA G", 7, 0.0563 },
+				        { "CA G", 8, 0.0563 },
+				        { "CA G", 9, 0.0563 },
+				        { "CA G", 10, 0.1455 },
+				        { "CA G", 11, 0.1455 },
+				        { "CA G", 12, 0.1459 },
+				        { "CA M", 1, 0.0962 },
+				        { "CA M", 2, 0.0962 },
+				        { "CA M", 3, 0.0962 },
+				        { "CA M", 4, 0.0352 },
+				        { "CA M", 5, 0.0352 },
+				        { "CA M", 6, 0.0352 },
+				        { "CA M", 7, 0.0563 },
+				        { "CA M", 8, 0.0563 },
+				        { "CA M", 9, 0.0563 },
+				        { "CA M", 10, 0.1455 },
+				        { "CA M", 11, 0.1455 },
+				        { "CA M", 12, 0.1459 },
+				        { "CA P", 1, 0.0962 },
+				        { "CA P", 2, 0.0962 },
+				        { "CA P", 3, 0.0962 },
+				        { "CA P", 4, 0.0352 },
+				        { "CA P", 5, 0.0352 },
+				        { "CA P", 6, 0.0352 },
+				        { "CA P", 7, 0.0563 },
+				        { "CA P", 8, 0.0563 },
+				        { "CA P", 9, 0.0563 },
+				        { "CA P", 10, 0.1455 },
+				        { "CA P", 11, 0.1455 },
+				        { "CA P", 12, 0.1459 },
+				        { "PV", 1, 0.069 },
+				        { "PV", 2, 0.069 },
+				        { "PV", 3, 0.069 },
+				        { "PV", 4, 0.0446 },
+				        { "PV", 5, 0.0446 },
+				        { "PV", 6, 0.0446 },
+				        { "PV", 7, 0.0758 },
+				        { "PV", 8, 0.0758 },
+				        { "PV", 9, 0.0758 },
+				        { "PV", 10, 0.1439 },
+				        { "PV", 11, 0.1439 },
+				        { "PV", 12, 0.144 },
+				        { "PL", 1, 0.0629 },
+				        { "PL", 2, 0.0629 },
+				        { "PL", 3, 0.0629 },
+				        { "PL", 4, 0.0274 },
+				        { "PL", 5, 0.0274 },
+				        { "PL", 6, 0.0274 },
+				        { "PL", 7, 0.0844 },
+				        { "PL", 8, 0.0844 },
+				        { "PL", 9, 0.0844 },
+				        { "PL", 10, 0.1586 },
+				        { "PL", 11, 0.1586 },
+				        { "PL", 12, 0.1587 }
+				    }
+				)
+

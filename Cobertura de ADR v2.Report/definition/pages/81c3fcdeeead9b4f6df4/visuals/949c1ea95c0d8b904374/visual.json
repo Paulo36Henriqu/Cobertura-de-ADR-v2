@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "949c1ea95c0d8b904374",
+  "position": {
+    "x": 0,
+    "y": 3.3173102601078885,
+    "z": 25000,
+    "height": 1145.9006781298121,
+    "width": 1920.0000000000002,
+    "tabOrder": 23000
+  },
+  "visualGroup": {
+    "displayName": "Cobertura P1",
+    "groupMode": "ScaleMode"
+  },
+  "isHidden": true
+}

@@ -1,0 +1,200 @@
+/// Projeção de indústria e meta de M.S. por cidade x produto (calculada no modelo a partir de siscobertura_cidade_produto + siscobertura_param_industria). O produto usa a linha do parâmetro com [grupo] = código do produto (ex.: cadastrar PV); sem ela, usa o grupo de projeção (TR G/TR6/TR5/TRCE -> TR, CA -> CA, igual a GRUPOS_PROJECAO do config.py). Fechamento: soma dos produtos de um grupo = siscobertura_projecao_industria.
+table siscobertura_projecao_produto
+	lineageTag: 13b0825f-a763-47e5-aaa5-3dbae4926f1c
+
+	column id_ibge
+		lineageTag: a1c0094a-5fa3-4680-8147-33d737a00138
+		isNameInferred
+		sourceColumn: [id_ibge]
+
+	column produto
+		lineageTag: 87f1b3f6-8679-422d-8620-93273497223a
+		isNameInferred
+		sourceColumn: [produto]
+
+	column estado
+		lineageTag: ee35e716-a6fa-4e70-9381-0498b45e60ce
+		isNameInferred
+		sourceColumn: [estado]
+
+	column chave_sr
+		lineageTag: ae9d016e-92db-4629-be80-4e919b1aa000
+		isNameInferred
+		sourceColumn: [chave_sr]
+
+	column demanda
+		lineageTag: a7d00a31-b1c8-42a5-aae3-ea48b17fbbaf
+		isNameInferred
+		sourceColumn: [demanda]
+
+	column crm_ganhas_fy
+		lineageTag: 2c7c31fc-a021-4d01-9290-acf1ea20758d
+		isNameInferred
+		sourceColumn: [crm_ganhas_fy]
+
+	column crm_perdidas_fy
+		lineageTag: 0f8de0d8-9b14-49bf-a006-de444082d0ec
+		isNameInferred
+		sourceColumn: [crm_perdidas_fy]
+
+	column crm_abertas
+		lineageTag: 47a90186-a5fd-41cb-80cb-0cf652f8032e
+		isNameInferred
+		sourceColumn: [crm_abertas]
+
+	column chave_param
+		lineageTag: 50f75b42-d54c-415f-8a5c-c06ad761c314
+		isNameInferred
+		sourceColumn: [chave_param]
+
+	column base_ms
+		lineageTag: 9fd2549e-ad35-4240-ad68-ee74799d18e9
+		isNameInferred
+		sourceColumn: [base_ms]
+
+	column demanda_estado
+		lineageTag: c15cc17f-41f1-420b-8a10-cdfd8f3a99a1
+		isNameInferred
+		sourceColumn: [demanda_estado]
+
+	column industria_estado
+		lineageTag: be6e87fc-e093-4b7c-8d4e-2ec801aaf0a3
+		isNameInferred
+		sourceColumn: [industria_estado]
+
+	column meta_ms
+		lineageTag: fd84b97a-6d01-4cc5-941c-a3ac1960b112
+		isNameInferred
+		sourceColumn: [meta_ms]
+
+	column taxa_conversao
+		lineageTag: 5031395d-2bbc-48f0-ba8f-ee1200e64ee6
+		isNameInferred
+		sourceColumn: [taxa_conversao]
+
+	column participacao_estado
+		lineageTag: 717c8873-b924-4282-a51c-1a6c0fa334d0
+		isNameInferred
+		sourceColumn: [participacao_estado]
+
+	column industria_cidade
+		lineageTag: c6d8171d-ebc6-46d1-94f8-a9993f588eae
+		isNameInferred
+		sourceColumn: [industria_cidade]
+
+	column vendas_meta
+		lineageTag: 14a9c8bc-11f6-4c90-8e31-fd2bb4223f3f
+		isNameInferred
+		sourceColumn: [vendas_meta]
+
+	column negocios_necessarios
+		lineageTag: f043b99b-a816-43c4-ac9c-60df1dd8d350
+		isNameInferred
+		sourceColumn: [negocios_necessarios]
+
+	column ano_fiscal
+		lineageTag: f333d889-d5fc-4c76-815c-092f6abd4dac
+		isNameInferred
+		sourceColumn: [ano_fiscal]
+
+	column parque_valido
+		formatString: #,0
+		lineageTag: e1c7207b-6b0e-40cc-af12-1095e737e6cb
+		isNameInferred
+		sourceColumn: [parque_valido]
+
+	/// Share de frota JD na cidade×produto = MIN(100%, parque válido ÷ demanda). Base dos cenários de meta de M.S.
+	column share_frota
+		formatString: 0.0%
+		lineageTag: fe7541df-f95b-4be8-8a0f-b73cf3a6ffed
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [share_frota]
+
+	partition siscobertura_projecao_produto = calculated
+		mode: import
+		source =
+				VAR _Mapa =
+				    DATATABLE (
+				        "m_produto", STRING, "m_grupo", STRING,
+				        { { "TR G", "TR" }, { "TR6", "TR" }, { "TR5", "TR" }, { "TRCE", "TR" }, { "CA G", "CA" }, { "CA M", "CA" }, { "CA P", "CA" } }
+				    )
+				-- PV e PL não têm indústria oficial: indústria = demanda × renovação de 10%/ano (PL em linhas ÷ 22 = unidades); meta de M.S. e conversão do TR
+				VAR _SemIndustria = { "PV", "PL" }
+				VAR _TaxaRenovacao = 0.10
+				VAR _LinhasPorPL = 22
+				VAR _Chaves = DISTINCT ( siscobertura_param_industria[grupo] )
+				VAR _AnoFiscal = MAX ( siscobertura_projecao_industria[ano_fiscal] )
+				VAR _Base =
+				    ADDCOLUMNS (
+				        SELECTCOLUMNS (
+				            siscobertura_cidade_produto,
+				            "id_ibge", siscobertura_cidade_produto[id_ibge],
+				            "produto", siscobertura_cidade_produto[produto],
+				            "estado", siscobertura_cidade_produto[estado],
+				            "chave_sr", UPPER ( siscobertura_cidade_produto[filial] ) & "|" & siscobertura_cidade_produto[sub_regiao],
+				            "demanda", siscobertura_cidade_produto[demanda_calculada],
+				            "parque_valido", siscobertura_cidade_produto[parque_valido],
+				            "crm_ganhas_fy", siscobertura_cidade_produto[crm_ganhas_fy],
+				            "crm_perdidas_fy", siscobertura_cidade_produto[crm_perdidas_fy],
+				            "crm_abertas", siscobertura_cidade_produto[crm_abertas]
+				        ),
+				        "chave_param",
+				            VAR p = [produto]
+				            RETURN IF ( p IN _Chaves || p IN _SemIndustria, p, MAXX ( FILTER ( _Mapa, [m_produto] = p ), [m_grupo] ) ),
+				        "base_ms",
+				            VAR p = [produto]
+				            RETURN p IN _Chaves || p IN _SemIndustria || LOOKUPVALUE ( dProduto[grupo], dProduto[produto], p ) IN _Chaves
+				    )
+				VAR _Estado =
+				    ADDCOLUMNS (
+				        _Base,
+				        "demanda_estado",
+				            VAR c = [chave_param]
+				            VAR e = [estado]
+				            RETURN IF ( ISBLANK ( c ), 0, SUMX ( FILTER ( _Base, [chave_param] = c && [estado] = e ), [demanda] ) ),
+				        "industria_estado",
+				            VAR c = [chave_param]
+				            VAR e = [estado]
+				            RETURN
+				                IF (
+				                    c IN _SemIndustria,
+				                    SUMX ( FILTER ( _Base, [chave_param] = c && [estado] = e ), [demanda] ) * _TaxaRenovacao / IF ( c = "PL", _LinhasPorPL, 1 ),
+				                    SUMX (
+				                        FILTER ( siscobertura_param_industria,
+				                            siscobertura_param_industria[grupo] = c && siscobertura_param_industria[estado] = e ),
+				                        siscobertura_param_industria[industria_adr] * siscobertura_param_industria[pct_estado] ) + 0
+				                ),
+				        "meta_ms",
+				            VAR c = IF ( [chave_param] IN _SemIndustria, "TR", [chave_param] )
+				            VAR e = [estado]
+				            VAR v = MAXX ( FILTER ( siscobertura_param_industria,
+				                    siscobertura_param_industria[grupo] = c && siscobertura_param_industria[estado] = e ),
+				                siscobertura_param_industria[meta_ms] )
+				            -- meta acordada com a John Deere por porte (dProduto[meta_ms]); sem porte usa a do grupo
+				            VAR porte = LOOKUPVALUE ( dProduto[meta_ms], dProduto[produto], [produto] )
+				            RETURN COALESCE ( porte, v, MAXX ( FILTER ( siscobertura_param_industria, siscobertura_param_industria[grupo] = c ), siscobertura_param_industria[meta_ms] ), 0 ),
+				        "taxa_conversao",
+				            VAR c = IF ( [chave_param] IN _SemIndustria, "TR", [chave_param] )
+				            VAR e = [estado]
+				            VAR v = MAXX ( FILTER ( siscobertura_param_industria,
+				                    siscobertura_param_industria[grupo] = c && siscobertura_param_industria[estado] = e ),
+				                siscobertura_param_industria[taxa_conversao] )
+				            RETURN COALESCE ( v, MAXX ( FILTER ( siscobertura_param_industria, siscobertura_param_industria[grupo] = c ), siscobertura_param_industria[taxa_conversao] ), 0 )
+				    )
+				VAR _Industria =
+				    ADDCOLUMNS (
+				        _Estado,
+				        "participacao_estado", DIVIDE ( [demanda], [demanda_estado], 0 ),
+				        "industria_cidade", [industria_estado] * DIVIDE ( [demanda], [demanda_estado], 0 )
+				    )
+				VAR _Meta =
+				    ADDCOLUMNS ( _Industria, "vendas_meta", [industria_cidade] * [meta_ms] )
+				RETURN
+				    ADDCOLUMNS (
+				        _Meta,
+				        "negocios_necessarios", DIVIDE ( [vendas_meta], [taxa_conversao], 0 ),
+				        "ano_fiscal", _AnoFiscal,
+				        "share_frota", MIN ( 1, DIVIDE ( [parque_valido], [demanda], 0 ) )
+				    )
+

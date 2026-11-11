@@ -1,0 +1,15 @@
+/// Parâmetro (what-if): % do ROB anual que o cliente consegue destinar à compra de máquinas. Teto financeiro do mercado de máquinas do cliente.
+table pctROBMaquinas
+	lineageTag: f4c49c92-863f-4737-a5ab-9c99701344d0
+
+	column Value
+		formatString: 0%
+		lineageTag: 490677fc-164a-435e-ad80-6d43bb784051
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value]
+
+	partition pctROBMaquinas = calculated
+		mode: import
+		source = GENERATESERIES ( 0.02, 0.20, 0.01 )
+

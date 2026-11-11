@@ -1,0 +1,15 @@
+/// Parâmetro (what-if): % alvo de participação = faturamento Nissey ÷ potencial de investimento. Usado no card e na linha de alvo da Matriz da Segmentação.
+table pctAlvoParticipacao
+	lineageTag: faf45701-f560-447c-99f7-d130c0d1b15e
+
+	column Value
+		formatString: 0%
+		lineageTag: 0b6864cb-ef62-4126-91f3-5b3fa913f9cc
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value]
+
+	partition pctAlvoParticipacao = calculated
+		mode: import
+		source = GENERATESERIES ( 0.05, 0.50, 0.01 )
+

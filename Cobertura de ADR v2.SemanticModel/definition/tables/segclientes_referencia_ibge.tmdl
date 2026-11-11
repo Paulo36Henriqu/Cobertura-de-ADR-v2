@@ -1,0 +1,105 @@
+table segclientes_referencia_ibge
+	lineageTag: 5709808c-3a9d-4582-87e4-c53edfc7c88d
+
+	column execucao_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 01566be6-99b2-4577-a21d-81d0fdbcbd93
+		summarizeBy: none
+		sourceColumn: execucao_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column local
+		dataType: string
+		lineageTag: 7ff4a683-1a75-433a-af38-9b8c4c55c15a
+		summarizeBy: none
+		sourceColumn: local
+
+		annotation SummarizationSetBy = Automatic
+
+	column nivel
+		dataType: string
+		lineageTag: 842b2d15-04a9-45fc-8b1b-f08136ecac10
+		summarizeBy: none
+		sourceColumn: nivel
+
+		annotation SummarizationSetBy = Automatic
+
+	column cultura
+		dataType: string
+		lineageTag: f1127621-add2-4c7e-9940-4da07b8edb40
+		summarizeBy: none
+		sourceColumn: cultura
+
+		annotation SummarizationSetBy = Automatic
+
+	column area_referencia
+		dataType: double
+		lineageTag: a48d70bb-13c3-4393-a2ac-5f17fd18f08e
+		summarizeBy: sum
+		sourceColumn: area_referencia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column produtividade_kg_ha
+		dataType: double
+		lineageTag: 251ce0cf-a857-4439-82f7-b4a33a83a1bd
+		summarizeBy: sum
+		sourceColumn: produtividade_kg_ha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column preco_kg
+		dataType: double
+		lineageTag: 9c56fad3-ef0b-4f01-8f87-c2a3c73e0544
+		summarizeBy: sum
+		sourceColumn: preco_kg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rob_ha
+		dataType: double
+		lineageTag: 4cc59fac-d9b6-44c6-8047-e7a95e0006db
+		summarizeBy: sum
+		sourceColumn: rob_ha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ano_preco
+		dataType: int64
+		formatString: 0
+		lineageTag: 7cf52476-73bf-4924-99df-25d98008466b
+		summarizeBy: sum
+		sourceColumn: ano_preco
+
+		annotation SummarizationSetBy = Automatic
+
+	column fonte_preco
+		dataType: string
+		lineageTag: 9bc7c8fa-6cc7-4ddd-a356-e335da98e5b8
+		summarizeBy: none
+		sourceColumn: fonte_preco
+
+		annotation SummarizationSetBy = Automatic
+
+	partition segclientes_referencia_ibge = m
+		mode: import
+		source =
+				let
+				  Origem = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Origem{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "segclientes_referencia_ibge"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,61 @@
+/// Subcategorias da página Vendas Perdidas (porte de trator, classe de colheitadeira, PL, PV), com indústria do relatório Current versus Prior.
+table dVPSub
+	lineageTag: db603590-46fb-45d2-8310-861f543b636c
+
+	column sub
+		lineageTag: b76c3b3a-e5d1-4538-b3e2-436fc7df73a5
+		isNameInferred
+		sourceColumn: [sub]
+		sortByColumn: ordem
+
+	column grupo
+		lineageTag: fbfc5397-93ad-42a3-8128-6157fdefa9d0
+		isNameInferred
+		sourceColumn: [grupo]
+
+	column ordem
+		lineageTag: afb73721-fc44-424c-958a-1f192fcb19ec
+		isNameInferred
+		sourceColumn: [ordem]
+
+	column ind1
+		isHidden
+		lineageTag: b7baab5c-b605-402e-9be5-45804ed80b65
+		isNameInferred
+		sourceColumn: [ind1]
+
+	column ind2
+		isHidden
+		lineageTag: 1e2d8bd8-8a44-4969-8c3f-13872053ef9d
+		isNameInferred
+		sourceColumn: [ind2]
+
+	column ind_atual
+		lineageTag: 4bc8bb78-4c7b-46ee-bcf9-83f2527673d0
+		isNameInferred
+		sourceColumn: [ind_atual]
+
+	partition dVPSub = calculated
+		mode: import
+		source =
+				VAR _t =
+				    DATATABLE (
+				        "sub", STRING, "grupo", STRING, "ordem", INTEGER, "ind1", STRING, "ind2", STRING,
+				        {
+				            { "Small", "TR", 1, "SMALL TRACTORS (TR P) 0<100", "" },
+				            { "Mid", "TR", 2, "MID TRACTORS (TR M) 100<180", "" },
+				            { "Large", "TR", 3, "LARGE 2WD TRACTORS 180 HP & Over", "4WD TRACTORS" },
+				            { "GP4", "CA", 4, "SMALL COMBINES (PG0-4) [S400]", "" },
+				            { "GP5", "CA", 5, "MID COMBINES Mid (PG5) [S500]", "" },
+				            { "GP6>", "CA", 6, "LARGE COMBINES (PG6+) [S700]", "" },
+				            { "CH", "CH", 7, "SUGAR CANE HARVESTERS", "" },
+				            { "Plantadeiras", "PL", 8, "PLANTERS", "" },
+				            { "Pulverizadores", "PV", 9, "SPRAYERS, SELF-PROPELLED, HIGH CLEARANCE", "" }
+				        }
+				    )
+				RETURN
+				    ADDCOLUMNS (
+				        _t,
+				        "ind_atual", SUMX ( FILTER ( vp_industria, vp_industria[produto] = [ind1] || vp_industria[produto] = [ind2] ), vp_industria[ind_atual] )
+				    )
+

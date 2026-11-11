@@ -1,0 +1,26 @@
+# --- Power BI (PBIP) ---
+# Configurações locais e cache de dados do modelo (regenerados pelo Desktop)
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+
+# --- Backups manuais (substituídos pelo histórico do git) ---
+docs/backups/
+
+# --- Dados da empresa (planilhas de vendas/ERP) ---
+*.xlsx
+~$*
+
+# --- Binários grandes que raramente mudam ---
+docs/**/*.pdf
+docs/Microrregiões_atualizado_v3_sem_roraima.geojson
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+
+# --- Sistema / editores ---
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/

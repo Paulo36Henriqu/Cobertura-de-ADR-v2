@@ -1,0 +1,210 @@
+table siscobertura_chassis
+	lineageTag: 1a629b76-7a7b-49df-9349-afe19f940019
+
+	column chassi
+		dataType: string
+		lineageTag: 630e06f9-7cd8-47a3-82c4-fd47c99b0536
+		summarizeBy: none
+		sourceColumn: chassi
+
+		annotation SummarizationSetBy = Automatic
+
+	column modelo
+		dataType: string
+		lineageTag: 9958f7bb-5da6-45e8-84d6-efc0c5853fc3
+		summarizeBy: none
+		sourceColumn: modelo
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_modelo_erp
+		dataType: string
+		lineageTag: a3d60fba-cb25-4d1b-9a16-4723646fd93c
+		summarizeBy: none
+		sourceColumn: tipo_modelo_erp
+
+		annotation SummarizationSetBy = Automatic
+
+	column categoria_modelo
+		dataType: string
+		lineageTag: 7dd48d8f-d507-4f6b-a215-f04b69d47ce6
+		summarizeBy: none
+		sourceColumn: categoria_modelo
+
+		annotation SummarizationSetBy = Automatic
+
+	column produto
+		dataType: string
+		lineageTag: c38f0d8a-5979-4abd-8e0b-16ef8c8700f4
+		summarizeBy: none
+		sourceColumn: produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column ano_modelo
+		dataType: int64
+		formatString: 0
+		lineageTag: 712cc007-ab56-4351-b266-99fa6d72b5a1
+		summarizeBy: sum
+		sourceColumn: ano_modelo
+
+		annotation SummarizationSetBy = Automatic
+
+	column idade_anos
+		dataType: int64
+		formatString: 0
+		lineageTag: 498eb8ba-0584-4b2e-834e-bae2901e4316
+		summarizeBy: sum
+		sourceColumn: idade_anos
+
+		annotation SummarizationSetBy = Automatic
+
+	column vida_util_anos
+		dataType: int64
+		formatString: 0
+		lineageTag: 755b2f46-6f8f-4950-a8b4-6a0ef739abb7
+		summarizeBy: sum
+		sourceColumn: vida_util_anos
+
+		annotation SummarizationSetBy = Automatic
+
+	column valido
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 3597c0b2-49de-4a30-b9e0-cce802412551
+		summarizeBy: none
+		sourceColumn: valido
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_ibge
+		dataType: int64
+		formatString: 0
+		lineageTag: caca5238-c263-4bff-8711-1d2361519fd7
+		summarizeBy: sum
+		sourceColumn: id_ibge
+
+		annotation SummarizationSetBy = Automatic
+
+	column origem_ibge
+		dataType: string
+		lineageTag: b7748aad-eb5d-4372-b27b-b6b8b114b211
+		summarizeBy: none
+		sourceColumn: origem_ibge
+
+		annotation SummarizationSetBy = Automatic
+
+	column municipio_erp
+		dataType: string
+		lineageTag: bed2d3ab-b4c5-4c09-a366-6747cd678dcb
+		summarizeBy: none
+		sourceColumn: municipio_erp
+
+		annotation SummarizationSetBy = Automatic
+
+	column filial_erp
+		dataType: string
+		lineageTag: 0fb06157-0eee-4d49-98ed-c4595226f8b9
+		summarizeBy: none
+		sourceColumn: filial_erp
+
+		annotation SummarizationSetBy = Automatic
+
+	column cliente
+		dataType: string
+		lineageTag: a9108f92-3db2-44f3-b004-7b3616fe76d2
+		summarizeBy: none
+		sourceColumn: cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column cgccpf
+		dataType: string
+		lineageTag: bbb4a0ba-8100-44ae-9a11-85660e24468e
+		summarizeBy: none
+		sourceColumn: cgccpf
+
+		annotation SummarizationSetBy = Automatic
+
+	column posicao
+		dataType: string
+		lineageTag: b76b5038-36ce-40a9-a355-dfa9a9686a98
+		summarizeBy: none
+		sourceColumn: posicao
+
+		annotation SummarizationSetBy = Automatic
+
+	column marca
+		dataType: string
+		lineageTag: 95f1e069-4b15-495f-a5c5-5d387efc3ddf
+		summarizeBy: none
+		sourceColumn: marca
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_atualizacao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 875d1b73-4f90-4c39-845b-95a9f3e21282
+		summarizeBy: none
+		sourceColumn: data_atualizacao
+
+		variation Variation
+			isDefault
+			relationship: f7fbda3a-d726-4c7e-bfed-5db0fe3ef04c
+			defaultHierarchy: LocalDateTable_2bf18502-43dd-4bb1-b54d-93bd675ec7b7.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column ano_ordem = IF ( ISBLANK ( siscobertura_chassis[ano_modelo] ), BLANK (), MAX ( siscobertura_chassis[ano_modelo], 2005 ) )
+		dataType: int64
+		isHidden
+		lineageTag: 5bd893b5-7c75-48ba-8b07-47e42fdc1d1d
+		summarizeBy: none
+
+	column situacao = IF ( siscobertura_chassis[valido], "Válido", "Vencido" )
+		dataType: string
+		lineageTag: 0d8f3ece-b030-43c8-b3f8-64bc7f7a09a1
+
+	column origem_cidade = SWITCH ( siscobertura_chassis[origem_ibge], "planilha cidades corrigidas", "Planilha corrigida", "municipio do ERP", "Município do ERP", "Sem cidade" )
+		dataType: string
+		lineageTag: 76daf7dd-763f-48cc-a0ce-ab0f75577231
+
+	column ano_faixa = IF ( ISBLANK ( siscobertura_chassis[ano_modelo] ), BLANK (), IF ( siscobertura_chassis[ano_modelo] <= 2005, "≤05", "'" & RIGHT ( FORMAT ( siscobertura_chassis[ano_modelo], "0" ), 2 ) ) )
+		dataType: string
+		lineageTag: eca68b4a-0580-4d87-82a0-9ab7572d5183
+		sortByColumn: ano_ordem
+
+	column corrigir = ISBLANK ( siscobertura_chassis[id_ibge] ) && siscobertura_chassis[produto] <> ""
+		dataType: boolean
+		isHidden
+		lineageTag: 3d080388-5497-4a04-ad06-fd41107a0557
+
+	/// Nº de linhas da plantadeira (param linhas_plantadeira). Vazio para outros produtos.
+	column linhas
+		dataType: int64
+		formatString: 0
+		lineageTag: bf6cd77c-6c12-44ab-a5db-6dd41f6a4178
+		summarizeBy: sum
+		sourceColumn: linhas
+
+	/// Quanto o chassi conta no parque: 1 máquina, ou as linhas no caso de PL.
+	column peso_cobertura
+		dataType: int64
+		formatString: 0
+		lineageTag: 19cebfe0-7044-4edd-819a-94280b5eb6c6
+		summarizeBy: sum
+		sourceColumn: peso_cobertura
+
+	partition siscobertura_chassis = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Fonte{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "siscobertura_chassis"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

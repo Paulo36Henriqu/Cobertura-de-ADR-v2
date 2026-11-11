@@ -1,0 +1,39 @@
+table siscobertura_param_geral
+	lineageTag: 17f52c24-1b65-4257-8f21-47e1635037db
+
+	column chave
+		dataType: string
+		lineageTag: dc094777-fb04-48e3-8e32-94529dc47413
+		summarizeBy: none
+		sourceColumn: chave
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor
+		dataType: string
+		lineageTag: 348f9d76-04e9-4aba-a247-19f4eed65b13
+		summarizeBy: none
+		sourceColumn: valor
+
+		annotation SummarizationSetBy = Automatic
+
+	column descricao
+		dataType: string
+		lineageTag: 72009fab-5260-4a8e-bbb0-9cb8bfc47a4d
+		summarizeBy: none
+		sourceColumn: descricao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition siscobertura_param_geral = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Fonte{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "siscobertura_param_geral"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

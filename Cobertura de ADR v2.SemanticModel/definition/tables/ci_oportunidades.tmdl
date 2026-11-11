@@ -1,0 +1,254 @@
+/// Inteligência Competitiva: oportunidades do CRM (DB_MKT_CRM_JD_CE) com resultado, motivos e concorrente normalizados. Data de referência = data de encerramento (ou criação quando vazia).
+table ci_oportunidades
+	lineageTag: da0386f2-09db-4f77-aac0-2bf2f7ce1253
+
+	column id
+		dataType: int64
+		lineageTag: 797112b8-233c-41f8-8a99-d1f4f582672e
+		summarizeBy: none
+		sourceColumn: id
+
+	column linha
+		dataType: string
+		lineageTag: 9b0dce67-0f4b-4eb1-83a4-2bc13ed22984
+		summarizeBy: none
+		sourceColumn: linha
+
+	column filial
+		dataType: string
+		lineageTag: a190f48d-71a0-4c28-871d-ed86da496564
+		summarizeBy: none
+		sourceColumn: filial
+
+	column filial_sigla
+		dataType: string
+		lineageTag: 0574edbb-956f-4c8f-8db0-ee03ef7c92d7
+		summarizeBy: none
+		sourceColumn: filial_sigla
+
+	column vendedor
+		dataType: string
+		lineageTag: 43250722-9ab9-468d-972a-fb54c9fd0be2
+		summarizeBy: none
+		sourceColumn: vendedor
+
+	column produto
+		dataType: string
+		lineageTag: 15858727-c31b-4a63-a7a6-39035ba92db3
+		summarizeBy: none
+		sourceColumn: produto
+
+	column modelo
+		dataType: string
+		lineageTag: 39a359a0-7d48-4341-b7ce-9610c1cbe114
+		summarizeBy: none
+		sourceColumn: modelo
+
+	column resultado
+		dataType: string
+		lineageTag: 1b329a42-e08c-497c-9058-d7a25e6d2f79
+		summarizeBy: none
+		sourceColumn: resultado
+		sortByColumn: resultado_ordem
+
+	column data_criacao
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 15746972-fd0d-4b8c-92d3-c6e04f2c49aa
+		summarizeBy: none
+		sourceColumn: data_criacao
+
+	column data_encerramento
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: cc402c0a-228a-4235-9018-205c646c6ace
+		summarizeBy: none
+		sourceColumn: data_encerramento
+
+	column data_ref
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 7b890cbb-5c17-4708-8fc5-031b948b301b
+		summarizeBy: none
+		sourceColumn: data_ref
+
+	column fy
+		dataType: string
+		lineageTag: 27ed5e70-a45b-40b1-a985-0d95bb4fb9b2
+		summarizeBy: none
+		sourceColumn: fy
+
+	column motivo_perda
+		dataType: string
+		lineageTag: 5f0ca5f0-25a9-4513-8bf4-c65888641aa4
+		summarizeBy: none
+		sourceColumn: motivo_perda
+
+	column motivo_cancelamento
+		dataType: string
+		lineageTag: 2cda19a6-e200-4cf3-8dde-3479d3b600be
+		summarizeBy: none
+		sourceColumn: motivo_cancelamento
+
+	column concorrente
+		dataType: string
+		lineageTag: fc0787fa-e474-43bc-9050-815a655f4dbb
+		summarizeBy: none
+		sourceColumn: concorrente
+
+	column modelo_concorrente
+		dataType: string
+		lineageTag: 80a63f91-85cd-42b8-8775-b91936b721ee
+		summarizeBy: none
+		sourceColumn: modelo_concorrente
+
+	column quantidade
+		dataType: int64
+		lineageTag: 4c7ac0d5-a6e6-4407-9c70-c671511ad575
+		summarizeBy: none
+		sourceColumn: quantidade
+
+	column preco_unitario
+		dataType: double
+		formatString: "R$" #,0
+		lineageTag: bba39615-6734-4e44-b82d-6328f36786ab
+		summarizeBy: none
+		sourceColumn: preco_unitario
+
+	column preco_total
+		dataType: double
+		formatString: "R$" #,0
+		lineageTag: bcfb57e2-689d-4ec0-b3e2-7bc473992014
+		summarizeBy: none
+		sourceColumn: preco_total
+
+	column preco_concorrente
+		dataType: double
+		formatString: "R$" #,0
+		lineageTag: a8029bd3-8303-4212-82d2-4c247e5c8ed1
+		summarizeBy: none
+		sourceColumn: preco_concorrente
+
+	column id_ibge
+		dataType: int64
+		lineageTag: 393ef134-68d5-4f81-b7a4-a21eb50dad78
+		summarizeBy: none
+		sourceColumn: id_ibge
+
+	column cidade
+		dataType: string
+		lineageTag: a8ea3e7f-ffe6-4959-8022-008789712bec
+		summarizeBy: none
+		sourceColumn: cidade
+
+	column uf
+		dataType: string
+		lineageTag: 431c8fcc-76ae-464f-8009-d374c0d9dc83
+		summarizeBy: none
+		sourceColumn: uf
+
+	column resultado_ordem
+		dataType: int64
+		isHidden
+		lineageTag: f9a8d029-9c38-4d04-a8a2-d8cbaec65b97
+		summarizeBy: none
+		sourceColumn: resultado_ordem
+
+	column mes
+		dataType: dateTime
+		formatString: mmm/yy
+		lineageTag: 2c64243f-01a7-45c0-92ec-537fc15db268
+		summarizeBy: none
+		sourceColumn: mes
+
+	column local
+		dataType: string
+		isHidden
+		lineageTag: 5fedfbfd-d481-4092-ab88-d3e6d4ceec61
+		dataCategory: Place
+		summarizeBy: none
+		sourceColumn: local
+
+	column concorrente_label
+		dataType: string
+		lineageTag: b63c532d-2879-4fd5-98b8-abe832b4c714
+		summarizeBy: none
+		sourceColumn: concorrente_label
+
+	/// Mês de referência (nov/25) para eixos.
+	column mes_label = FORMAT ( ci_oportunidades[mes], "mmm/yy" )
+		lineageTag: 4de70422-8dcc-4401-a5e7-00cee611201d
+		summarizeBy: none
+		sortByColumn: mes
+
+	/// Diferença % entre o preço JD (unitário) e o preço do concorrente. Vazio quando não há preço do concorrente > R$ 1.000 ou a razão está fora de 0,4×–2,5× (erro de digitação).
+	column delta_preco =
+			VAR _pu = ci_oportunidades[preco_unitario]
+			VAR _pc = ci_oportunidades[preco_concorrente]
+			VAR _r = DIVIDE ( _pu, _pc )
+			RETURN IF ( _pu > 0 && NOT ISBLANK ( _pc ) && _r >= 0.4 && _r <= 2.5, _r - 1 )
+		formatString: +0%;-0%;0%
+		lineageTag: 319c3c08-8934-4108-8d6c-c9ab9fcc6702
+		summarizeBy: none
+
+	/// Concorrente + modelo do concorrente para a tabela Duelo de modelos.
+	column modelo_concorrente_label = IF ( ISBLANK ( ci_oportunidades[concorrente] ) && ISBLANK ( ci_oportunidades[modelo_concorrente] ), BLANK (), COALESCE ( ci_oportunidades[concorrente], "?" ) & " " & COALESCE ( ci_oportunidades[modelo_concorrente], "(modelo n/i)" ) )
+		lineageTag: 9b9e1dd9-edb2-4a1f-a836-fd0b0ad5ab51
+		summarizeBy: none
+
+	/// Subcategoria para a página Vendas Perdidas (Small/Mid/Large, GP4/GP5/GP6>, CH, Plantadeiras, Pulverizadores).
+	column vp_sub =
+			VAR _m = UPPER ( TRIM ( SUBSTITUTE ( ci_oportunidades[modelo], "TR", "" ) ) )
+			VAR _serie = LEFT ( _m, 1 )
+			VAR _hp = IFERROR ( VALUE ( MID ( _m, 2, 3 ) ), 0 )
+			RETURN
+			    IF (
+			        ci_oportunidades[linha] = "AG",
+			        SWITCH (
+			            ci_oportunidades[produto],
+			            "Trator",
+			                SWITCH (
+			                    TRUE (),
+			                    _serie IN { "3", "5" }, "Small",
+			                    _serie = "6" && _hp < 180, "Mid",
+			                    _serie = "6" && _hp >= 180, "Large",
+			                    _serie IN { "7", "8", "9" }, "Large"
+			                ),
+			            "Colheitadeira",
+			                SWITCH (
+			                    TRUE (),
+			                    LEFT ( _m, 2 ) = "CH", "CH",
+			                    LEFT ( _m, 2 ) = "S4", "GP4",
+			                    LEFT ( _m, 2 ) = "S5", "GP5",
+			                    LEFT ( _m, 2 ) IN { "S6", "S7", "S9", "X9" }, "GP6>"
+			                ),
+			            "Plantadeira", "Plantadeiras",
+			            "Pulverizador", "Pulverizadores"
+			        )
+			    )
+		dataType: string
+		displayFolder: Vendas Perdidas
+		lineageTag: 580242f2-fb16-49f4-8564-a8d1584e918e
+
+	/// Grupo para a página Vendas Perdidas (TR, CA, CH, PL, PV).
+	column vp_grupo =
+			SWITCH (
+			    ci_oportunidades[vp_sub],
+			    "Small", "TR", "Mid", "TR", "Large", "TR",
+			    "GP4", "CA", "GP5", "CA", "GP6>", "CA",
+			    "CH", "CH",
+			    "Plantadeiras", "PL",
+			    "Pulverizadores", "PV"
+			)
+		dataType: string
+		displayFolder: Vendas Perdidas
+		lineageTag: 8b5136ea-ec93-41ad-949d-c61299e65c33
+
+	partition ci_oportunidades = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Database("10.14.152.11", "DB_MKT_CRM_JD_CE", [Query = "SELECT x.*, CASE x.resultado WHEN 'Ganha' THEN 1 WHEN 'Perdida' THEN 2 WHEN 'Cancelada' THEN 3 ELSE 4 END AS resultado_ordem, CASE WHEN x.data_ref IS NOT NULL THEN DATEFROMPARTS(YEAR(x.data_ref), MONTH(x.data_ref), 1) END AS mes, CASE WHEN x.cidade IS NOT NULL THEN x.cidade + ' - ' + x.uf + ', Brasil' END AS local, CASE WHEN x.concorrente IS NULL THEN N'Não informado' ELSE x.concorrente END AS concorrente_label FROM ( SELECT o.id, o.linha, CASE WHEN f.valor LIKE 'MANAUS%' THEN 'Manaus' WHEN f.valor LIKE 'ARIQUEMES%' THEN 'Ariquemes' WHEN f.valor LIKE 'VILHENA%' THEN 'Vilhena' WHEN f.valor LIKE 'JU%NA%' THEN N'Juína' WHEN f.valor LIKE 'RIO BRANCO%' THEN 'Rio Branco' WHEN f.valor LIKE 'PONTES%' THEN 'Pontes e Lacerda' WHEN f.valor LIKE 'C%CERES%' THEN N'Cáceres' WHEN f.valor LIKE 'RORAIMA%' THEN 'Boa Vista' WHEN f.valor LIKE 'ROLIM%' THEN 'Rolim de Moura' WHEN f.valor LIKE 'BRAS%LIA%' THEN N'Brasília' ELSE '(Sem filial)' END AS filial, CASE WHEN f.valor LIKE 'MANAUS%' THEN 'MAO' WHEN f.valor LIKE 'ARIQUEMES%' THEN 'ARI' WHEN f.valor LIKE 'VILHENA%' THEN 'VHA' WHEN f.valor LIKE 'JU%NA%' THEN 'JUI' WHEN f.valor LIKE 'RIO BRANCO%' THEN 'RBR' WHEN f.valor LIKE 'PONTES%' THEN 'PEL' WHEN f.valor LIKE 'C%CERES%' THEN 'CAC' WHEN f.valor LIKE 'RORAIMA%' THEN 'RR' WHEN f.valor LIKE 'ROLIM%' THEN 'ROL' WHEN f.valor LIKE 'BRAS%LIA%' THEN 'BSB' ELSE '-' END AS filial_sigla, ISNULL(u.nome, '(Sem vendedor)') AS vendedor, CASE WHEN tn.valor = 'USADO' THEN 'Usados' WHEN o.linha = 'CE' THEN CASE WHEN o.produto LIKE 'ESCAVADEIRA%' THEN 'Escavadeira' WHEN o.produto LIKE 'RETRO%' THEN 'Retroescavadeira' WHEN o.produto LIKE 'P_-CARREG%' THEN N'Pá-carregadeira' WHEN o.produto LIKE 'MOTONIV%' THEN 'Motoniveladora' WHEN o.produto LIKE 'ROLO%' THEN 'Rolo' WHEN o.produto LIKE 'TRATOR DE ESTEIRA%' THEN 'Trator de esteira' ELSE 'Outros CE' END WHEN o.produto LIKE 'TRATOR%' THEN 'Trator' WHEN o.produto LIKE 'COLHE%' THEN 'Colheitadeira' WHEN o.produto LIKE 'PULVERIZ%' THEN 'Pulverizador' WHEN o.produto LIKE 'PLANTADEIRA%' OR o.produto LIKE 'PL1%' OR o.produto = 'PLA' THEN 'Plantadeira' WHEN o.produto LIKE 'PLATAFORMA%' THEN 'Plataforma' WHEN o.produto LIKE 'CONS_RCIO%' THEN N'Consórcio' ELSE 'Implementos' END AS produto, o.modelo, CASE WHEN fa.valor LIKE '%FATURADA%' OR fa.valor = 'REFATURADO' THEN 'Ganha' WHEN fa.valor LIKE '%PERDIDA%' THEN 'Perdida' WHEN fa.valor LIKE '%CANCELADA%' THEN 'Cancelada' ELSE 'Aberta' END AS resultado, o.data_criacao, o.data_encerramento, CASE WHEN fa.valor LIKE '[567]%' OR fa.valor IN ('FATURADA','PERDIDA','CANCELADA PELO CLIENTE','REFATURADO') THEN COALESCE(o.data_encerramento, o.data_criacao) END AS data_ref, CASE WHEN fa.valor LIKE '[567]%' OR fa.valor IN ('FATURADA','PERDIDA','CANCELADA PELO CLIENTE','REFATURADO') THEN 'FY' + RIGHT(CAST(YEAR(DATEADD(MONTH, 2, COALESCE(o.data_encerramento, o.data_criacao))) AS varchar(4)), 2) END AS fy, CASE WHEN fa.valor LIKE '%PERDIDA%' THEN ISNULL(UPPER(LEFT(mp.valor,1)) + LOWER(SUBSTRING(mp.valor,2,100)), '(Sem motivo)') END AS motivo_perda, CASE WHEN fa.valor LIKE '%CANCELADA%' THEN ISNULL(UPPER(LEFT(mc.valor,1)) + LOWER(SUBSTRING(mc.valor,2,100)), '(Sem motivo)') END AS motivo_cancelamento, CASE WHEN c.cn IS NULL OR c.cn IN ('', 'SEM', 'OUTROS', '0', 'NAO', N'NÃO') OR c.cn LIKE 'CONS_RCIO%' THEN NULL WHEN c.cn IN ('JBC', 'JCB') THEN 'JCB' WHEN c.cn IN ('CASE', 'CASE IH') THEN CASE WHEN o.linha = 'AG' THEN 'Case IH' ELSE 'Case' END WHEN c.cn = 'MASSEY FERGUSON' THEN 'Massey Ferguson' WHEN c.cn = 'NEW HOLLAND' THEN 'New Holland' WHEN c.cn = 'JOHN DEERE A&T' THEN 'John Deere A&T' WHEN c.cn = 'LS' THEN 'LS Tractor' WHEN c.cn IN ('JCB', 'XCMG', 'SDLG', 'YTO', 'GTS', 'JAN') THEN c.cn ELSE UPPER(LEFT(c.cn, 1)) + LOWER(SUBSTRING(c.cn, 2, 100)) END AS concorrente, NULLIF(LTRIM(RTRIM(o.modelo_concorrente)), '') AS modelo_concorrente, o.quantidade, o.preco_unitario, o.preco_total, CASE WHEN o.preco_concorrente > 1000 THEN o.preco_concorrente END AS preco_concorrente, TRY_CAST(o.id_ibge AS int) AS id_ibge, COALESCE(m.nome, o.cidade) AS cidade, COALESCE(m.uf_sigla, o.uf) AS uf FROM dbo.oportunidades o LEFT JOIN dbo.configuracao_valores f ON f.id = o.filial_id LEFT JOIN dbo.configuracao_valores fa ON fa.id = o.fase_id LEFT JOIN dbo.configuracao_valores tn ON tn.id = o.tipo_negocio_id LEFT JOIN dbo.configuracao_valores mp ON mp.id = o.motivo_perda_id LEFT JOIN dbo.configuracao_valores mc ON mc.id = o.motivo_cancelamento_id LEFT JOIN dbo.usuarios u ON u.id = o.vendedor_id CROSS APPLY (SELECT UPPER(LTRIM(RTRIM(o.concorrente))) AS cn) c LEFT JOIN dbo.municipios_ibge m ON m.id_ibge = TRY_CAST(o.id_ibge AS int) WHERE o.deletado = 0 ) x"])
+				in
+				  Fonte
+

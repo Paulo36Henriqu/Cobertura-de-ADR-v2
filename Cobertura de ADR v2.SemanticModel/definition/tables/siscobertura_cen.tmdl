@@ -1,0 +1,43 @@
+/// CENs da linha AG no CRM: rótulo de zoneamento (= cen_agricola) -> usuário do CRM.
+table siscobertura_cen
+	lineageTag: 2b6bf228-d605-4d22-9492-db8a7fe86311
+
+	column cen
+		dataType: string
+		lineageTag: 66c4c6b4-256c-4c8b-bdd7-2efbb0194332
+		sourceColumn: cen
+
+	column usuario_id
+		dataType: int64
+		lineageTag: 36e8a78d-cf97-477f-bb87-6d51fff655d3
+		summarizeBy: none
+		sourceColumn: usuario_id
+
+	column cen_nome
+		dataType: string
+		lineageTag: 2057306c-36bf-4606-aecc-a4e57ed42422
+		sourceColumn: cen_nome
+
+	column cen_filial
+		dataType: string
+		lineageTag: dd6054e8-4906-444f-bb16-b5a6b58b2042
+		sourceColumn: cen_filial
+
+	column ativo
+		dataType: boolean
+		lineageTag: 18774b4b-3c4a-4420-b951-6bdc7c1b3013
+		sourceColumn: ativo
+
+	column data_atualizacao
+		dataType: dateTime
+		lineageTag: c361d901-8946-48dc-a8a3-5fde1a9df1a0
+		sourceColumn: data_atualizacao
+
+	partition siscobertura_cen = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Database("10.14.152.11", "DB_MKT", [Query = "SELECT * FROM dbo.siscobertura_cen"])
+				in
+				  Fonte
+

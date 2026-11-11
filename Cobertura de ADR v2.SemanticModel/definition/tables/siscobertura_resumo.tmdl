@@ -1,0 +1,161 @@
+table siscobertura_resumo
+	lineageTag: 613fdd0d-0f27-48c1-9936-fcad9f0e8ecb
+
+	column nivel
+		dataType: string
+		lineageTag: a5beefea-05b4-42d4-b66b-155af0aa5585
+		summarizeBy: none
+		sourceColumn: nivel
+
+		annotation SummarizationSetBy = Automatic
+
+	column chave
+		dataType: string
+		lineageTag: 35f0b49c-b771-4e6f-bc53-5af22d8fe0b1
+		summarizeBy: none
+		sourceColumn: chave
+
+		annotation SummarizationSetBy = Automatic
+
+	column estado
+		dataType: string
+		lineageTag: 43246a74-3328-4f79-b2dc-e7fcbcb89349
+		summarizeBy: none
+		sourceColumn: estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column filial_sigla
+		dataType: string
+		lineageTag: 6f31e3db-3ca9-41da-b4c3-79095190f0d0
+		summarizeBy: none
+		sourceColumn: filial_sigla
+
+		annotation SummarizationSetBy = Automatic
+
+	column sub_regiao
+		dataType: string
+		lineageTag: 528b16d0-774c-4dd3-a8c6-66dff9990535
+		summarizeBy: none
+		sourceColumn: sub_regiao
+
+		annotation SummarizationSetBy = Automatic
+
+	column microrregiao
+		dataType: string
+		lineageTag: fef83078-ea14-48f5-a6bf-58f4d03d8323
+		summarizeBy: none
+		sourceColumn: microrregiao
+
+		annotation SummarizationSetBy = Automatic
+
+	column produto
+		dataType: string
+		lineageTag: d4c5f848-6982-4cf0-b3d1-579768f39505
+		summarizeBy: none
+		sourceColumn: produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column cidades
+		dataType: int64
+		formatString: 0
+		lineageTag: e60896f3-098d-4b34-9b7e-f4282fe6e5dd
+		summarizeBy: sum
+		sourceColumn: cidades
+
+		annotation SummarizationSetBy = Automatic
+
+	column area_base_ha
+		dataType: double
+		lineageTag: 0833e7de-704a-475e-a0c0-16a5a50a2b41
+		summarizeBy: sum
+		sourceColumn: area_base_ha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column demanda
+		dataType: int64
+		formatString: 0
+		lineageTag: 376219ab-b4c8-4345-a69e-ceb48fa5ad04
+		summarizeBy: sum
+		sourceColumn: demanda
+
+		annotation SummarizationSetBy = Automatic
+
+	column parque_valido
+		dataType: int64
+		formatString: 0
+		lineageTag: 4f1eff33-ae39-475d-aabb-08208cb3d7e5
+		summarizeBy: sum
+		sourceColumn: parque_valido
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_cobertura
+		dataType: double
+		lineageTag: 78593f31-3ee7-4ac4-9117-72254aa002f2
+		summarizeBy: sum
+		sourceColumn: pct_cobertura
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column gap_maquinas
+		dataType: int64
+		formatString: 0
+		lineageTag: 732a64b3-5ec1-4d4d-8ce7-6025844c1122
+		summarizeBy: sum
+		sourceColumn: gap_maquinas
+
+		annotation SummarizationSetBy = Automatic
+
+	column crm_ganhas_fy
+		dataType: double
+		lineageTag: 59f031ef-0712-4583-aa78-bc4e5a5d2609
+		summarizeBy: sum
+		sourceColumn: crm_ganhas_fy
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column crm_abertas
+		dataType: double
+		lineageTag: 1d7d81e1-afda-4b07-8b64-b4bf3716b14e
+		summarizeBy: sum
+		sourceColumn: crm_abertas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column data_atualizacao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 75cde103-eb96-4db1-bbe5-8d5d5e39474c
+		summarizeBy: none
+		sourceColumn: data_atualizacao
+
+		variation Variation
+			isDefault
+			relationship: 39aa6831-d7fb-4d25-aaf8-35f252ce798c
+			defaultHierarchy: LocalDateTable_056aec87-7fe8-4829-a486-5f59a25cddc3.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition siscobertura_resumo = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Fonte{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "siscobertura_resumo"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "9aee1b75c3bd9021b703",
+  "position": {
+    "x": 0,
+    "y": 4.09932187018785,
+    "z": 24750,
+    "height": 1146.0010432766342,
+    "width": 1920.0000000000002,
+    "tabOrder": 24000
+  },
+  "visualGroup": {
+    "displayName": "Cobertura P2",
+    "groupMode": "ScaleMode"
+  },
+  "isHidden": true
+}

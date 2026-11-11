@@ -1,0 +1,165 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 121.73882062863268,
+            "y": 684.80593032158561
+          },
+          "nodeIndex": "segclientes_clientes",
+          "nodeLineageTag": "22d74431-5259-400a-bc75-326d0ca114e5",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 402.01793497618871,
+            "y": 387.45043989024367
+          },
+          "nodeIndex": "segclientes_execucao",
+          "nodeLineageTag": "c218dec9-7770-4ae9-b387-117a477a4c8f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 691.19972095712728,
+            "y": 71.104551684844779
+          },
+          "nodeIndex": "segclientes_propriedades",
+          "nodeLineageTag": "8a6d615e-3b53-4ee0-a471-de699f70373d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 80.021921822490029,
+            "y": 80.18823200920616
+          },
+          "nodeIndex": "segclientes_referencia_ibge",
+          "nodeLineageTag": "5709808c-3a9d-4582-87e4-c53edfc7c88d",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 943.53644789001612,
+            "y": 453.51847775688253
+          },
+          "nodeIndex": "segclientes_vw_clientes_atual",
+          "nodeLineageTag": "228219cc-ab71-4a66-987f-09491d02e021",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1311.2818087632777,
+            "y": 99.575820481210741
+          },
+          "nodeIndex": "segclientes_vw_propriedades_atual",
+          "nodeLineageTag": "4eecf564-e744-40dd-b4eb-658c4de2d875",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1228.6983422991893,
+            "y": 450.35827545977838
+          },
+          "nodeIndex": "segclientes_vw_unidades",
+          "nodeLineageTag": "d644ba2a-2455-40ff-bba6-c204320341ff",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1488.9968250709076,
+            "y": 447.19807316267406
+          },
+          "nodeIndex": "segclientes_vw_unidades_atual",
+          "nodeLineageTag": "89b6af24-88f8-43e4-80f9-898725c5fe52",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1222.1047549522823,
+            "y": 784.43415578245924
+          },
+          "nodeIndex": "logo_nissey",
+          "nodeLineageTag": "091b422f-eb33-4061-bf2b-4366b28c29c5",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1492.4470873965886,
+            "y": 778.456077604949
+          },
+          "nodeIndex": "_Medidas",
+          "nodeLineageTag": "5df97023-11b8-4843-a2a3-d9b3de97c80c",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 727.82313740122731,
+            "y": 844.477999427439
+          },
+          "nodeIndex": "dSegmento",
+          "nodeLineageTag": "24637365-0feb-45f7-a604-e5c8021de90a",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 63.287087723234059,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas as tabelas",
+  "defaultDiagram": "Todas as tabelas"
+}

@@ -1,0 +1,32 @@
+/// Dimensão de segmentos com a ordem de exibição (KAM/SAM → Cliente Estratégico → Varejo Foco → Varejo → Sem potencial calculado).
+table dSegmento
+	lineageTag: 24637365-0feb-45f7-a604-e5c8021de90a
+
+	column segmento
+		lineageTag: 6ca54487-caa3-4b15-bee9-90e2583a61f1
+		isNameInferred
+		sourceColumn: [segmento]
+		sortByColumn: segmento_ordem
+
+	column segmento_ordem
+		isHidden
+		lineageTag: f0bef89b-7e90-4da2-a211-effeb1372964
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [segmento_ordem]
+
+	partition dSegmento = calculated
+		mode: import
+		source =
+				DATATABLE (
+				    "segmento", STRING,
+				    "segmento_ordem", INTEGER,
+				    {
+				        { "KAM/SAM", 1 },
+				        { "Cliente Estratégico", 2 },
+				        { "Varejo Foco", 3 },
+				        { "Varejo", 4 },
+				        { "Sem potencial calculado", 5 }
+				    }
+				)
+

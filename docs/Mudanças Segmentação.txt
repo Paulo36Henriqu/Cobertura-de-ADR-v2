@@ -1,0 +1,26 @@
+Remover filtro do CEN CE de todo o BI
+
+Mudar o nome para Grupo econômico.
+
+
+add depois do Potencial de Investimento. add rodapé para "equivalente a 30% do ROB"
+
+trazer o percentual do ROB usado para comprar máquinas exemplo 8% e add as fontes desses dados...
+
+trocar Share of wallet para participação.
+
+vamos manter faturamento últimos 3 anos pois respeita a sazonalidade que ocorre em nossa Região.(add no IF)(entender se é nota bruta ou liquida.)
+
+dos 8% quantos % vai para pos vendas
+
+Remover linhas de corte e add percentual de alvo de participação 
+
+ajustar para Faturamento e não fat/ano
+
+colocar 10 anos de idade média
+
+Da onde vem os valores de participação.
+
+Renovar valores
+
+Usar 22 linha para base média para 1 unidade de PL

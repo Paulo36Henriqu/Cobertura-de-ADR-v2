@@ -1,0 +1,139 @@
+table segclientes_vw_unidades_atual
+	lineageTag: 89b6af24-88f8-43e4-80f9-898725c5fe52
+
+	column execucao_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 3ba56219-f6b4-472e-96e5-f66cfaa589bd
+		summarizeBy: sum
+		sourceColumn: execucao_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_referencia
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2d887e46-c51e-4c8f-99e1-cfedc335918f
+		summarizeBy: none
+		sourceColumn: data_referencia
+
+		variation Variation
+			isDefault
+			relationship: 3f041987-2f53-40a5-ba28-36f86ff1f464
+			defaultHierarchy: LocalDateTable_7507c327-56bc-4198-917d-c6a2e35d3237.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column unidade
+		dataType: string
+		lineageTag: 9b89e1c2-1781-4c56-8eff-14b105933675
+		summarizeBy: none
+		sourceColumn: unidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome
+		dataType: string
+		lineageTag: 3c785370-6811-4422-8e32-5202417d3510
+		summarizeBy: none
+		sourceColumn: nome
+
+		annotation SummarizationSetBy = Automatic
+
+	column segmento
+		dataType: string
+		lineageTag: 078723dc-844d-487e-b24f-ea286bd5c0e7
+		summarizeBy: none
+		sourceColumn: segmento
+
+		annotation SummarizationSetBy = Automatic
+
+	column classif_potencial
+		dataType: string
+		lineageTag: 8f637065-e2ee-4797-b963-5e903bed20a9
+		summarizeBy: none
+		sourceColumn: classif_potencial
+
+		annotation SummarizationSetBy = Automatic
+
+	column classif_faturamento
+		dataType: string
+		lineageTag: 4de806ab-3827-45c7-8cc3-9adde64e3aec
+		summarizeBy: none
+		sourceColumn: classif_faturamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column clientes
+		dataType: int64
+		formatString: 0
+		lineageTag: e082b625-0e34-481a-aecc-88be19c0f09f
+		summarizeBy: sum
+		sourceColumn: clientes
+
+		annotation SummarizationSetBy = Automatic
+
+	column rob_base
+		dataType: double
+		lineageTag: 6b6c891b-5d21-415b-ba3b-0ca09ce228b8
+		summarizeBy: sum
+		sourceColumn: rob_base
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column potencial_base
+		dataType: double
+		lineageTag: dda5a20d-e8a2-425f-ac62-0c7f007fc376
+		summarizeBy: sum
+		sourceColumn: potencial_base
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column faturamento_base
+		dataType: double
+		lineageTag: 6a557b33-5922-48b9-a92c-07ab1f8e2f9d
+		summarizeBy: sum
+		sourceColumn: faturamento_base
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column participacao
+		dataType: double
+		lineageTag: f2939a94-328f-4bdf-9586-974372204c9b
+		summarizeBy: sum
+		sourceColumn: participacao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column area_ha
+		dataType: double
+		lineageTag: be716ebd-455b-463b-851d-0731cabcef64
+		summarizeBy: sum
+		sourceColumn: area_ha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition segclientes_vw_unidades_atual = m
+		mode: import
+		source =
+				let
+				  Origem = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Origem{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "segclientes_vw_unidades_atual"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

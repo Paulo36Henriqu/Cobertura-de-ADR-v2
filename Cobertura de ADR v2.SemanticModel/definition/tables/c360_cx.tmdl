@@ -1,0 +1,78 @@
+/// Cliente 360: pesquisa de satisfação pós-OS (pesquisa_cx_registro) com nota e comentário do cliente.
+table c360_cx
+	lineageTag: ffd9ec5d-1c13-443a-95f1-805fd5e69740
+
+	column id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b5d57505-5b47-46e5-9d7c-1eb07665889c
+		summarizeBy: none
+		sourceColumn: id
+
+	column cliente_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 443085ec-5c65-4a6f-9dcd-cf31238c065a
+		summarizeBy: none
+		sourceColumn: cliente_id
+
+	column data_os
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: bd142458-2d91-43ad-b591-599c5c36b296
+		summarizeBy: none
+		sourceColumn: data_os
+
+	column chassi
+		dataType: string
+		lineageTag: 95752180-cb32-45ee-9473-99588014b05e
+		summarizeBy: none
+		sourceColumn: chassi
+
+	column modelo
+		dataType: string
+		lineageTag: d9fd2cef-112d-466f-883a-31176a3fe94c
+		summarizeBy: none
+		sourceColumn: modelo
+
+	column tecnico
+		dataType: string
+		lineageTag: ca29d1e3-b7e5-4fd5-8188-59c9ebdb2d6b
+		summarizeBy: none
+		sourceColumn: tecnico
+
+	column tipo_atendimento
+		dataType: string
+		lineageTag: 18733fa7-14da-4722-9c1d-4b9fb98f5e65
+		summarizeBy: none
+		sourceColumn: tipo_atendimento
+
+	column nota
+		dataType: int64
+		formatString: 0
+		lineageTag: 6d1def77-68fb-4170-a699-ea8b307edfa9
+		summarizeBy: average
+		sourceColumn: nota
+
+	column categoria_satisfacao
+		dataType: string
+		lineageTag: cd376547-cb27-415d-9e98-c3aeffcafe98
+		summarizeBy: none
+		sourceColumn: categoria_satisfacao
+
+	column comentario
+		dataType: string
+		lineageTag: b314e4a7-8f5c-4d03-a299-cd923a450c7f
+		summarizeBy: none
+		sourceColumn: comentario
+
+	partition c360_cx = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Database("10.14.152.11", "DB_MKT", [Query = "WITH cli AS (SELECT cliente_id, documento FROM DB_MKT.dbo.segclientes_vw_clientes_atual) SELECT p.id, cli.cliente_id, TRY_CONVERT(date, p.data_fechamento_os, 103) data_os, p.chassi, p.modelo, p.tecnico, p.tipo_atendimento, p.nota_interpretada nota, p.categoria_satisfacao, NULLIF(LTRIM(RTRIM(CAST(p.comentario_cliente AS nvarchar(1000)))), '') comentario FROM DB_MKT.dbo.pesquisa_cx_registro p JOIN cli ON cli.documento = REPLACE(REPLACE(REPLACE(p.cpf_cnpj, '.', ''), '-', ''), '/', '') WHERE p.nota_interpretada IS NOT NULL"])
+				in
+				  Fonte
+

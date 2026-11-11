@@ -1,0 +1,184 @@
+/// Cliente 360: parque de máquinas do cliente (siscobertura_chassis) enriquecido com Operation Center — status de conexão JDLink, CSC, horas de motor, garantia, alertas 30d, tickets ExpertConnect 12m e probabilidade de compra JD (CLG).
+table c360_maquinas
+	lineageTag: 5b2852e0-a34a-4ccb-82b9-346a644e83a8
+
+	column cliente_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 74a89bb6-cf09-493b-b3d0-454e150c5b24
+		summarizeBy: none
+		sourceColumn: cliente_id
+
+	column chassi
+		dataType: string
+		lineageTag: cdedb01c-4473-46b0-8e5d-f4acc19eb33f
+		summarizeBy: none
+		sourceColumn: chassi
+
+	column modelo
+		dataType: string
+		lineageTag: 4c4d36c0-d7cb-430a-9b06-f4e74bc19d1b
+		summarizeBy: none
+		sourceColumn: modelo
+
+	column produto
+		dataType: string
+		lineageTag: c0d6dd35-c88b-4bfe-9b89-291050a95579
+		summarizeBy: none
+		sourceColumn: produto
+
+	column categoria_modelo
+		dataType: string
+		lineageTag: 21a5c5e7-5fe5-4c06-b2a1-a3b5e7f1c4a9
+		summarizeBy: none
+		sourceColumn: categoria_modelo
+
+	column marca
+		dataType: string
+		lineageTag: e9defd99-03ba-4405-84dc-b9ba851e8059
+		summarizeBy: none
+		sourceColumn: marca
+
+	column ano_modelo
+		dataType: int64
+		formatString: 0
+		lineageTag: db73a0ea-0bf4-4980-a047-1ed014160062
+		summarizeBy: none
+		sourceColumn: ano_modelo
+
+	column idade_anos
+		dataType: int64
+		formatString: 0
+		lineageTag: deed0457-d5e2-4960-91f6-45e30c5aa214
+		summarizeBy: none
+		sourceColumn: idade_anos
+
+	column vida_util_anos
+		dataType: int64
+		formatString: 0
+		lineageTag: 0ede2b9c-c5c5-4fe1-8811-f2b548dfa18a
+		summarizeBy: none
+		sourceColumn: vida_util_anos
+
+	column situacao_vida
+		dataType: string
+		lineageTag: 9a71096f-9b14-43d1-845e-0cb227e5f999
+		summarizeBy: none
+		sourceColumn: situacao_vida
+
+	column status_conexao
+		dataType: string
+		lineageTag: 6a3f92b8-4760-46f8-ad5f-7c77013f0636
+		summarizeBy: none
+		sourceColumn: status_conexao
+
+	column conectada
+		dataType: int64
+		formatString: 0
+		lineageTag: ea97dcd0-c34b-444b-a0c1-0146db15c91a
+		summarizeBy: sum
+		sourceColumn: conectada
+
+	column csc
+		dataType: int64
+		formatString: 0
+		lineageTag: e1fe94a0-5129-4117-b2cc-28071b08db77
+		summarizeBy: sum
+		sourceColumn: csc
+
+	column modem
+		dataType: string
+		lineageTag: d0685aec-99d1-40a8-bbae-d7ee34cd5b49
+		summarizeBy: none
+		sourceColumn: modem
+
+	column horas
+		dataType: double
+		formatString: #,0
+		lineageTag: 3d949944-7590-46c5-9662-6ec5133a3276
+		summarizeBy: none
+		sourceColumn: horas
+
+	column ultima_chamada
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 6d13c467-4695-4a31-b96d-2d54b5eeb57e
+		summarizeBy: none
+		sourceColumn: ultima_chamada
+
+	column lat
+		dataType: double
+		lineageTag: b5b88ed9-3c9b-4703-95b8-a586e0ec8a82
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: lat
+
+	column lon
+		dataType: double
+		lineageTag: 13b39b24-6842-48a3-99d9-4af5f1fb2b2b
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: lon
+
+	column garantia_ate
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 76e51fc4-ae8d-4d3f-88e6-85e3f353fcd3
+		summarizeBy: none
+		sourceColumn: garantia_ate
+
+	column garantia_tipo
+		dataType: string
+		lineageTag: 934389ed-3b26-4ad3-aa6b-96034302fd5e
+		summarizeBy: none
+		sourceColumn: garantia_tipo
+
+	column alertas_30d
+		dataType: int64
+		formatString: #,0
+		lineageTag: 22a85d29-b0ff-41d0-a343-0276f46c1005
+		summarizeBy: sum
+		sourceColumn: alertas_30d
+
+	column alertas_criticos_30d
+		dataType: int64
+		formatString: #,0
+		lineageTag: c9930a5e-8dce-43cc-bb76-2f22dcec81ac
+		summarizeBy: sum
+		sourceColumn: alertas_criticos_30d
+
+	column tickets_12m
+		dataType: int64
+		formatString: #,0
+		lineageTag: 87074740-c5a0-4239-8a67-1640137c3cb9
+		summarizeBy: sum
+		sourceColumn: tickets_12m
+
+	column prob_compra
+		dataType: string
+		lineageTag: 4ec2d87a-732f-430a-bf09-766c0f629f1a
+		summarizeBy: none
+		sourceColumn: prob_compra
+
+	column prob_compra_pct
+		dataType: double
+		formatString: 0%
+		lineageTag: b1898370-f4e1-42fa-b215-8d5f84099549
+		summarizeBy: none
+		sourceColumn: prob_compra_pct
+
+	column modelos_recomendados
+		dataType: string
+		lineageTag: e9ecc616-7beb-467b-9356-b31988ab11be
+		summarizeBy: none
+		sourceColumn: modelos_recomendados
+
+	partition c360_maquinas = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Database("10.14.152.11", "DB_MKT", [Query = "WITH cli AS (SELECT cliente_id, documento FROM DB_MKT.dbo.segclientes_vw_clientes_atual), con AS (SELECT UPPER(LTRIM(RTRIM(PIN))) pin, status, ModeloMTG, ROW_NUMBER() OVER (PARTITION BY UPPER(LTRIM(RTRIM(PIN))) ORDER BY Data_Referencia DESC) rn FROM OPERATION_CENTER.dbo.HISTORICO_MAQUINAS_CONECTADAS WHERE Data_Referencia >= DATEADD(day, -30, GETDATE())), tel AS (SELECT UPPER(LTRIM(RTRIM(Numero_Serie_Maquina))) pin, Horas_Operacao_Motor_Vida_Util horas, Hora_Ultima_Chamada_Conhecida ultima_chamada, Ultima_Latitude_Conhecida lat, Ultima_Longitude_Conhecida lon, ROW_NUMBER() OVER (PARTITION BY UPPER(LTRIM(RTRIM(Numero_Serie_Maquina))) ORDER BY Data_Final DESC) rn FROM OPERATION_CENTER.dbo.DADOS_MAQUINA_RELATORIO WHERE Horas_Operacao_Motor_Vida_Util > 0), ops AS (SELECT UPPER(LTRIM(RTRIM(serialNumber))) pin, MAX(CAST(isCsc AS int)) csc FROM OPERATION_CENTER.dbo.EQUIPAMENTS_OPS GROUP BY UPPER(LTRIM(RTRIM(serialNumber)))), gar AS (SELECT UPPER(LTRIM(RTRIM(PIN))) pin, MAX(Expires) garantia_ate, MAX(CASE WHEN Expires >= CAST(GETDATE() AS date) THEN Warranty_Type END) garantia_tipo FROM OPERATION_CENTER.dbo.DADOS_GARANTIA GROUP BY UPPER(LTRIM(RTRIM(PIN)))), alt AS (SELECT UPPER(LTRIM(RTRIM(d.PIN))) pin, COUNT(*) alertas_30d, SUM(CASE WHEN a.Severity = 'HIGH' THEN 1 ELSE 0 END) alertas_criticos_30d FROM OPERATION_CENTER.dbo.Alertas a JOIN (SELECT DISTINCT ID_m, PIN FROM OPERATION_CENTER.dbo.DADOS_ID_m) d ON d.ID_m = a.ID_m WHERE a.Time >= DATEADD(day, -30, GETDATE()) AND a.Severity IN ('HIGH', 'MEDIUM') GROUP BY UPPER(LTRIM(RTRIM(d.PIN)))), tck AS (SELECT UPPER(LTRIM(RTRIM(serialNumber))) pin, COUNT(*) tickets_12m FROM OPERATION_CENTER.dbo.Exc_TICKETS WHERE createdDate >= DATEADD(month, -12, GETDATE()) AND ISNULL(Is_Deleted, 0) = 0 GROUP BY UPPER(LTRIM(RTRIM(serialNumber)))), prb AS (SELECT UPPER(LTRIM(RTRIM(NumeroSerieUltimoModelo))) pin, MAX(CategoriaProbabilidadeCompra) prob_compra, MAX(Recomendacao5Modelos) modelos_recomendados, MAX(PorcentagemProbabilidadeCompra) prob_compra_pct FROM OPERATION_CENTER.dbo.PROB_COMPRA_CLIENTE_CLG GROUP BY UPPER(LTRIM(RTRIM(NumeroSerieUltimoModelo)))) SELECT cli.cliente_id, c.chassi, c.modelo, c.produto, c.categoria_modelo, c.marca, c.ano_modelo, c.idade_anos, c.vida_util_anos, CASE WHEN c.vida_util_anos > 0 AND c.idade_anos > c.vida_util_anos THEN N'Fora da vida útil' ELSE 'Ativa' END AS situacao_vida, ISNULL(SUBSTRING(con.status, 3, 40), CASE WHEN c.marca LIKE 'JOHN DEERE%' THEN N'Não cadastrada' END) AS status_conexao, CASE WHEN con.status LIKE '1.%' THEN 1 ELSE 0 END AS conectada, ISNULL(ops.csc, 0) AS csc, con.ModeloMTG AS modem, tel.horas, tel.ultima_chamada, tel.lat, tel.lon, gar.garantia_ate, gar.garantia_tipo, ISNULL(alt.alertas_30d, 0) alertas_30d, ISNULL(alt.alertas_criticos_30d, 0) alertas_criticos_30d, ISNULL(tck.tickets_12m, 0) tickets_12m, prb.prob_compra, prb.prob_compra_pct, prb.modelos_recomendados FROM DB_MKT.dbo.siscobertura_chassis c JOIN cli ON cli.documento = c.cgccpf LEFT JOIN con ON con.pin = UPPER(LTRIM(RTRIM(c.chassi))) AND con.rn = 1 AND c.chassi <> '' LEFT JOIN tel ON tel.pin = UPPER(LTRIM(RTRIM(c.chassi))) AND tel.rn = 1 AND c.chassi <> '' LEFT JOIN ops ON ops.pin = UPPER(LTRIM(RTRIM(c.chassi))) AND c.chassi <> '' LEFT JOIN gar ON gar.pin = UPPER(LTRIM(RTRIM(c.chassi))) AND c.chassi <> '' LEFT JOIN alt ON alt.pin = UPPER(LTRIM(RTRIM(c.chassi))) AND c.chassi <> '' LEFT JOIN tck ON tck.pin = UPPER(LTRIM(RTRIM(c.chassi))) AND c.chassi <> '' LEFT JOIN prb ON prb.pin = UPPER(LTRIM(RTRIM(c.chassi))) AND c.chassi <> ''"])
+				in
+				  Fonte
+

@@ -1,0 +1,57 @@
+table siscobertura_param_ca_microrregiao
+	lineageTag: 0dfb09fc-2b07-43ea-9050-73beef2713ca
+
+	column filial
+		dataType: string
+		lineageTag: 1a53d15f-5209-4150-a926-0fd04f29be84
+		summarizeBy: none
+		sourceColumn: filial
+
+		annotation SummarizationSetBy = Automatic
+
+	column microrregiao
+		dataType: string
+		lineageTag: 8e60dd9d-d347-488b-b60b-ba80fdfadd1d
+		summarizeBy: none
+		sourceColumn: microrregiao
+
+		annotation SummarizationSetBy = Automatic
+
+	column municipio
+		dataType: string
+		lineageTag: ce01ed01-6705-4054-91e0-73447684544a
+		summarizeBy: none
+		sourceColumn: municipio
+
+		annotation SummarizationSetBy = Automatic
+
+	column ca_ha_por_maquina
+		dataType: int64
+		formatString: 0
+		lineageTag: d88ffd59-9983-4007-9251-27cafeaa7ce3
+		summarizeBy: sum
+		sourceColumn: ca_ha_por_maquina
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_ibge
+		dataType: int64
+		formatString: 0
+		lineageTag: 5b20406b-695a-4823-96b3-5c1ce34f70b7
+		summarizeBy: sum
+		sourceColumn: id_ibge
+
+		annotation SummarizationSetBy = Automatic
+
+	partition siscobertura_param_ca_microrregiao = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Fonte{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "siscobertura_param_ca_microrregiao"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,374 @@
+table siscobertura_cidade
+	lineageTag: b1609c1e-b33b-4500-bfa5-bc6159a7e77a
+
+	column id_ibge
+		dataType: int64
+		formatString: 0
+		lineageTag: ebc9d1e1-e690-4931-826d-1b18b4e747b7
+		summarizeBy: sum
+		sourceColumn: id_ibge
+
+		annotation SummarizationSetBy = Automatic
+
+	column cidade
+		dataType: string
+		lineageTag: 86f456c3-9be6-4e33-8555-f3aaab963517
+		summarizeBy: none
+		sourceColumn: cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column estado
+		dataType: string
+		lineageTag: 05075035-4c80-44c8-85af-e20734757f44
+		summarizeBy: none
+		sourceColumn: estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column filial
+		dataType: string
+		lineageTag: 5f9529cd-5db3-42ff-87ee-ea4a441bdc50
+		summarizeBy: none
+		sourceColumn: filial
+
+		annotation SummarizationSetBy = Automatic
+
+	column filial_sigla
+		dataType: string
+		lineageTag: b4f89408-1538-4967-945c-bdb0a9f667a3
+		summarizeBy: none
+		sourceColumn: filial_sigla
+
+		annotation SummarizationSetBy = Automatic
+
+	column sub_regiao
+		dataType: string
+		lineageTag: 09d120d9-3e57-4fb9-8430-4cf662b6045b
+		summarizeBy: none
+		sourceColumn: sub_regiao
+
+		annotation SummarizationSetBy = Automatic
+
+	column microrregiao
+		dataType: string
+		lineageTag: 745ac813-589c-4646-a24a-e62e057568a3
+		summarizeBy: none
+		sourceColumn: microrregiao
+
+		annotation SummarizationSetBy = Automatic
+
+	column cen_agricola
+		dataType: string
+		lineageTag: cbbcdff1-fe68-4b42-b647-5413a734ae2f
+		summarizeBy: none
+		sourceColumn: cen_agricola
+
+		annotation SummarizationSetBy = Automatic
+
+	column cen_cf
+		dataType: string
+		lineageTag: aacf9e65-2750-4362-bb5b-47964455066b
+		summarizeBy: none
+		sourceColumn: cen_cf
+
+		annotation SummarizationSetBy = Automatic
+
+	column divisao
+		dataType: string
+		lineageTag: 8775f890-ac58-4a61-9621-2f5df81d1c90
+		summarizeBy: none
+		sourceColumn: divisao
+
+		annotation SummarizationSetBy = Automatic
+
+	column ano_ibge
+		dataType: int64
+		formatString: 0
+		lineageTag: 3e7f8d1a-6143-4086-a1a8-9f5cf22b5bfc
+		summarizeBy: sum
+		sourceColumn: ano_ibge
+
+		annotation SummarizationSetBy = Automatic
+
+	column area_graos_ha
+		dataType: double
+		lineageTag: f147b5d1-17ed-4aa5-9993-097df84003c5
+		summarizeBy: sum
+		sourceColumn: area_graos_ha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column area_pastagem_ha
+		dataType: double
+		lineageTag: 33a7a48c-3742-4bd4-9e2d-2d6eedc1daa0
+		summarizeBy: sum
+		sourceColumn: area_pastagem_ha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column area_culturas_especiais_ha
+		dataType: double
+		lineageTag: bfecac9b-39a2-4261-9aed-9e391d154094
+		summarizeBy: sum
+		sourceColumn: area_culturas_especiais_ha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column area_temporarias_ha
+		dataType: double
+		lineageTag: 0b3fcc72-6dda-44c2-bf58-c0a100f4a37b
+		summarizeBy: sum
+		sourceColumn: area_temporarias_ha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column demanda_TRG
+		dataType: int64
+		formatString: 0
+		lineageTag: e7faca63-eb16-4aad-9d13-1789c729210f
+		summarizeBy: sum
+		sourceColumn: demanda_TRG
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_TRG
+		dataType: int64
+		formatString: 0
+		lineageTag: 3401d60f-35f4-41b9-a777-4d7f41cc116d
+		summarizeBy: sum
+		sourceColumn: total_TRG
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_cobertura_TRG
+		dataType: double
+		lineageTag: f45f7f99-87fb-4194-8ae0-925210fcaf93
+		summarizeBy: sum
+		sourceColumn: pct_cobertura_TRG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column demanda_TR6
+		dataType: int64
+		formatString: 0
+		lineageTag: 4832c387-7c3b-4bb6-b2ee-b960060e5502
+		summarizeBy: sum
+		sourceColumn: demanda_TR6
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_TR6
+		dataType: int64
+		formatString: 0
+		lineageTag: 57c10b2f-dede-4c43-a73e-1aec571f3061
+		summarizeBy: sum
+		sourceColumn: total_TR6
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_cobertura_TR6
+		dataType: double
+		lineageTag: f5fe11e1-689c-47dc-9357-42b5c758c7d3
+		summarizeBy: sum
+		sourceColumn: pct_cobertura_TR6
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column demanda_CA
+		dataType: int64
+		formatString: 0
+		lineageTag: 2c64597e-2f6c-4656-b41c-3b844f0c2bda
+		summarizeBy: sum
+		sourceColumn: demanda_CA
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_CA
+		dataType: int64
+		formatString: 0
+		lineageTag: 99cd5b59-f419-48b6-81b3-9bf30c75110b
+		summarizeBy: sum
+		sourceColumn: total_CA
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_cobertura_CA
+		dataType: double
+		lineageTag: 49053cf7-afce-433e-9142-1df3b3c284dc
+		summarizeBy: sum
+		sourceColumn: pct_cobertura_CA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column demanda_PV
+		dataType: int64
+		formatString: 0
+		lineageTag: 2c08c97f-0daf-4af1-bbfc-7fe3e9ba09b8
+		summarizeBy: sum
+		sourceColumn: demanda_PV
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_PV
+		dataType: int64
+		formatString: 0
+		lineageTag: 7d156ecd-761d-4ad1-834d-4a13d5615550
+		summarizeBy: sum
+		sourceColumn: total_PV
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_cobertura_PV
+		dataType: double
+		lineageTag: 8bc1dc83-d844-49ee-8e0b-aa331f576152
+		summarizeBy: sum
+		sourceColumn: pct_cobertura_PV
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column demanda_TR5
+		dataType: int64
+		formatString: 0
+		lineageTag: 68c7e4ed-714e-4f14-addb-231adbca17ae
+		summarizeBy: sum
+		sourceColumn: demanda_TR5
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_TR5
+		dataType: int64
+		formatString: 0
+		lineageTag: aafac282-63d7-4d55-a07f-2017b66fdf40
+		summarizeBy: sum
+		sourceColumn: total_TR5
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_cobertura_TR5
+		dataType: double
+		lineageTag: e9fb941d-4260-47c7-a3a7-c611bd67b550
+		summarizeBy: sum
+		sourceColumn: pct_cobertura_TR5
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column demanda_TRCE
+		dataType: int64
+		formatString: 0
+		lineageTag: be5b5cef-efc8-4541-b57d-3a609fd7ea22
+		summarizeBy: sum
+		sourceColumn: demanda_TRCE
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_TRCE
+		dataType: int64
+		formatString: 0
+		lineageTag: 1470dbdb-9561-4d0f-b856-748e5d12129a
+		summarizeBy: sum
+		sourceColumn: total_TRCE
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_cobertura_TRCE
+		dataType: double
+		lineageTag: b0e82276-0c86-4704-8d3d-1c714a0660b8
+		summarizeBy: sum
+		sourceColumn: pct_cobertura_TRCE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column demanda_tratores_base
+		dataType: int64
+		formatString: 0
+		lineageTag: b522d98e-2104-4180-8829-691e66991637
+		summarizeBy: sum
+		sourceColumn: demanda_tratores_base
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_atualizacao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 429ce225-a0c7-4580-acd0-da8319663f63
+		summarizeBy: none
+		sourceColumn: data_atualizacao
+
+		variation Variation
+			isDefault
+			relationship: d0f243a2-7f1a-4164-894e-c640fad2106f
+			defaultHierarchy: LocalDateTable_87ec0838-049b-4dbb-a2d0-a06b5d140945.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column local = siscobertura_cidade[cidade] & " - " & siscobertura_cidade[estado] & ", Brasil"
+		dataType: string
+		lineageTag: 3c85d543-84a1-4b9d-9896-d9f7f9ff8142
+		dataCategory: Place
+
+	column demanda_PL
+		dataType: int64
+		formatString: 0
+		lineageTag: e9b3fc6d-fc38-4fb4-92ac-b9f0060dc905
+		summarizeBy: sum
+		sourceColumn: demanda_PL
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_PL
+		dataType: int64
+		formatString: 0
+		lineageTag: 7423e313-91d7-41c4-a17a-5f682157442c
+		summarizeBy: sum
+		sourceColumn: total_PL
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_cobertura_PL
+		dataType: double
+		lineageTag: e1ac1902-994b-44cc-92e1-9f9e30460402
+		summarizeBy: sum
+		sourceColumn: pct_cobertura_PL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Cidade com UF (desambigua nomes repetidos, ex.: Rio Branco AC/MT).
+	column cidade_uf = siscobertura_cidade[cidade] & " - " & siscobertura_cidade[estado]
+		dataType: string
+		lineageTag: d43a31ac-d5c1-4c6f-bd27-64112b0fab2c
+
+	partition siscobertura_cidade = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Fonte{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "siscobertura_cidade"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

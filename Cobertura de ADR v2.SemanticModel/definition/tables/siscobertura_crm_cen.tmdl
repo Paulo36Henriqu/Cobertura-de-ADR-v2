@@ -1,0 +1,81 @@
+/// CRM (ganhas/perdidas FY e abertas) por cidade x produto x CEN dono da oportunidade no CRM (vendedor -> usuario_zoneamento AG; sem rótulo AG usa o CEN da cidade).
+table siscobertura_crm_cen
+	lineageTag: 0e41631a-a229-49f1-bff0-f2f18db114c8
+
+	column id_ibge
+		dataType: int64
+		lineageTag: 4dbb9234-d7ac-4b00-b96f-e02d5acc21a5
+		summarizeBy: none
+		sourceColumn: id_ibge
+
+	column grupo
+		dataType: string
+		lineageTag: 6cda575a-6843-4378-9679-39ce5d6606cc
+		sourceColumn: grupo
+
+	column produto
+		dataType: string
+		lineageTag: c4995dd7-537f-47b2-a5e1-6e400bdd5371
+		sourceColumn: produto
+
+	column cen
+		dataType: string
+		lineageTag: 460ce1aa-12a9-4aa7-aa58-d5295b229312
+		sourceColumn: cen
+
+	column origem_cen
+		dataType: string
+		lineageTag: 8ae972e7-991b-41b6-a919-deb7aadbbf63
+		sourceColumn: origem_cen
+
+	column crm_ganhas_fy
+		dataType: int64
+		formatString: 0
+		lineageTag: c2b6b04f-5863-46bf-b15d-abcadcfa32f1
+		summarizeBy: sum
+		sourceColumn: crm_ganhas_fy
+
+		annotation SummarizationSetBy = Automatic
+
+	column crm_perdidas_fy
+		dataType: int64
+		formatString: 0
+		lineageTag: aca499f5-c6f4-48ad-82d6-0ac70536e628
+		summarizeBy: sum
+		sourceColumn: crm_perdidas_fy
+
+		annotation SummarizationSetBy = Automatic
+
+	column crm_abertas
+		dataType: int64
+		formatString: 0
+		lineageTag: 10814852-4f4b-47e1-96c2-4c9627b989e7
+		summarizeBy: sum
+		sourceColumn: crm_abertas
+
+		annotation SummarizationSetBy = Automatic
+
+	column cen_nome
+		dataType: string
+		lineageTag: 78054567-4643-45e2-a5f9-263757679f63
+		sourceColumn: cen_nome
+
+	column cen_usuario_id
+		dataType: int64
+		lineageTag: b33c410e-6b17-49c7-9ec6-509d5c3dcf33
+		summarizeBy: none
+		sourceColumn: cen_usuario_id
+
+	column data_atualizacao
+		dataType: dateTime
+		lineageTag: c548f499-27ce-4fb7-b18c-fc33b1fe14c8
+		sourceColumn: data_atualizacao
+
+	partition siscobertura_crm_cen = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Database("10.14.152.11", "DB_MKT", [Query = "SELECT * FROM dbo.siscobertura_crm_cen"])
+				in
+				  Fonte
+

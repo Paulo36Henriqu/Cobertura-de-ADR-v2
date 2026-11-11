@@ -1,0 +1,229 @@
+relationship 5cb0f760-5d2f-464e-a1f6-f79be8ab7605
+	joinOnDateBehavior: datePartOnly
+	fromColumn: segclientes_clientes.ultima_compra
+	toColumn: LocalDateTable_ce9f514d-8e2c-4d45-916e-4b025d50fd89.Date
+
+relationship ba798a8c-242b-41e3-a55b-5c65df87c59a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: segclientes_execucao.data_execucao
+	toColumn: LocalDateTable_6c81fe3f-1762-4d55-a056-1f01ad761e8c.Date
+
+relationship 0937cfb4-233c-4b20-80aa-d54fc3e021c9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: segclientes_execucao.data_referencia
+	toColumn: LocalDateTable_555c44c4-5a74-41bb-a551-62ba46710430.Date
+
+relationship cfa1462b-ad74-49ba-968c-f2342a471f72
+	joinOnDateBehavior: datePartOnly
+	fromColumn: segclientes_execucao.data_inicio_faturamento
+	toColumn: LocalDateTable_d689bfb2-b3e4-4472-aaf0-13d7d74fce15.Date
+
+relationship 580a2cb6-1290-47bb-bca6-c46f817b40fe
+	joinOnDateBehavior: datePartOnly
+	fromColumn: segclientes_vw_clientes_atual.data_referencia
+	toColumn: LocalDateTable_67db463e-6580-4238-a758-5a9b2e2390b8.Date
+
+relationship ac8e3d77-409e-4249-8d68-84f6d2879230
+	joinOnDateBehavior: datePartOnly
+	fromColumn: segclientes_vw_clientes_atual.ultima_compra
+	toColumn: LocalDateTable_042f9e4b-de03-4758-9212-cef753069b42.Date
+
+relationship 7c088c06-5fe2-427b-81b0-29d7f00db344
+	joinOnDateBehavior: datePartOnly
+	fromColumn: segclientes_vw_propriedades_atual.data_referencia
+	toColumn: LocalDateTable_103179d0-002e-4d99-a451-ffa2b1864609.Date
+
+relationship 875667c0-d714-471f-873c-ee9f003f35ba
+	joinOnDateBehavior: datePartOnly
+	fromColumn: segclientes_vw_unidades.data_referencia
+	toColumn: LocalDateTable_8f186df4-f4ff-4ec7-86a0-9e7629976ca7.Date
+
+relationship 3f041987-2f53-40a5-ba28-36f86ff1f464
+	joinOnDateBehavior: datePartOnly
+	fromColumn: segclientes_vw_unidades_atual.data_referencia
+	toColumn: LocalDateTable_7507c327-56bc-4198-917d-c6a2e35d3237.Date
+
+relationship 118f5547-d54a-4769-b2fc-d44396781527
+	fromColumn: segclientes_clientes.execucao_id
+	toColumn: segclientes_execucao.execucao_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 46e842db-4741-481c-8602-9a6c042f81f9
+	fromColumn: segclientes_propriedades.execucao_id
+	toColumn: segclientes_execucao.execucao_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 261451e2-a10f-41ec-afc0-6e804090e8fb
+	fromColumn: segclientes_referencia_ibge.execucao_id
+	toColumn: segclientes_execucao.execucao_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship segclientes_vw_clientes_atual_segmento_dSegmento_segmento
+	fromColumn: segclientes_vw_clientes_atual.segmento
+	toColumn: dSegmento.segmento
+
+relationship segclientes_vw_propriedades_atual_cliente_id_segclientes_vw_clientes_atual_cliente_id
+	fromColumn: segclientes_vw_propriedades_atual.cliente_id
+	toColumn: segclientes_vw_clientes_atual.cliente_id
+
+relationship f7fbda3a-d726-4c7e-bfed-5db0fe3ef04c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: siscobertura_chassis.data_atualizacao
+	toColumn: LocalDateTable_2bf18502-43dd-4bb1-b54d-93bd675ec7b7.Date
+
+relationship d0f243a2-7f1a-4164-894e-c640fad2106f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: siscobertura_cidade.data_atualizacao
+	toColumn: LocalDateTable_87ec0838-049b-4dbb-a2d0-a06b5d140945.Date
+
+relationship 5303a0a6-2ef0-4b9c-9950-07960022dc7e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: siscobertura_cidade_produto.data_atualizacao
+	toColumn: LocalDateTable_4455a234-7502-4aaf-9b6c-d73aa27c04ba.Date
+
+relationship 9786a1af-c8b9-4be7-ab74-febcfd0763af
+	joinOnDateBehavior: datePartOnly
+	fromColumn: siscobertura_cliente_produto.data_atualizacao
+	toColumn: LocalDateTable_a6dc06f5-1d20-458d-b099-6372d9791612.Date
+
+relationship ed45f95e-f12f-44ce-8717-fb0634817b5b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: siscobertura_execucao.inicio
+	toColumn: LocalDateTable_88515a0a-fea4-463a-b01e-3b2deb4316a8.Date
+
+relationship 1ad06ef3-d9a9-4b08-8814-4338e89116be
+	joinOnDateBehavior: datePartOnly
+	fromColumn: siscobertura_execucao.fim
+	toColumn: LocalDateTable_82ef6674-c619-4939-bbb6-9ce8fe3215b6.Date
+
+relationship 20f3cffb-fe35-49a5-9dc6-c51d1da5fa63
+	joinOnDateBehavior: datePartOnly
+	fromColumn: siscobertura_projecao_industria.data_atualizacao
+	toColumn: LocalDateTable_048d38ec-6b0d-4196-ab81-ce3b56870088.Date
+
+relationship 39aa6831-d7fb-4d25-aaf8-35f252ce798c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: siscobertura_resumo.data_atualizacao
+	toColumn: LocalDateTable_056aec87-7fe8-4829-a486-5f59a25cddc3.Date
+
+relationship siscobertura_cidade_produto_id_ibge_siscobertura_cidade_id_ibge
+	fromColumn: siscobertura_cidade_produto.id_ibge
+	toColumn: siscobertura_cidade.id_ibge
+
+relationship siscobertura_cliente_produto_id_ibge_siscobertura_cidade_id_ibge
+	fromColumn: siscobertura_cliente_produto.id_ibge
+	toColumn: siscobertura_cidade.id_ibge
+
+relationship siscobertura_chassis_id_ibge_siscobertura_cidade_id_ibge
+	fromColumn: siscobertura_chassis.id_ibge
+	toColumn: siscobertura_cidade.id_ibge
+
+relationship siscobertura_projecao_industria_id_ibge_siscobertura_cidade_id_ibge
+	fromColumn: siscobertura_projecao_industria.id_ibge
+	toColumn: siscobertura_cidade.id_ibge
+
+relationship siscobertura_cidade_produto_produto_dProduto_produto
+	fromColumn: siscobertura_cidade_produto.produto
+	toColumn: dProduto.produto
+
+relationship siscobertura_cliente_produto_produto_dProduto_produto
+	fromColumn: siscobertura_cliente_produto.produto
+	toColumn: dProduto.produto
+
+relationship siscobertura_chassis_produto_dProduto_produto
+	fromColumn: siscobertura_chassis.produto
+	toColumn: dProduto.produto
+
+relationship siscobertura_cliente_produto_cliente_id_segclientes_vw_clientes_atual_cliente_id
+	fromColumn: siscobertura_cliente_produto.cliente_id
+	toColumn: segclientes_vw_clientes_atual.cliente_id
+
+relationship siscobertura_projecao_produto_id_ibge_siscobertura_cidade_id_ibge
+	fromColumn: siscobertura_projecao_produto.id_ibge
+	toColumn: siscobertura_cidade.id_ibge
+
+relationship siscobertura_projecao_produto_produto_dProduto_produto
+	fromColumn: siscobertura_projecao_produto.produto
+	toColumn: dProduto.produto
+
+relationship siscobertura_crm_cen_id_ibge_siscobertura_cidade_id_ibge
+	fromColumn: siscobertura_crm_cen.id_ibge
+	toColumn: siscobertura_cidade.id_ibge
+
+relationship siscobertura_crm_cen_produto_dProduto_produto
+	fromColumn: siscobertura_crm_cen.produto
+	toColumn: dProduto.produto
+
+relationship ci_oportunidades_motivo_perda
+	fromColumn: ci_oportunidades.motivo_perda
+	toColumn: ci_motivo_perda.motivo
+
+relationship ci_oportunidades_motivo_cancelamento
+	fromColumn: ci_oportunidades.motivo_cancelamento
+	toColumn: ci_motivo_cancelamento.motivo
+
+relationship c360_erp_cliente
+	fromColumn: c360_erp.cliente_id
+	toColumn: segclientes_vw_clientes_atual.cliente_id
+
+relationship c360_contatos_cliente
+	fromColumn: c360_contatos.cliente_id
+	toColumn: segclientes_vw_clientes_atual.cliente_id
+
+relationship c360_oportunidades_cliente
+	fromColumn: c360_oportunidades.cliente_id
+	toColumn: segclientes_vw_clientes_atual.cliente_id
+
+relationship c360_agenda_cliente
+	fromColumn: c360_agenda.cliente_id
+	toColumn: segclientes_vw_clientes_atual.cliente_id
+
+relationship c360_os_cliente
+	fromColumn: c360_os.cliente_id
+	toColumn: segclientes_vw_clientes_atual.cliente_id
+
+relationship c360_maquinas_cliente
+	fromColumn: c360_maquinas.cliente_id
+	toColumn: segclientes_vw_clientes_atual.cliente_id
+
+relationship c360_tickets_cliente
+	fromColumn: c360_tickets.cliente_id
+	toColumn: segclientes_vw_clientes_atual.cliente_id
+
+relationship c360_alertas_cliente
+	fromColumn: c360_alertas.cliente_id
+	toColumn: segclientes_vw_clientes_atual.cliente_id
+
+relationship c360_cx_cliente
+	fromColumn: c360_cx.cliente_id
+	toColumn: segclientes_vw_clientes_atual.cliente_id
+
+relationship fOportunidadeMunicipio_id_ibge_siscobertura_cidade
+	fromColumn: fOportunidadeMunicipio.id_ibge
+	toColumn: siscobertura_cidade.id_ibge
+
+relationship fOportunidadeMunicipio_faixa_dFaixaArea
+	fromColumn: fOportunidadeMunicipio.faixa
+	toColumn: dFaixaArea.faixa
+
+relationship ci_oportunidades_vp_sub_dVPSub_sub
+	fromColumn: ci_oportunidades.vp_sub
+	toColumn: dVPSub.sub
+
+relationship ci_oportunidades_vp_grupo_dVPGrupo_grupo
+	fromColumn: ci_oportunidades.vp_grupo
+	toColumn: dVPGrupo.grupo
+
+relationship 854dde2f-eb96-40ba-8281-6ea5a1923433
+	joinOnDateBehavior: datePartOnly
+	fromColumn: vp_industria.periodo_inicio
+	toColumn: LocalDateTable_cfbab839-1f60-45d0-84fd-177674cdac5d.Date
+
+relationship 3b7be72f-f7d8-48bc-8213-4b3f6a54fae2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: vp_industria.periodo_fim
+	toColumn: LocalDateTable_f549211b-e147-4f89-b724-b5f68e121824.Date
+

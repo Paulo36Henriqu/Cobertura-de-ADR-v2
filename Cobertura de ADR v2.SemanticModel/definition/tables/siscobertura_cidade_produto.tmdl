@@ -1,0 +1,197 @@
+table siscobertura_cidade_produto
+	lineageTag: 9336749d-50ec-4b40-8ded-8b9804967342
+
+	column id_ibge
+		dataType: int64
+		formatString: 0
+		lineageTag: a51d157a-8f66-4f9b-8a01-022b76503215
+		summarizeBy: sum
+		sourceColumn: id_ibge
+
+		annotation SummarizationSetBy = Automatic
+
+	column cidade
+		dataType: string
+		lineageTag: 56c16f7d-0870-4c60-a22b-fb5bed8c611c
+		summarizeBy: none
+		sourceColumn: cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column estado
+		dataType: string
+		lineageTag: 18e31c8b-51df-42bf-9f31-90d6d72566bf
+		summarizeBy: none
+		sourceColumn: estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column filial
+		dataType: string
+		lineageTag: 8e4f819f-b0a3-493d-9057-57ca0fb44c19
+		summarizeBy: none
+		sourceColumn: filial
+
+		annotation SummarizationSetBy = Automatic
+
+	column filial_sigla
+		dataType: string
+		lineageTag: c80c2fd4-ab85-4f48-be7c-60fd1c86da57
+		summarizeBy: none
+		sourceColumn: filial_sigla
+
+		annotation SummarizationSetBy = Automatic
+
+	column sub_regiao
+		dataType: string
+		lineageTag: 1f48f0bf-cdd7-4943-95f1-f1a68c947bec
+		summarizeBy: none
+		sourceColumn: sub_regiao
+
+		annotation SummarizationSetBy = Automatic
+
+	column microrregiao
+		dataType: string
+		lineageTag: dddbce7a-d2da-4023-94b6-d3332bba2741
+		summarizeBy: none
+		sourceColumn: microrregiao
+
+		annotation SummarizationSetBy = Automatic
+
+	column cen_agricola
+		dataType: string
+		lineageTag: 2429b484-d139-4131-b9e5-d564aef6bdec
+		summarizeBy: none
+		sourceColumn: cen_agricola
+
+		annotation SummarizationSetBy = Automatic
+
+	column produto
+		dataType: string
+		lineageTag: aeb413cd-bdb3-4e38-ac67-04519689afc5
+		summarizeBy: none
+		sourceColumn: produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column area_base_ha
+		dataType: double
+		lineageTag: 77bbc387-4442-4ca0-abc7-1e03af656b57
+		summarizeBy: sum
+		sourceColumn: area_base_ha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ha_por_maquina
+		dataType: double
+		lineageTag: 55edf71d-b6e9-4b30-bc4a-d6cb36bab47e
+		summarizeBy: sum
+		sourceColumn: ha_por_maquina
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column demanda
+		dataType: int64
+		formatString: 0
+		lineageTag: 15514f7d-97f3-4ae3-a5ca-f25b0e1f73a2
+		summarizeBy: sum
+		sourceColumn: demanda
+
+		annotation SummarizationSetBy = Automatic
+
+	column parque_valido
+		dataType: int64
+		formatString: 0
+		lineageTag: 67b827da-cae7-40cd-96a0-89436c99300f
+		summarizeBy: sum
+		sourceColumn: parque_valido
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_cobertura
+		dataType: double
+		lineageTag: bc864e78-9dff-4f04-9a48-a77772e92e77
+		summarizeBy: sum
+		sourceColumn: pct_cobertura
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column gap_maquinas
+		dataType: int64
+		formatString: 0
+		lineageTag: 66994562-430f-414f-9c11-9441edd7375b
+		summarizeBy: sum
+		sourceColumn: gap_maquinas
+
+		annotation SummarizationSetBy = Automatic
+
+	column crm_ganhas_fy
+		dataType: double
+		lineageTag: 1502a468-5396-4295-9f22-42e07a597238
+		summarizeBy: sum
+		sourceColumn: crm_ganhas_fy
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column crm_perdidas_fy
+		dataType: double
+		lineageTag: 0ba8bf03-93e5-46d3-b6a3-87582e7c7433
+		summarizeBy: sum
+		sourceColumn: crm_perdidas_fy
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column crm_abertas
+		dataType: double
+		lineageTag: fa70e3da-b050-4cb4-858e-6751b68d25b8
+		summarizeBy: sum
+		sourceColumn: crm_abertas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column data_atualizacao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 787e1e83-debf-4b46-9907-3c529e3e18f1
+		summarizeBy: none
+		sourceColumn: data_atualizacao
+
+		variation Variation
+			isDefault
+			relationship: 5303a0a6-2ef0-4b9c-9950-07960022dc7e
+			defaultHierarchy: LocalDateTable_4455a234-7502-4aaf-9b6c-d73aa27c04ba.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Demanda pela área, antes do limite de cobertura por cidade. Base da indústria e das metas.
+	column demanda_calculada
+		dataType: int64
+		formatString: 0
+		lineageTag: b59a31a4-3b33-45f2-8ee1-8e0be74a0dbe
+		summarizeBy: sum
+		sourceColumn: demanda_calculada
+
+	partition siscobertura_cidade_produto = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Fonte{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "siscobertura_cidade_produto"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

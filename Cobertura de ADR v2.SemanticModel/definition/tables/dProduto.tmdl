@@ -1,0 +1,89 @@
+/// Dimensão dos 9 produtos do Sistema de Cobertura (ordem, descrição, grupo TR/CA/PV/PL, cor, porte e meta de M.S. 2030). CA dividido em CA G / CA M / CA P. PL é medido em LINHAS de plantio, não em máquinas.
+table dProduto
+	lineageTag: 728be6ae-e4c2-43cc-af55-f2d12b039947
+
+	column produto
+		lineageTag: 6fa1c6b1-1500-45e6-a86f-23954aceb768
+		isNameInferred
+		sourceColumn: [produto]
+		sortByColumn: ordem
+
+	column ordem
+		isHidden
+		lineageTag: b73001db-e633-44c7-94fd-a213dc49fd39
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [ordem]
+
+	column descricao
+		lineageTag: 5691e27e-9982-4162-bb33-684034540edf
+		isNameInferred
+		sourceColumn: [descricao]
+
+	/// Produto agrupado (TR, CA, PV, PL): é o filtro "Produto" das páginas de Cobertura.
+	column grupo
+		lineageTag: d4fe9ef0-7026-4d1f-9d40-1fad95284941
+		isNameInferred
+		sourceColumn: [grupo]
+		sortByColumn: grupo_ordem
+
+	column cor
+		lineageTag: ed9fffb9-1892-4410-8c8d-1101e17e5c4a
+		isNameInferred
+		sourceColumn: [cor]
+
+	/// Porte para a meta de M.S. acordada com a John Deere (até 2030): TR5/TRCE = Pequeno, TR6 = Médio, TR G = Grande; CA pela série (S4/S5/S6-S7-X9). PV/PL = Sem porte.
+	column porte
+		lineageTag: 66d50c6a-491d-45f3-9191-249dc89e2a68
+		isNameInferred
+		sourceColumn: [porte]
+		sortByColumn: porte_ordem
+
+	column porte_ordem
+		isHidden
+		lineageTag: f678c905-edfb-457c-b130-1f738cdd5caf
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [porte_ordem]
+
+	/// Meta de M.S. acordada com a John Deere até 2030 (TR 34/40/60%, CA 49/49/60%). Vazio = usa a meta do grupo em siscobertura_param_industria.
+	column meta_ms
+		formatString: 0%
+		lineageTag: 418b52e3-0a0e-41fc-9cf0-21a8eaa97303
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [meta_ms]
+
+	/// Segmentação detalhada do produto (TR G, TR6, TR5, TRCE, CA G, CA M, CA P, PV, PL): é o filtro "Segmento" das páginas de Cobertura.
+	column segmento
+		lineageTag: c14371c1-e569-4ce9-9cba-da215c062ef5
+		isNameInferred
+		sourceColumn: [segmento]
+		sortByColumn: ordem
+
+	column grupo_ordem
+		isHidden
+		lineageTag: d4e52320-fcc5-4523-a92b-007c5448ada4
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [grupo_ordem]
+
+	partition dProduto = calculated
+		mode: import
+		source =
+				DATATABLE (
+				    "produto", STRING, "ordem", INTEGER, "descricao", STRING, "grupo", STRING, "cor", STRING,
+				    "porte", STRING, "porte_ordem", INTEGER, "meta_ms", DOUBLE, "segmento", STRING, "grupo_ordem", INTEGER,
+				    {
+				        { "TR G", 1, "Tratores grandes (grãos)", "TR", "#1F3A5F", "Grande", 3, 0.60, "TR G", 1 },
+				        { "TR6", 2, "Tratores série 6 maiores (grãos)", "TR", "#3E6FB0", "Médio", 2, 0.40, "TR6", 1 },
+				        { "TR5", 3, "Tratores série 5 e 6 menores (pastagem)", "TR", "#8DB4E2", "Pequeno", 1, 0.34, "TR5", 1 },
+				        { "TRCE", 4, "Tratores culturas especiais", "TR", "#6A3D8F", "Pequeno", 1, 0.34, "TRCE", 1 },
+				        { "CA G", 5, "Colheitadeiras grandes (S6/S7/X9)", "CA", "#1F7A7A", "Grande", 3, 0.60, "CA G", 2 },
+				        { "CA M", 6, "Colheitadeiras médias (S5)", "CA", "#3FA7A7", "Médio", 2, 0.49, "CA M", 2 },
+				        { "CA P", 7, "Colheitadeiras pequenas (S4)", "CA", "#8FD1C9", "Pequeno", 1, 0.49, "CA P", 2 },
+				        { "PV", 8, "Pulverizadores", "PV", "#B79AD6", "Sem porte", 4, BLANK (), "PV", 3 },
+				        { "PL", 9, "Plantadeiras (em linhas)", "PL", "#C9A227", "Sem porte", 4, BLANK (), "PL", 4 }
+				    }
+				)
+

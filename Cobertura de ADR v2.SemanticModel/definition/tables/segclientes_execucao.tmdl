@@ -1,0 +1,290 @@
+table segclientes_execucao
+	lineageTag: c218dec9-7770-4ae9-b387-117a477a4c8f
+
+	column execucao_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 845d0306-1603-49f3-919d-8e68fe88c58a
+		summarizeBy: none
+		sourceColumn: execucao_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_execucao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 62f7be36-24e8-4e44-bd1f-453a082f39a1
+		summarizeBy: none
+		sourceColumn: data_execucao
+
+		variation Variation
+			isDefault
+			relationship: ba798a8c-242b-41e3-a55b-5c65df87c59a
+			defaultHierarchy: LocalDateTable_6c81fe3f-1762-4d55-a056-1f01ad761e8c.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_referencia
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 34f6f5bd-488f-43b1-ad50-4cb7b01dbcd8
+		summarizeBy: none
+		sourceColumn: data_referencia
+
+		variation Variation
+			isDefault
+			relationship: 0937cfb4-233c-4b20-80aa-d54fc3e021c9
+			defaultHierarchy: LocalDateTable_555c44c4-5a74-41bb-a551-62ba46710430.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column data_inicio_faturamento
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d2a4496b-805b-459e-8b0f-5a9ac0deda1a
+		summarizeBy: none
+		sourceColumn: data_inicio_faturamento
+
+		variation Variation
+			isDefault
+			relationship: cfa1462b-ad74-49ba-968c-f2342a471f72
+			defaultHierarchy: LocalDateTable_d689bfb2-b3e4-4472-aaf0-13d7d74fce15.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column janela_meses
+		dataType: int64
+		formatString: 0
+		lineageTag: eefd95d8-13d7-4902-a2f4-1e0dba2416ec
+		summarizeBy: sum
+		sourceColumn: janela_meses
+
+		annotation SummarizationSetBy = Automatic
+
+	column componentes_faturamento
+		dataType: string
+		lineageTag: a1e03d6c-b4cd-43ee-83a8-6c7bc6988e28
+		summarizeBy: none
+		sourceColumn: componentes_faturamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column custo_operacional_padrao
+		dataType: double
+		lineageTag: 0bdc9d74-73da-4aac-86f4-a05e3ad540d5
+		summarizeBy: sum
+		sourceColumn: custo_operacional_padrao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column nivel_referencia
+		dataType: string
+		lineageTag: b7ea5059-63ce-4d30-9e8b-f62e25fef42f
+		summarizeBy: none
+		sourceColumn: nivel_referencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column anos_produtividade
+		dataType: int64
+		formatString: 0
+		lineageTag: 72f57b8e-0615-4b03-a788-85694c2a0369
+		summarizeBy: sum
+		sourceColumn: anos_produtividade
+
+		annotation SummarizationSetBy = Automatic
+
+	column ano_preco_pam
+		dataType: int64
+		formatString: 0
+		lineageTag: b765ab5c-c6c0-4c16-9e63-8bd6e3a01288
+		summarizeBy: sum
+		sourceColumn: ano_preco_pam
+
+		annotation SummarizationSetBy = Automatic
+
+	column preco_arroba
+		dataType: double
+		lineageTag: 4cf1ee48-5701-41f4-a3e4-3e3c2227ddb2
+		summarizeBy: sum
+		sourceColumn: preco_arroba
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column preco_litro_leite
+		dataType: double
+		lineageTag: 77fddb53-3e36-4e25-8663-5bb8b41345fa
+		summarizeBy: sum
+		sourceColumn: preco_litro_leite
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column consolida_grupo
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 95833663-74f6-42bf-b132-66272dbece84
+		summarizeBy: none
+		sourceColumn: consolida_grupo
+
+		annotation SummarizationSetBy = Automatic
+
+	column percentil_faturamento
+		dataType: double
+		lineageTag: 0f5ee59e-7cd8-4da7-b047-a0bc82a04829
+		summarizeBy: sum
+		sourceColumn: percentil_faturamento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column percentil_potencial
+		dataType: double
+		lineageTag: 9f2d3b0e-8b1c-4a5d-b372-bd9b40d24937
+		summarizeBy: sum
+		sourceColumn: percentil_potencial
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column corte_faturamento_amostral
+		dataType: double
+		lineageTag: 2571b22d-6ed5-42ad-9104-5c1bf368a841
+		summarizeBy: sum
+		sourceColumn: corte_faturamento_amostral
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column corte_faturamento_final
+		dataType: double
+		lineageTag: f0ed3c29-2950-4390-94db-d9bc2aa75111
+		summarizeBy: sum
+		sourceColumn: corte_faturamento_final
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column corte_potencial_amostral
+		dataType: double
+		lineageTag: 43de404a-43cf-4deb-853e-c09114de04dd
+		summarizeBy: sum
+		sourceColumn: corte_potencial_amostral
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column corte_potencial_final
+		dataType: double
+		lineageTag: 54eeea45-eeb5-47f2-844b-f75229e10347
+		summarizeBy: sum
+		sourceColumn: corte_potencial_final
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column unidades_na_amostra
+		dataType: int64
+		formatString: 0
+		lineageTag: 3878856c-f372-4da0-bd57-77cb72d66694
+		summarizeBy: sum
+		sourceColumn: unidades_na_amostra
+
+		annotation SummarizationSetBy = Automatic
+
+	column clientes
+		dataType: int64
+		formatString: 0
+		lineageTag: 489176a8-d8ac-491b-a81b-f26124f19fd9
+		summarizeBy: sum
+		sourceColumn: clientes
+
+		annotation SummarizationSetBy = Automatic
+
+	column linhas_propriedades
+		dataType: int64
+		formatString: 0
+		lineageTag: 6742ab08-0626-4801-80c9-5b0790f7611f
+		summarizeBy: sum
+		sourceColumn: linhas_propriedades
+
+		annotation SummarizationSetBy = Automatic
+
+	column faturamento_fora_crm
+		dataType: double
+		lineageTag: 5bd3fb88-78b3-4c73-9d0e-0d320d86738b
+		summarizeBy: sum
+		sourceColumn: faturamento_fora_crm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column documentos_fora_crm
+		dataType: int64
+		formatString: 0
+		lineageTag: a54ed86e-e93e-4846-bd4f-fc463bdb51bd
+		summarizeBy: sum
+		sourceColumn: documentos_fora_crm
+
+		annotation SummarizationSetBy = Automatic
+
+	column usuario
+		dataType: string
+		lineageTag: 3861165f-b7b1-46e3-a2d6-a2374aeac7ec
+		summarizeBy: none
+		sourceColumn: usuario
+
+		annotation SummarizationSetBy = Automatic
+
+	column maquina
+		dataType: string
+		lineageTag: d0937ba7-15e5-46c9-9355-0d221ebf5d26
+		summarizeBy: none
+		sourceColumn: maquina
+
+		annotation SummarizationSetBy = Automatic
+
+	column custo_componentes
+		dataType: string
+		lineageTag: 609692bc-a286-49fd-9408-b85ce589a269
+		summarizeBy: none
+		sourceColumn: custo_componentes
+
+		annotation SummarizationSetBy = Automatic
+
+	column periodo_preco_conab
+		dataType: string
+		lineageTag: c7f1f274-b86a-4972-aefd-3c80547cf735
+		summarizeBy: none
+		sourceColumn: periodo_preco_conab
+
+		annotation SummarizationSetBy = Automatic
+
+	partition segclientes_execucao = m
+		mode: import
+		source =
+				let
+				  Origem = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Origem{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "segclientes_execucao"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,47 @@
+/// Premissas do Potencial de Máquinas por cliente (aba da Segmentação): preço de referência por unidade de demanda (máquina; PL = por LINHA) e vida útil (mesma do parque válido do Sistema de Cobertura). Edite os preços aqui (DATATABLE) — são referência de mercado, não tabela de preço.
+table dPremissaMaquina
+	lineageTag: 33d0f414-66a5-42c4-8b7f-48c07cc0207b
+
+	column produto
+		lineageTag: b102de97-6c12-45ca-9829-24e4709293e2
+		isNameInferred
+		sourceColumn: [produto]
+
+	column preco_ref
+		lineageTag: 003969b4-bd7b-47c7-ac0b-3f0c12b43936
+		isNameInferred
+		sourceColumn: [preco_ref]
+
+	column vida_util
+		lineageTag: 87205fa6-69d9-4ba9-9e67-918d6d135522
+		isNameInferred
+		sourceColumn: [vida_util]
+
+	partition dPremissaMaquina = calculated
+		mode: import
+		source =
+				VAR _p =
+				    DATATABLE (
+				        "produto", STRING,
+				        "preco_ref", DOUBLE,
+				        {
+				            { "TR G", 1400000 },
+				            { "TR6", 650000 },
+				            { "TR5", 320000 },
+				            { "TRCE", 280000 },
+				            { "CA G", 2400000 },
+				            { "CA M", 2400000 },
+				            { "CA P", 2400000 },
+				            { "PV", 1750000 },
+				            { "PL", 30000 }
+				        }
+				    )
+				RETURN
+				    ADDCOLUMNS (
+				        _p,
+				        "vida_util",
+				            VAR _prod = [produto]
+				            VAR _v = CALCULATE ( MAX ( siscobertura_chassis[vida_util_anos] ), siscobertura_chassis[produto] = _prod )
+				            RETURN COALESCE ( _v, 10 )
+				    )
+

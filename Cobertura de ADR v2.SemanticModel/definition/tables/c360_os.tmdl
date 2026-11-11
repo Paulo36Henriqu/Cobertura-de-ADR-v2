@@ -1,0 +1,71 @@
+/// Cliente 360: ordens de serviço da oficina (Protheus VO1) dos últimos 36 meses pelo proprietário da máquina. Fonte: DB_MKT.c360_erp_os (dados/cliente360_erp.py).
+table c360_os
+	lineageTag: 3c51a36d-48ed-4c60-9a9b-967aed9fb60f
+
+	column cliente_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4855414b-a552-4993-b052-1f4978aced09
+		summarizeBy: none
+		sourceColumn: cliente_id
+
+	column filial
+		dataType: string
+		lineageTag: 1c0daaaf-b2b5-424d-9398-bd45aed3b516
+		summarizeBy: none
+		sourceColumn: filial
+
+	column numero_os
+		dataType: string
+		lineageTag: e69c6412-9d6f-4afb-8101-4a64d0956d5c
+		summarizeBy: none
+		sourceColumn: numero_os
+
+	column chassi
+		dataType: string
+		lineageTag: 5bd1d7e4-7916-4f54-8300-5acc2f4b4cb5
+		summarizeBy: none
+		sourceColumn: chassi
+
+	column modelo
+		dataType: string
+		lineageTag: 066108f9-5785-48d8-97ad-72e89479795b
+		summarizeBy: none
+		sourceColumn: modelo
+
+	column data_abertura
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: e34d6e86-01c2-477a-8c77-15cb97b86e7f
+		summarizeBy: none
+		sourceColumn: data_abertura
+
+	column data_saida
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: a172a5a8-fdd0-47f2-b294-5d283f882c9e
+		summarizeBy: none
+		sourceColumn: data_saida
+
+	column horimetro
+		dataType: double
+		formatString: #,0
+		lineageTag: 3b583abd-2dbe-413a-b9b3-1e1e264e1162
+		summarizeBy: none
+		sourceColumn: horimetro
+
+	column status
+		dataType: string
+		lineageTag: 33015bf2-90b6-4064-b8fd-fe8d342efd4c
+		summarizeBy: none
+		sourceColumn: status
+
+	partition c360_os = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Database("10.14.152.11", "DB_MKT", [Query = "WITH cli AS (SELECT cliente_id, documento FROM DB_MKT.dbo.segclientes_vw_clientes_atual) SELECT cli.cliente_id, os.filial, os.numero_os, os.chassi, ch.modelo, os.data_abertura, os.data_saida, CASE WHEN os.horimetro > 1 THEN os.horimetro END horimetro, os.status FROM DB_MKT.dbo.c360_erp_os os JOIN cli ON cli.documento = os.documento LEFT JOIN (SELECT chassi, MAX(modelo) modelo FROM DB_MKT.dbo.siscobertura_chassis GROUP BY chassi) ch ON ch.chassi = os.chassi"])
+				in
+				  Fonte
+

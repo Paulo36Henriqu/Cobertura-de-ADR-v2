@@ -1,0 +1,75 @@
+table siscobertura_param_metas_cen
+	lineageTag: dc26fb32-66ba-44d7-8cdd-88486de922f0
+
+	column estado
+		dataType: string
+		lineageTag: d8355424-50ec-45ff-9db8-2e42a1e9e6ba
+		summarizeBy: none
+		sourceColumn: estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column filial
+		dataType: string
+		lineageTag: d47b3bd7-7544-494d-9d0c-a70a6e9c19b6
+		summarizeBy: none
+		sourceColumn: filial
+
+		annotation SummarizationSetBy = Automatic
+
+	column sub_regiao
+		dataType: string
+		lineageTag: 8e792bdc-8a27-4cc0-8f1c-1c7a176d2b54
+		summarizeBy: none
+		sourceColumn: sub_regiao
+
+		annotation SummarizationSetBy = Automatic
+
+	column cen
+		dataType: string
+		lineageTag: 36091d76-02d8-427e-8faf-4e21bccdfd3c
+		summarizeBy: none
+		sourceColumn: cen
+
+		annotation SummarizationSetBy = Automatic
+
+	column meta
+		dataType: int64
+		formatString: 0
+		lineageTag: a42aecda-59b5-4e06-b5fb-b051fdd8f768
+		summarizeBy: sum
+		sourceColumn: meta
+
+		annotation SummarizationSetBy = Automatic
+
+	column chave_sr = UPPER ( siscobertura_param_metas_cen[filial] ) & "|" & siscobertura_param_metas_cen[sub_regiao]
+		dataType: string
+		isHidden
+		lineageTag: 9c8fc3d2-81bd-49a1-a114-c7f3a661226b
+
+	/// Filial · sub-região (CENs do zoneamento, igual ao CRM). Se a SR não existir no zoneamento, usa o CEN do CSV.
+	column rotulo =
+			VAR f = UPPER ( siscobertura_param_metas_cen[filial] )
+			VAR sr = siscobertura_param_metas_cen[sub_regiao]
+			VAR s = MAXX ( FILTER ( siscobertura_projecao_industria, UPPER ( siscobertura_projecao_industria[filial] ) = f ), siscobertura_projecao_industria[filial_sigla] )
+			VAR cens =
+			    CONCATENATEX (
+			        DISTINCT ( SELECTCOLUMNS ( FILTER ( siscobertura_cidade, UPPER ( siscobertura_cidade[filial] ) = f && siscobertura_cidade[sub_regiao] = sr && NOT ISBLANK ( siscobertura_cidade[cen_agricola] ) ), "c", siscobertura_cidade[cen_agricola] ) ),
+			        [c], ", ", [c], ASC
+			    )
+			RETURN COALESCE ( s, f ) & " · " & sr & "  (" & IF ( cens = "", siscobertura_param_metas_cen[cen] & " ⚠", cens ) & ")"
+		dataType: string
+		lineageTag: dd074574-c3a8-4119-9902-93ddeb8e7d0e
+
+	partition siscobertura_param_metas_cen = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Fonte{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "siscobertura_param_metas_cen"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,263 @@
+table siscobertura_projecao_industria
+	lineageTag: 060306ad-570a-4632-beff-bd0b789f0986
+
+	column grupo
+		dataType: string
+		lineageTag: 1a4f1707-69fe-4293-aa6f-7a00be7e2626
+		summarizeBy: none
+		sourceColumn: grupo
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_ibge
+		dataType: int64
+		formatString: 0
+		lineageTag: 7f4394df-a1f1-4caf-98a8-6d0514a6966e
+		summarizeBy: sum
+		sourceColumn: id_ibge
+
+		annotation SummarizationSetBy = Automatic
+
+	column cidade
+		dataType: string
+		lineageTag: 6358173c-2f09-4822-9f6b-f949b6c8b21b
+		summarizeBy: none
+		sourceColumn: cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column estado
+		dataType: string
+		lineageTag: ca62d8aa-b112-4077-8094-0351e0c19636
+		summarizeBy: none
+		sourceColumn: estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column filial
+		dataType: string
+		lineageTag: bd765c19-10eb-40b5-8b44-2da0ab519fe0
+		summarizeBy: none
+		sourceColumn: filial
+
+		annotation SummarizationSetBy = Automatic
+
+	column filial_sigla
+		dataType: string
+		lineageTag: 2ba76b72-14a1-43f0-aec6-e5f48202d225
+		summarizeBy: none
+		sourceColumn: filial_sigla
+
+		annotation SummarizationSetBy = Automatic
+
+	column sub_regiao
+		dataType: string
+		lineageTag: 73863e75-a55f-447d-9385-007eb5c4689a
+		summarizeBy: none
+		sourceColumn: sub_regiao
+
+		annotation SummarizationSetBy = Automatic
+
+	column microrregiao
+		dataType: string
+		lineageTag: 31e809a7-f17f-4168-8c8d-e66c2999fd22
+		summarizeBy: none
+		sourceColumn: microrregiao
+
+		annotation SummarizationSetBy = Automatic
+
+	column cen_agricola
+		dataType: string
+		lineageTag: cadb1c5c-0fbf-4ed3-af80-e949f9de7bf8
+		summarizeBy: none
+		sourceColumn: cen_agricola
+
+		annotation SummarizationSetBy = Automatic
+
+	column demanda
+		dataType: int64
+		formatString: 0
+		lineageTag: 7a66186b-ed03-4ea2-bb32-694f21b41d86
+		summarizeBy: sum
+		sourceColumn: demanda
+
+		annotation SummarizationSetBy = Automatic
+
+	column parque_valido
+		dataType: int64
+		formatString: 0
+		lineageTag: c4d72478-641c-4497-a63f-37ea4658414a
+		summarizeBy: sum
+		sourceColumn: parque_valido
+
+		annotation SummarizationSetBy = Automatic
+
+	column demanda_estado
+		dataType: int64
+		formatString: 0
+		lineageTag: a5d756eb-5e6e-4e0b-91c3-694c9a4101bc
+		summarizeBy: sum
+		sourceColumn: demanda_estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column participacao_estado
+		dataType: double
+		lineageTag: 27ef42ec-0117-4dce-9f5f-7e843c8df77b
+		summarizeBy: sum
+		sourceColumn: participacao_estado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column industria_estado
+		dataType: double
+		lineageTag: d7950927-826c-4abb-b7e4-aa272704fe3b
+		summarizeBy: sum
+		sourceColumn: industria_estado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column industria_cidade
+		dataType: double
+		lineageTag: 4f217936-36a6-4422-b9e9-520dae08df0c
+		summarizeBy: sum
+		sourceColumn: industria_cidade
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column meta_ms
+		dataType: double
+		lineageTag: a0a1854d-92b3-4f6a-97cb-8ba72d991e26
+		summarizeBy: sum
+		sourceColumn: meta_ms
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column vendas_meta
+		dataType: double
+		lineageTag: 349bf814-54cb-4275-a4d4-db3928ac410b
+		summarizeBy: sum
+		sourceColumn: vendas_meta
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column taxa_conversao
+		dataType: double
+		lineageTag: 95588ccb-8d5e-4082-89c8-a1cb3c8b2894
+		summarizeBy: sum
+		sourceColumn: taxa_conversao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column negocios_necessarios
+		dataType: double
+		lineageTag: 4c9913ea-371c-4b5d-b6b4-37fba38e01be
+		summarizeBy: sum
+		sourceColumn: negocios_necessarios
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column crm_ganhas_fy
+		dataType: double
+		lineageTag: 109c840f-dfbe-4b49-a80c-91df10645d2e
+		summarizeBy: sum
+		sourceColumn: crm_ganhas_fy
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column crm_perdidas_fy
+		dataType: double
+		lineageTag: 67732cd5-2ad2-4b64-85ba-f7d9cb2d7485
+		summarizeBy: sum
+		sourceColumn: crm_perdidas_fy
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column crm_abertas
+		dataType: double
+		lineageTag: 2dcab43c-a896-473f-9618-2b265a4318ad
+		summarizeBy: sum
+		sourceColumn: crm_abertas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ms_realizado_fy
+		dataType: double
+		lineageTag: 2188c22f-367f-4944-9ccb-2e50c3fe9815
+		summarizeBy: sum
+		sourceColumn: ms_realizado_fy
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pct_meta_vendas
+		dataType: double
+		lineageTag: b257d2e4-f381-4cbd-bcb7-0f3d69aec962
+		summarizeBy: sum
+		sourceColumn: pct_meta_vendas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ano_fiscal
+		dataType: int64
+		formatString: 0
+		lineageTag: 5a1519b1-7e33-4294-892f-e62499851518
+		summarizeBy: sum
+		sourceColumn: ano_fiscal
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_atualizacao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 07cdc469-80f9-4b1d-a073-a36a58697279
+		summarizeBy: none
+		sourceColumn: data_atualizacao
+
+		variation Variation
+			isDefault
+			relationship: 20f3cffb-fe35-49a5-9dc6-c51d1da5fa63
+			defaultHierarchy: LocalDateTable_048d38ec-6b0d-4196-ab81-ce3b56870088.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column chave_sr = UPPER ( siscobertura_projecao_industria[filial] ) & "|" & siscobertura_projecao_industria[sub_regiao]
+		dataType: string
+		isHidden
+		lineageTag: a59723ba-c3f7-43df-9fe0-641c3ea8b88b
+
+	partition siscobertura_projecao_industria = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Fonte{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "siscobertura_projecao_industria"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

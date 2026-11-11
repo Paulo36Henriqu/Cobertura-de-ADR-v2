@@ -1,0 +1,60 @@
+/// Premissas dos cenários de meta de market share por município (Sistema de Cobertura). Meta da cidade×produto = MAX( piso × meta oficial do estado ; MIN( share de frota + fator × (1 − share de frota) ; MAX(teto ; share de frota) ) ). Share de frota = MIN(100%, parque válido ÷ demanda). Edite os valores aqui (DATATABLE).
+table dCenarioMS
+	lineageTag: 8f46e804-c844-4684-bc02-41a55bd1b755
+
+	column Cenário
+		lineageTag: 017ddde7-e155-496d-b2ab-005b7ddcc4cf
+		isNameInferred
+		sourceColumn: [Cenário]
+		sortByColumn: Ordem
+
+	column Ordem
+		isHidden
+		lineageTag: b8e4a3a7-3d4c-4bad-84e4-01804329b061
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Ordem]
+
+	column 'Fator Gap'
+		formatString: 0%
+		lineageTag: 5daeb9be-1fcd-46dc-bafc-c97da88aab9d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Fator Gap]
+
+	column 'Piso Meta Oficial'
+		formatString: 0%
+		lineageTag: cafdaeaa-9070-4dbb-84f8-08a3d195adda
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Piso Meta Oficial]
+
+	column Teto
+		formatString: 0%
+		lineageTag: df80f142-f93d-4053-b88e-20c6bf1858d0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Teto]
+
+	column Descrição
+		lineageTag: cc08d04e-66d2-41c3-8772-8552644551d2
+		isNameInferred
+		sourceColumn: [Descrição]
+
+	partition dCenarioMS = calculated
+		mode: import
+		source =
+				DATATABLE (
+				    "Cenário", STRING,
+				    "Ordem", INTEGER,
+				    "Fator Gap", DOUBLE,
+				    "Piso Meta Oficial", DOUBLE,
+				    "Teto", DOUBLE,
+				    "Descrição", STRING,
+				    {
+				        { "Conservador", 1, 0.10, 0.50, 0.60, "Mantém o share de frota e conquista 10% do gap; piso = 50% da meta oficial; teto 60%" },
+				        { "Moderado", 2, 0.25, 0.75, 0.75, "Conquista 25% do gap de frota; piso = 75% da meta oficial; teto 75%" },
+				        { "Agressivo", 3, 0.40, 1.00, 0.90, "Conquista 40% do gap de frota; piso = meta oficial; teto 90%" }
+				    }
+				)
+

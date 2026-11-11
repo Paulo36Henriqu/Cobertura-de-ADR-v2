@@ -1,0 +1,110 @@
+/// Indústria JD (relatório Current versus Prior). Lê o arquivo Current_versus_Prior*.xlsx mais recente da pasta do projeto. Somente linhas de grupo de produto.
+table vp_industria
+	lineageTag: 998be68e-fc1b-41c3-aa8f-ba819bf34d54
+
+	column produto
+		dataType: string
+		lineageTag: 6cc4a385-9307-476c-b0d6-6b60a1482fb2
+		summarizeBy: none
+		sourceColumn: produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_atual
+		dataType: double
+		formatString: #,0
+		lineageTag: f7b3a6a2-1063-431f-8d2a-0ecf822cc30a
+		summarizeBy: sum
+		sourceColumn: ind_atual
+
+	column dealer_atual
+		dataType: double
+		formatString: #,0
+		lineageTag: f0cdc9cb-3ebb-49df-b5f7-c6137abff9b0
+		summarizeBy: sum
+		sourceColumn: dealer_atual
+
+	column ind_anterior
+		dataType: double
+		formatString: #,0
+		lineageTag: 6c5d47d2-0f8f-4891-bb83-6c4025242052
+		summarizeBy: sum
+		sourceColumn: ind_anterior
+
+	column dealer_anterior
+		dataType: double
+		formatString: #,0
+		lineageTag: 1fc0b0e6-e0be-4b12-b8f9-b9f4748d3e1c
+		summarizeBy: sum
+		sourceColumn: dealer_anterior
+
+	column periodo_inicio
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 63e71ea4-ef9b-474c-9332-371b69c1e0e2
+		summarizeBy: none
+		sourceColumn: periodo_inicio
+
+		variation Variation
+			isDefault
+			relationship: 854dde2f-eb96-40ba-8281-6ea5a1923433
+			defaultHierarchy: LocalDateTable_cfbab839-1f60-45d0-84fd-177674cdac5d.'Hierarquia de datas'
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column periodo_fim
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 5c57e29b-aaa8-4ab0-91f4-1d556d9e62bc
+		summarizeBy: none
+		sourceColumn: periodo_fim
+
+		variation Variation
+			isDefault
+			relationship: 3b7be72f-f7d8-48bc-8213-4b3f6a54fae2
+			defaultHierarchy: LocalDateTable_f549211b-e147-4f89-b724-b5f68e121824.'Hierarquia de datas'
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column periodo
+		dataType: string
+		lineageTag: 70f23733-577f-4506-a1bb-c44d1e6023d6
+		summarizeBy: none
+		sourceColumn: periodo
+
+		annotation SummarizationSetBy = Automatic
+
+	column arquivo
+		dataType: string
+		lineageTag: 11a62b73-1817-4da3-a667-5f585f85338b
+		summarizeBy: none
+		sourceColumn: arquivo
+
+		annotation SummarizationSetBy = Automatic
+
+	partition vp_industria = m
+		mode: import
+		source =
+				let
+				    Pasta = "C:\Users\Paulo.Santos\OneDrive - Nissey Participações Ltda\Documentos\PowerBI\Cobertura de ADR\Cobertura de ADR v2",
+				    Arquivos = Table.SelectRows(Folder.Files(Pasta), each Text.StartsWith([Name], "Current_versus_Prior") and [Extension] = ".xlsx" and [Folder Path] = Pasta & "\"),
+				    Ultimo = Table.First(Table.Sort(Arquivos, {{"Date modified", Order.Descending}})),
+				    Livro = Excel.Workbook(Ultimo[Content], null, true),
+				    Folha = Livro{0}[Data],
+				    Periodo = Text.Trim(Text.From(Folha{5}[Column2])),
+				    Partes = List.Transform(Text.Split(Periodo, "-"), Text.Trim),
+				    Meses = [Jan=1,Feb=2,Mar=3,Apr=4,May=5,Jun=6,Jul=7,Aug=8,Sep=9,Oct=10,Nov=11,Dec=12],
+				    ParaData = (t as text) => let p = List.Select(Text.Split(t, " "), each _ <> "") in #date(Number.From(p{1}), Record.Field(Meses, p{0}), 1),
+				    Inicio = ParaData(Partes{0}),
+				    Fim = Date.EndOfMonth(ParaData(Partes{1})),
+				    Dados = Table.Skip(Folha, 10),
+				    Grupos = Table.SelectRows(Dados, each [Column1] <> null and Text.Trim(Text.From([Column1])) <> "" and ([Column2] = null or Text.Trim(Text.From([Column2])) = "") and ([Column3] = null or Text.Trim(Text.From([Column3])) = "")),
+				    Sel = Table.SelectColumns(Grupos, {"Column1", "Column4", "Column5", "Column9", "Column10"}),
+				    Ren = Table.RenameColumns(Sel, {{"Column1", "produto"}, {"Column4", "ind_atual"}, {"Column5", "dealer_atual"}, {"Column9", "ind_anterior"}, {"Column10", "dealer_anterior"}}),
+				    Limpo = Table.TransformColumns(Ren, {{"produto", each Text.Trim(Text.From(_)), type text}}),
+				    Tipos = Table.TransformColumnTypes(Limpo, {{"ind_atual", type number}, {"dealer_atual", type number}, {"ind_anterior", type number}, {"dealer_anterior", type number}}),
+				    ComPeriodo = Table.AddColumn(Table.AddColumn(Table.AddColumn(Tipos, "periodo_inicio", each Inicio, type date), "periodo_fim", each Fim, type date), "periodo", each Periodo, type text),
+				    ComArquivo = Table.AddColumn(ComPeriodo, "arquivo", each Ultimo[Name], type text)
+				in
+				    ComArquivo
+

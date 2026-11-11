@@ -1,0 +1,58 @@
+/// Cliente 360: alertas de máquina (Operation Center) de severidade HIGH/MEDIUM dos últimos 60 dias.
+table c360_alertas
+	lineageTag: f753362f-1c9a-4118-9c17-85a2d2bc89f9
+
+	column cliente_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7d7fd1aa-dc39-4eba-9667-6e0c3ea48389
+		summarizeBy: none
+		sourceColumn: cliente_id
+
+	column chassi
+		dataType: string
+		lineageTag: 8cb39160-7178-49d6-b9ad-5896294fbc2c
+		summarizeBy: none
+		sourceColumn: chassi
+
+	column modelo
+		dataType: string
+		lineageTag: 6e4a313a-0b7c-4402-90ef-045b6df0bda2
+		summarizeBy: none
+		sourceColumn: modelo
+
+	column data_hora
+		dataType: dateTime
+		formatString: dd/mm/yyyy hh:nn
+		lineageTag: 60dd0369-8d82-4a7d-b92e-68b8acd35161
+		summarizeBy: none
+		sourceColumn: data_hora
+
+	column severidade
+		dataType: string
+		lineageTag: b23740de-ee53-4008-b997-115e1426cc78
+		summarizeBy: none
+		sourceColumn: severidade
+
+	column descricao
+		dataType: string
+		lineageTag: 216775a0-425a-41d5-a4d3-f9bf09fb2cad
+		summarizeBy: none
+		sourceColumn: descricao
+
+	column horas_motor
+		dataType: double
+		formatString: #,0
+		lineageTag: c2556157-7b4c-4f18-b47c-a456cb7128f1
+		summarizeBy: none
+		sourceColumn: horas_motor
+
+	partition c360_alertas = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Database("10.14.152.11", "DB_MKT", [Query = "WITH cli AS (SELECT cliente_id, documento FROM DB_MKT.dbo.segclientes_vw_clientes_atual) SELECT cli.cliente_id, c.chassi, c.modelo, a.Time data_hora, a.Severity severidade, ISNULL(a.Descricao_traduzida, a.Definition_Description) descricao, a.EngineHours_Value horas_motor FROM OPERATION_CENTER.dbo.Alertas a JOIN (SELECT DISTINCT ID_m, PIN FROM OPERATION_CENTER.dbo.DADOS_ID_m) d ON d.ID_m = a.ID_m JOIN DB_MKT.dbo.siscobertura_chassis c ON c.chassi <> '' AND UPPER(LTRIM(RTRIM(c.chassi))) = UPPER(LTRIM(RTRIM(d.PIN))) JOIN cli ON cli.documento = c.cgccpf WHERE a.Time >= DATEADD(day, -60, GETDATE()) AND a.Severity IN ('HIGH', 'MEDIUM')"])
+				in
+				  Fonte
+

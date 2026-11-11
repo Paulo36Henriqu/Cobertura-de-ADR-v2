@@ -1,0 +1,123 @@
+/// Grupo econômico (unidade) × propriedade × município da ADR (siscobertura_cidade), só grupos com ≥ 100 ha. oportunidade = MAX(0, venda média da faixa − faturamento anualizado do grupo) × peso da área da propriedade no total mapeado do grupo (inclusive fora da ADR).
+table fOportunidadeMunicipio
+	lineageTag: 6c4a2d6e-24f8-4c3e-b510-e5062a8c476a
+
+	column unidade
+		isHidden
+		lineageTag: e6588136-f511-42ba-a306-d448001f8c0e
+		isNameInferred
+		sourceColumn: [unidade]
+
+	column cliente_id
+		isHidden
+		lineageTag: da5f5e11-a72d-4aa4-ba2d-a2fd9049ef37
+		isNameInferred
+		sourceColumn: [cliente_id]
+
+	column propriedade_id
+		isHidden
+		lineageTag: 86452d0c-5a60-4367-812a-a6359835beea
+		isNameInferred
+		sourceColumn: [propriedade_id]
+
+	column id_ibge
+		isHidden
+		lineageTag: facbf405-a73e-4526-9939-0b82575218c0
+		isNameInferred
+		sourceColumn: [id_ibge]
+
+	column faixa
+		isHidden
+		lineageTag: c9e7d6e7-749d-4cb7-b44d-5da437233235
+		isNameInferred
+		sourceColumn: [faixa]
+
+	column area_ha
+		isHidden
+		lineageTag: 916fd2d7-ae3e-4805-a1b7-98c300e752e6
+		isNameInferred
+		sourceColumn: [area_ha]
+
+	column area_grupo
+		isHidden
+		lineageTag: fcfb8781-2767-435c-8c4d-a53e2d6cdb6e
+		isNameInferred
+		sourceColumn: [area_grupo]
+
+	column peso
+		isHidden
+		lineageTag: fbc7d5a7-f41a-4081-aafb-e6ff2d996059
+		isNameInferred
+		sourceColumn: [peso]
+
+	column faturamento_grupo
+		isHidden
+		lineageTag: e25f40e6-df3b-434b-b929-b2be1c64e46a
+		isNameInferred
+		sourceColumn: [faturamento_grupo]
+
+	column venda_media_faixa
+		isHidden
+		lineageTag: 599642a2-29b8-4a2f-818d-0c4f4803f6d1
+		isNameInferred
+		sourceColumn: [venda_media_faixa]
+
+	column faturamento_rateado
+		isHidden
+		lineageTag: 608c8142-6ba3-48bd-b233-f3e3015f77e3
+		isNameInferred
+		sourceColumn: [faturamento_rateado]
+
+	column oportunidade
+		isHidden
+		lineageTag: a47043a0-073f-4a82-b69e-07f7540f4fd2
+		isNameInferred
+		sourceColumn: [oportunidade]
+
+	partition fOportunidadeMunicipio = calculated
+		mode: import
+		source =
+				VAR _r =
+				    SELECTCOLUMNS (
+				        FILTER ( segclientes_vw_propriedades_atual, segclientes_vw_propriedades_atual[id_ibge] <> "" ),
+				        "unidade", RELATED ( segclientes_vw_clientes_atual[unidade] ),
+				        "cliente_id", segclientes_vw_propriedades_atual[cliente_id],
+				        "propriedade_id", segclientes_vw_propriedades_atual[propriedade_id],
+				        "id_ibge", INT ( VALUE ( segclientes_vw_propriedades_atual[id_ibge] ) ),
+				        "area", IF ( segclientes_vw_propriedades_atual[sobreposta], 0, segclientes_vw_propriedades_atual[area_ha] )
+				    )
+				VAR _g =
+				    GROUPBY ( _r, [unidade], [cliente_id], [propriedade_id], [id_ibge], "area_ha", SUMX ( CURRENTGROUP (), [area] ) )
+				VAR _c =
+				    ADDCOLUMNS (
+				        _g,
+				        "area_grupo", LOOKUPVALUE ( segclientes_vw_unidades_atual[area_ha], segclientes_vw_unidades_atual[unidade], [unidade] ),
+				        "faturamento_grupo", LOOKUPVALUE ( segclientes_vw_unidades_atual[faturamento_base], segclientes_vw_unidades_atual[unidade], [unidade] ),
+				        "area_mapeada_grupo", SUMX ( FILTER ( _g, [unidade] = EARLIER ( [unidade] ) ), [area_ha] ),
+				        "props_grupo", COUNTROWS ( FILTER ( _g, [unidade] = EARLIER ( [unidade] ) ) )
+				    )
+				VAR _f =
+				    ADDCOLUMNS (
+				        _c,
+				        "faixa", MAXX ( FILTER ( dFaixaArea, [area_grupo] >= dFaixaArea[min_ha] && [area_grupo] < dFaixaArea[max_ha] ), dFaixaArea[faixa] ),
+				        "venda_media_faixa", MAXX ( FILTER ( dFaixaArea, [area_grupo] >= dFaixaArea[min_ha] && [area_grupo] < dFaixaArea[max_ha] ), dFaixaArea[venda_media] ),
+				        "peso", IF ( [area_mapeada_grupo] > 0, [area_ha] / [area_mapeada_grupo], 1 / [props_grupo] )
+				    )
+				VAR _adr = ALLNOBLANKROW ( siscobertura_cidade[id_ibge] )
+				RETURN
+				    SELECTCOLUMNS (
+				        FILTER ( _f, NOT ISBLANK ( [faixa] ) && [id_ibge] IN _adr ),
+				        "unidade", [unidade],
+				        "cliente_id", [cliente_id],
+				        "propriedade_id", [propriedade_id],
+				        "id_ibge", [id_ibge],
+				        "faixa", [faixa],
+				        "area_ha", [area_ha],
+				        "area_grupo", [area_grupo],
+				        "peso", [peso],
+				        "faturamento_grupo", [faturamento_grupo],
+				        "venda_media_faixa", [venda_media_faixa],
+				        "faturamento_rateado", [faturamento_grupo] * [peso],
+				        "oportunidade", MAX ( 0, [venda_media_faixa] - [faturamento_grupo] ) * [peso]
+				    )
+

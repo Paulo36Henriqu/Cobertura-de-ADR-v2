@@ -1,0 +1,90 @@
+/// Cliente 360: tickets do ExpertConnect (24 meses) das máquinas do cliente, ligados pelo chassi.
+table c360_tickets
+	lineageTag: eb2d69af-2487-4a40-b596-d1d283a1d1fd
+
+	column ticket_id
+		dataType: string
+		isHidden
+		lineageTag: 92db28b5-4b21-4e70-8a62-bca696b6b726
+		summarizeBy: none
+		sourceColumn: ticket_id
+
+	column cliente_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9c993bab-363a-4708-83ae-b5d5dc93da4c
+		summarizeBy: none
+		sourceColumn: cliente_id
+
+	column data_abertura
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 11ac91eb-d4d8-4aa1-ace2-436c9f6780b4
+		summarizeBy: none
+		sourceColumn: data_abertura
+
+	column data_fechamento
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: d0648c5e-3338-4d2e-a1c0-ef8c3e2e9dec
+		summarizeBy: none
+		sourceColumn: data_fechamento
+
+	column numero
+		dataType: string
+		lineageTag: ca9274a9-a7dc-43c4-9153-95fe36c31f69
+		summarizeBy: none
+		sourceColumn: numero
+
+	column titulo
+		dataType: string
+		lineageTag: 5e821e44-a91e-4bf4-a842-81127154d5b1
+		summarizeBy: none
+		sourceColumn: titulo
+
+	column produto
+		dataType: string
+		lineageTag: 7554fd8e-69dd-4d31-a4a4-f0bc7de8c388
+		summarizeBy: none
+		sourceColumn: produto
+
+	column chassi
+		dataType: string
+		lineageTag: 7f3be270-5ab3-40ba-8a8f-a543e2cb7b6e
+		summarizeBy: none
+		sourceColumn: chassi
+
+	column equipe
+		dataType: string
+		lineageTag: 73f73212-04b6-44a4-95e6-df37b769ab84
+		summarizeBy: none
+		sourceColumn: equipe
+
+	column consultor
+		dataType: string
+		lineageTag: b3c9669e-bc16-409a-a5de-ef48bcb457a7
+		summarizeBy: none
+		sourceColumn: consultor
+
+	column status
+		dataType: string
+		lineageTag: d88af756-8090-4e83-9f9e-d4528dbfa87f
+		summarizeBy: none
+		sourceColumn: status
+
+	column url
+		dataType: string
+		lineageTag: 5f34c643-a57f-4a41-bd99-106ae075fb21
+		dataCategory: WebUrl
+		summarizeBy: none
+		sourceColumn: url
+
+	partition c360_tickets = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Database("10.14.152.11", "DB_MKT", [Query = "WITH cli AS (SELECT cliente_id, documento FROM DB_MKT.dbo.segclientes_vw_clientes_atual) SELECT t.ticket_id, cli.cliente_id, t.createdDate data_abertura, t.closedDate data_fechamento, t.number numero, LTRIM(RTRIM(t.title)) titulo, LTRIM(RTRIM(t.product)) produto, t.serialNumber chassi, t.team_name equipe, LTRIM(RTRIM(ISNULL(t.advisor_firstName, '') + ' ' + ISNULL(t.advisor_lastName, ''))) consultor, CASE WHEN t.closedDate IS NULL THEN 'Aberto' ELSE 'Fechado' END status, t.url FROM OPERATION_CENTER.dbo.Exc_TICKETS t JOIN DB_MKT.dbo.siscobertura_chassis c ON c.chassi <> '' AND UPPER(LTRIM(RTRIM(c.chassi))) = UPPER(LTRIM(RTRIM(t.serialNumber))) JOIN cli ON cli.documento = c.cgccpf WHERE t.createdDate >= DATEADD(month, -24, GETDATE()) AND ISNULL(t.Is_Deleted, 0) = 0"])
+				in
+				  Fonte
+

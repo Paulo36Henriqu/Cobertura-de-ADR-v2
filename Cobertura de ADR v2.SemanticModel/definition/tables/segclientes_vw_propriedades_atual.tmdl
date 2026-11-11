@@ -1,0 +1,284 @@
+table segclientes_vw_propriedades_atual
+	lineageTag: 4eecf564-e744-40dd-b4eb-658c4de2d875
+
+	column data_referencia
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9715ae76-bc1a-43ac-aefe-fecc3d80f72e
+		summarizeBy: none
+		sourceColumn: data_referencia
+
+		variation Variation
+			isDefault
+			relationship: 7c088c06-5fe2-427b-81b0-29d7f00db344
+			defaultHierarchy: LocalDateTable_103179d0-002e-4d99-a451-ffa2b1864609.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column id
+		dataType: int64
+		formatString: 0
+		lineageTag: 944b67f9-847a-45ff-8bf8-61fee6e2ab9b
+		summarizeBy: sum
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column execucao_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 13490476-9f51-47c7-86de-ee5f46122d4e
+		summarizeBy: sum
+		sourceColumn: execucao_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column cliente_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 778a48eb-847b-4676-aa35-898c130a7c0e
+		summarizeBy: sum
+		sourceColumn: cliente_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column propriedade_id
+		dataType: int64
+		formatString: 0
+		lineageTag: aca780d5-fda4-4eb5-aa3a-207684f84898
+		summarizeBy: sum
+		sourceColumn: propriedade_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column propriedade
+		dataType: string
+		lineageTag: 9852526f-96e5-4946-8381-21ea7d2ae45c
+		summarizeBy: none
+		sourceColumn: propriedade
+
+		annotation SummarizationSetBy = Automatic
+
+	column cidade
+		dataType: string
+		lineageTag: 179fc0e3-a4f3-4013-b2e2-b6ca703995c0
+		summarizeBy: none
+		sourceColumn: cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column uf
+		dataType: string
+		lineageTag: a9994ec7-d850-459f-9831-805fd4640d59
+		summarizeBy: none
+		sourceColumn: uf
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_ibge
+		dataType: string
+		lineageTag: caaf1369-87ec-409d-8620-9840878a92d4
+		summarizeBy: none
+		sourceColumn: id_ibge
+
+		annotation SummarizationSetBy = Automatic
+
+	column origem_area
+		dataType: string
+		lineageTag: 2c0986a2-7a91-4a6c-a782-d9e73fc85f4b
+		summarizeBy: none
+		sourceColumn: origem_area
+
+		annotation SummarizationSetBy = Automatic
+
+	column cultura
+		dataType: string
+		lineageTag: 76290bfa-5b25-43fd-88e2-f8760bd558bc
+		summarizeBy: none
+		sourceColumn: cultura
+
+		annotation SummarizationSetBy = Automatic
+
+	column sobreposta
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a3923196-6dcf-48a2-8bad-c61deca766dc
+		summarizeBy: none
+		sourceColumn: sobreposta
+
+		annotation SummarizationSetBy = Automatic
+
+	column area_ha
+		dataType: double
+		lineageTag: 0c2e0df2-3fd6-4a2d-accc-df4d9f610473
+		summarizeBy: sum
+		sourceColumn: area_ha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column unidades_animais
+		dataType: double
+		lineageTag: 33204736-7924-401a-8ef0-c7762066e92d
+		summarizeBy: sum
+		sourceColumn: unidades_animais
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fonte
+		dataType: string
+		lineageTag: 0a81fba3-1cbf-4d5f-ae64-fa98c5fab0b3
+		summarizeBy: none
+		sourceColumn: fonte
+
+		annotation SummarizationSetBy = Automatic
+
+	column produtividade_kg_ha
+		dataType: double
+		lineageTag: 73520386-35b0-4a8a-85a0-9f081ad48e59
+		summarizeBy: sum
+		sourceColumn: produtividade_kg_ha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column produtividade_sc_ha
+		dataType: double
+		lineageTag: f6576e47-d764-4540-ab92-5262a96579fe
+		summarizeBy: sum
+		sourceColumn: produtividade_sc_ha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column preco_kg
+		dataType: double
+		lineageTag: b09c1e50-1200-442d-b454-0903c5724c5f
+		summarizeBy: sum
+		sourceColumn: preco_kg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column preco_saca
+		dataType: double
+		lineageTag: f1a2463f-1bec-44ed-9dae-d7ff838a94d2
+		summarizeBy: sum
+		sourceColumn: preco_saca
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rob_ha
+		dataType: double
+		lineageTag: 33a1d0a8-4154-4242-8b4d-a50e0a09bc82
+		summarizeBy: sum
+		sourceColumn: rob_ha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rob
+		dataType: double
+		lineageTag: ff73e608-9e69-4af7-b92b-d7575aac4d7b
+		summarizeBy: sum
+		sourceColumn: rob
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column custo_operacional
+		dataType: double
+		lineageTag: 993a6c04-4501-4c4c-808b-bae5b4b022ec
+		summarizeBy: sum
+		sourceColumn: custo_operacional
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column potencial
+		dataType: double
+		lineageTag: 5838fb0d-f4be-43f5-8ad0-8bb9d9e4efa8
+		summarizeBy: sum
+		sourceColumn: potencial
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fonte_preco
+		dataType: string
+		lineageTag: ed4ebba0-d3f7-4ea5-8493-a7f93e63c435
+		summarizeBy: none
+		sourceColumn: fonte_preco
+
+		annotation SummarizationSetBy = Automatic
+
+	column fonte_custo
+		dataType: string
+		lineageTag: fb848aa5-8de1-4529-896f-be6f91299079
+		summarizeBy: none
+		sourceColumn: fonte_custo
+
+		annotation SummarizationSetBy = Automatic
+
+	column premissa_base
+		dataType: string
+		lineageTag: 5fcd0926-e064-4e4a-ac55-5501f85de85e
+		summarizeBy: none
+		sourceColumn: premissa_base
+
+		annotation SummarizationSetBy = Automatic
+
+	column premissa_producao
+		dataType: double
+		lineageTag: 872c816a-36ea-46fe-8db7-33a5dfe3a01f
+		summarizeBy: sum
+		sourceColumn: premissa_producao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column unidade_producao
+		dataType: string
+		lineageTag: a7bfa096-44e6-44f8-8f27-387081527d66
+		summarizeBy: none
+		sourceColumn: unidade_producao
+
+		annotation SummarizationSetBy = Automatic
+
+	column preco_unidade
+		dataType: double
+		lineageTag: fea9ba6b-6795-4662-8ddf-9331abc58f71
+		summarizeBy: sum
+		sourceColumn: preco_unidade
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition segclientes_vw_propriedades_atual = m
+		mode: import
+		source =
+				let
+				  Origem = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Origem{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "segclientes_vw_propriedades_atual"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

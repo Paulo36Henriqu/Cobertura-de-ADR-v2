@@ -1,0 +1,72 @@
+/// Cliente 360: contatos do cliente cadastrados no CRM (cliente_contatos). whatsapp = Sim quando o telefone é WhatsApp; whatsapp_link abre a conversa.
+table c360_contatos
+	lineageTag: 6f71040f-3c19-4b41-9c34-c5566e7d671a
+
+	column id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d6f60ae0-efb3-4dec-bdda-94f4a8aefc3f
+		summarizeBy: none
+		sourceColumn: id
+
+	column cliente_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c4f481b0-7cb4-4f59-8cb3-1dc68e0fbb9b
+		summarizeBy: none
+		sourceColumn: cliente_id
+
+	column nome
+		dataType: string
+		lineageTag: a9f03b09-90f7-41c8-9a6d-247281d83f06
+		summarizeBy: none
+		sourceColumn: nome
+
+	column cargo
+		dataType: string
+		lineageTag: ddd0ccc0-f12b-4556-8ce4-1450e7e37292
+		summarizeBy: none
+		sourceColumn: cargo
+
+	column telefone
+		dataType: string
+		lineageTag: 091e6e0a-2a79-4102-a5cb-c0946fbe47a9
+		summarizeBy: none
+		sourceColumn: telefone
+
+	column whatsapp
+		dataType: string
+		lineageTag: 602c5803-7294-4810-8e0e-6767d2c372e9
+		summarizeBy: none
+		sourceColumn: whatsapp
+
+	column email
+		dataType: string
+		lineageTag: 06bd0453-4f76-4336-b995-1f277b05d5fe
+		summarizeBy: none
+		sourceColumn: email
+
+	column whatsapp_link
+		dataType: string
+		lineageTag: ba2b7ee6-ce30-4e29-83f0-eed2b2397d35
+		dataCategory: WebUrl
+		summarizeBy: none
+		sourceColumn: whatsapp_link
+
+	column updated_at
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 9ee8e97a-02de-4310-a8cb-f7e5aff2767c
+		summarizeBy: none
+		sourceColumn: updated_at
+
+	partition c360_contatos = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Database("10.14.152.11", "DB_MKT", [Query = "SELECT k.id, k.cliente_id, k.nome, NULLIF(LTRIM(RTRIM(k.cargo)), '') cargo, NULLIF(LTRIM(RTRIM(k.telefone)), '') telefone, CASE WHEN k.whatsapp = '1' THEN 'Sim' ELSE N'Não' END whatsapp, NULLIF(LTRIM(RTRIM(k.email)), '') email, CASE WHEN k.whatsapp = '1' AND LEN(REPLACE(REPLACE(REPLACE(REPLACE(k.telefone, '(', ''), ')', ''), '-', ''), ' ', '')) >= 10 THEN 'https://wa.me/55' + REPLACE(REPLACE(REPLACE(REPLACE(k.telefone, '(', ''), ')', ''), '-', ''), ' ', '') END AS whatsapp_link, k.updated_at FROM DB_MKT_CRM_JD_CE.dbo.cliente_contatos k JOIN DB_MKT.dbo.segclientes_vw_clientes_atual c ON c.cliente_id = k.cliente_id"])
+				in
+				  Fonte
+

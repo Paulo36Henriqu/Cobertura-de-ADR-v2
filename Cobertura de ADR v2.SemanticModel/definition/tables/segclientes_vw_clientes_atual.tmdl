@@ -1,0 +1,346 @@
+table segclientes_vw_clientes_atual
+	lineageTag: 228219cc-ab71-4a66-987f-09491d02e021
+
+	column data_referencia
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: d4d4933f-a021-4815-a849-fd32e4cb9111
+		summarizeBy: none
+		sourceColumn: data_referencia
+
+		variation Variation
+			isDefault
+			relationship: 580a2cb6-1290-47bb-bca6-c46f817b40fe
+			defaultHierarchy: LocalDateTable_67db463e-6580-4238-a758-5a9b2e2390b8.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column execucao_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 0adff789-a68e-4f85-8bc2-4a54bd0a4705
+		summarizeBy: sum
+		sourceColumn: execucao_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column cliente_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 8b8099a3-0bc3-415e-b44b-d16da20ea5e4
+		summarizeBy: sum
+		sourceColumn: cliente_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column documento
+		dataType: string
+		lineageTag: f673bd4c-cb10-45c3-ab6a-ead4131aaabe
+		summarizeBy: none
+		sourceColumn: documento
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome
+		dataType: string
+		lineageTag: 3a8467aa-3786-4f05-b5ea-0eade7974ed6
+		summarizeBy: none
+		sourceColumn: nome
+
+		annotation SummarizationSetBy = Automatic
+
+	column cidade
+		dataType: string
+		lineageTag: 186d271a-32e3-4863-9097-b2a5d56c3c34
+		summarizeBy: none
+		sourceColumn: cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column uf
+		dataType: string
+		lineageTag: 583d4a88-7495-4487-988c-325ef21984af
+		summarizeBy: none
+		sourceColumn: uf
+
+		annotation SummarizationSetBy = Automatic
+
+	column linha_negocio
+		dataType: string
+		lineageTag: ef8d0451-e8e1-48df-a900-0a8a507bb926
+		summarizeBy: none
+		sourceColumn: linha_negocio
+
+		annotation SummarizationSetBy = Automatic
+
+	column vendedor_ag
+		dataType: string
+		lineageTag: 5fc932d1-51c4-457e-8cf8-bbb1f4760cfe
+		summarizeBy: none
+		sourceColumn: vendedor_ag
+
+		annotation SummarizationSetBy = Automatic
+
+	column vendedor_ce
+		dataType: string
+		lineageTag: 1196a985-0848-4627-b509-374884e14033
+		summarizeBy: none
+		sourceColumn: vendedor_ce
+
+		annotation SummarizationSetBy = Automatic
+
+	column grupo_economico_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a13aa8af-80c1-4fb4-99ab-821d83964243
+		summarizeBy: sum
+		sourceColumn: grupo_economico_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column grupo_economico
+		dataType: string
+		lineageTag: e976b7f3-78c6-40cc-8d58-c57e727e1517
+		summarizeBy: none
+		sourceColumn: grupo_economico
+
+		annotation SummarizationSetBy = Automatic
+
+	column unidade
+		dataType: string
+		lineageTag: e307bb09-e394-4fcc-92e4-2d550987dfc5
+		summarizeBy: none
+		sourceColumn: unidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_crm
+		dataType: string
+		lineageTag: 1cbd506f-5a73-45dc-8f20-6f9f900f2a26
+		summarizeBy: none
+		sourceColumn: tipo_crm
+
+		annotation SummarizationSetBy = Automatic
+
+	column atividade_crm
+		dataType: string
+		lineageTag: 7cb92977-45f9-462d-8543-02c4fab217c8
+		summarizeBy: none
+		sourceColumn: atividade_crm
+
+		annotation SummarizationSetBy = Automatic
+
+	column segmento
+		dataType: string
+		lineageTag: 95ee1dd3-f373-4fdd-b8ab-263c3cfea9c0
+		summarizeBy: none
+		sourceColumn: segmento
+
+		annotation SummarizationSetBy = Automatic
+
+	column classif_potencial
+		dataType: string
+		lineageTag: ea4e11ee-f85e-4342-a8f4-abb01eb4ed6c
+		summarizeBy: none
+		sourceColumn: classif_potencial
+
+		annotation SummarizationSetBy = Automatic
+
+	column classif_faturamento
+		dataType: string
+		lineageTag: 09f46945-7868-4152-b176-ac5883105f14
+		summarizeBy: none
+		sourceColumn: classif_faturamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column senioridade_cen
+		dataType: string
+		lineageTag: c33847d4-7424-4d82-b587-1027b89967b8
+		summarizeBy: none
+		sourceColumn: senioridade_cen
+
+		annotation SummarizationSetBy = Automatic
+
+	column frequencia_contato
+		dataType: string
+		lineageTag: ff5db5d5-066a-40f8-81de-3ea79dc405c6
+		summarizeBy: none
+		sourceColumn: frequencia_contato
+
+		annotation SummarizationSetBy = Automatic
+
+	column rob_base
+		dataType: double
+		lineageTag: c813f6d6-0f07-4fcc-9efe-9ba3cb5353c1
+		summarizeBy: sum
+		sourceColumn: rob_base
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column potencial_base
+		dataType: double
+		lineageTag: 24910079-a7d1-41c6-89b1-a0392ca7d1ae
+		summarizeBy: sum
+		sourceColumn: potencial_base
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column faturamento_base
+		dataType: double
+		lineageTag: 1ea7d43d-aa19-4f5c-86cf-e33b82ccefb3
+		summarizeBy: sum
+		sourceColumn: faturamento_base
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column participacao
+		dataType: double
+		lineageTag: 4c3cad77-2ab7-465c-9587-502d964deec6
+		summarizeBy: sum
+		sourceColumn: participacao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column propriedades
+		dataType: int64
+		formatString: 0
+		lineageTag: 9c174655-758f-47d4-bd22-f34f46a49c7a
+		summarizeBy: sum
+		sourceColumn: propriedades
+
+		annotation SummarizationSetBy = Automatic
+
+	column area_ha
+		dataType: double
+		lineageTag: 9120141e-c811-4638-9771-ec5ebf21338f
+		summarizeBy: sum
+		sourceColumn: area_ha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rob
+		dataType: double
+		lineageTag: e885a1c9-490a-487a-98d9-bd85412c302c
+		summarizeBy: sum
+		sourceColumn: rob
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column potencial
+		dataType: double
+		lineageTag: 92c33160-ae2a-4fa7-adbc-57fd71bfb1f4
+		summarizeBy: sum
+		sourceColumn: potencial
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fat_maquinas
+		dataType: double
+		lineageTag: b60fcd4d-53be-475f-907d-1f5aa097893e
+		summarizeBy: sum
+		sourceColumn: fat_maquinas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fat_pecas
+		dataType: double
+		lineageTag: 6653e9a3-7c30-4987-9fe9-8b9c6dffd7a0
+		summarizeBy: sum
+		sourceColumn: fat_pecas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fat_servicos
+		dataType: double
+		lineageTag: 9520493c-3d30-4efc-a6f5-d6b74fbb4e08
+		summarizeBy: sum
+		sourceColumn: fat_servicos
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column faturamento
+		dataType: double
+		lineageTag: 2e659c30-659a-4a37-a302-25cfd6ba896c
+		summarizeBy: sum
+		sourceColumn: faturamento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ultima_compra
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 23acf594-df35-413e-b911-6192677763ec
+		summarizeBy: none
+		sourceColumn: ultima_compra
+
+		variation Variation
+			isDefault
+			relationship: ac8e3d77-409e-4249-8d68-84f6d2879230
+			defaultHierarchy: LocalDateTable_042f9e4b-de03-4758-9212-cef753069b42.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// CPF inteiro ou raiz do CNPJ (8 dígitos). O faturamento vem por chave_doc e se repete nas filiais: some uma vez por chave (mesma regra de segmentacao.chave_documento).
+	column chave_doc =
+			VAR _d = segclientes_vw_clientes_atual[documento]
+			RETURN IF ( LEN ( _d ) = 14, LEFT ( _d, 8 ), _d )
+		dataType: string
+		isHidden
+		lineageTag: 2eff8623-8981-4523-9999-11a80c57fc3a
+
+	/// Nome da unidade de segmentação (grupo econômico cadastrado ou raiz de CNPJ/CPF). Nomes repetidos recebem o código da unidade.
+	column grupo_nome =
+			VAR _u = segclientes_vw_clientes_atual[unidade]
+			VAR _nome = LOOKUPVALUE ( segclientes_vw_unidades_atual[nome], segclientes_vw_unidades_atual[unidade], _u )
+			VAR _nome2 = COALESCE ( _nome, segclientes_vw_clientes_atual[grupo_economico], segclientes_vw_clientes_atual[nome] )
+			VAR _rep = COUNTROWS ( FILTER ( segclientes_vw_unidades_atual, segclientes_vw_unidades_atual[nome] = _nome2 ) ) > 1
+			RETURN IF ( _rep, _nome2 & " (" & _u & ")", _nome2 )
+		dataType: string
+		displayFolder: Grupo econômico
+		lineageTag: a42f8a6e-a8dc-4768-b147-89aa101f96fd
+
+	/// Grupo econômico cadastrado no CRM (unidade G…) ou consolidação por raiz de CNPJ/CPF (unidade D…).
+	column grupo_tipo = IF ( LEFT ( segclientes_vw_clientes_atual[unidade], 1 ) = "G", "Grupo econômico", "CNPJ raiz / CPF" )
+		dataType: string
+		displayFolder: Grupo econômico
+		lineageTag: 582a9ac7-6e49-4c2f-95b1-858e1c6703ed
+
+	partition segclientes_vw_clientes_atual = m
+		mode: import
+		source =
+				let
+				  Origem = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Origem{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "segclientes_vw_clientes_atual"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

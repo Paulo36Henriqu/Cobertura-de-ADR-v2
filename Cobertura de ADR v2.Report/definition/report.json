@@ -1,0 +1,144 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "Fluent2-CY26SU09",
+      "reportVersionAtImport": {
+        "visual": "2.13.0",
+        "report": "3.4.0",
+        "page": "2.3.1"
+      },
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "John_deere5022129649705078.json",
+      "reportVersionAtImport": {
+        "visual": "2.13.0",
+        "report": "3.4.0",
+        "page": "2.3.1"
+      },
+      "type": "RegisteredResources"
+    }
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          },
+          "visible": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "publicCustomVisuals": [
+    "htmlContent443BE3AD55E043BF878BED274D3A6865",
+    "textFilter25A4896A83E0487089E2B90C9AE57C8A"
+  ],
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "Fluent2-CY26SU09",
+          "path": "BaseThemes/Fluent2-CY26SU09.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "Area_Atuacao_ADR_mapa24253909669319873.geojson",
+          "path": "Area_Atuacao_ADR_mapa24253909669319873.geojson",
+          "type": "ShapeMap"
+        },
+        {
+          "name": "beta-teste-amarelo7777797458645698.png",
+          "path": "beta-teste-amarelo7777797458645698.png",
+          "type": "Image"
+        },
+        {
+          "name": "Como_Calculamos_-_Potencial_RO3380234380345154.png",
+          "path": "Como_Calculamos_-_Potencial_RO3380234380345154.png",
+          "type": "Image"
+        },
+        {
+          "name": "INFO_Cobertura_p1_(1)9117590201895306.png",
+          "path": "INFO_Cobertura_p1_(1)9117590201895306.png",
+          "type": "Image"
+        },
+        {
+          "name": "INFO_Cobertura_p1_(1)9150043338435087.png",
+          "path": "INFO_Cobertura_p1_(1)9150043338435087.png",
+          "type": "Image"
+        },
+        {
+          "name": "INFO_Cobertura_p2_(1)32809979851369786.png",
+          "path": "INFO_Cobertura_p2_(1)32809979851369786.png",
+          "type": "Image"
+        },
+        {
+          "name": "INFO_Cobertura_p2_(1)8663338553902065.png",
+          "path": "INFO_Cobertura_p2_(1)8663338553902065.png",
+          "type": "Image"
+        },
+        {
+          "name": "INFO_Cobertura_p316958911340217886.png",
+          "path": "INFO_Cobertura_p316958911340217886.png",
+          "type": "Image"
+        },
+        {
+          "name": "INFO_Cobertura_p39013308236112046.png",
+          "path": "INFO_Cobertura_p39013308236112046.png",
+          "type": "Image"
+        },
+        {
+          "name": "John_deere5022129649705078.json",
+          "path": "John_deere5022129649705078.json",
+          "type": "CustomTheme"
+        },
+        {
+          "name": "novo_(1)24608671612816546.png",
+          "path": "novo_(1)24608671612816546.png",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "useDefaultAggregateDisplayName": true
+  }
+}

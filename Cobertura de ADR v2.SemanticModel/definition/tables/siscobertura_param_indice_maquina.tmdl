@@ -1,0 +1,57 @@
+table siscobertura_param_indice_maquina
+	lineageTag: c38d052d-b3d5-4ae6-b322-1764acf4ae44
+
+	column tipo_modelo
+		dataType: string
+		lineageTag: 7d27a12c-2fc3-4087-83e6-9536cce92830
+		summarizeBy: none
+		sourceColumn: tipo_modelo
+
+		annotation SummarizationSetBy = Automatic
+
+	column ha_por_maquina
+		dataType: int64
+		formatString: 0
+		lineageTag: cc1f1559-d336-4ec5-8e58-187344a10d90
+		summarizeBy: sum
+		sourceColumn: ha_por_maquina
+
+		annotation SummarizationSetBy = Automatic
+
+	column anos_vida_util
+		dataType: int64
+		formatString: 0
+		lineageTag: 735c7936-c86a-4db1-accc-40136de298ad
+		summarizeBy: sum
+		sourceColumn: anos_vida_util
+
+		annotation SummarizationSetBy = Automatic
+
+	column cultura
+		dataType: string
+		lineageTag: 185d515b-a241-4f31-9fb9-4b0b0e3e8c5f
+		summarizeBy: none
+		sourceColumn: cultura
+
+		annotation SummarizationSetBy = Automatic
+
+	column obs
+		dataType: string
+		lineageTag: 161fb62a-7e9f-417f-a5fe-6376e8322c6b
+		summarizeBy: none
+		sourceColumn: obs
+
+		annotation SummarizationSetBy = Automatic
+
+	partition siscobertura_param_indice_maquina = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Fonte{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "siscobertura_param_indice_maquina"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

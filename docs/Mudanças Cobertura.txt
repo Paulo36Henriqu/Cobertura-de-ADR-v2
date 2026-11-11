@@ -1,0 +1,34 @@
+Deixar mais Claro qual máquina que se encaixa em cada categoria(TR G etc...).
+
+Trocar de Cobertura para M.S 
+
+Buscar dados mais atualizados olhando para o FY27
+
+arredondar valores e inverter as ordens
+
+quadro com os dados de CEN a CEN. informações de metar por cenario. e por filial também.
+
+
+PV e PL como não tem meta olhar para a demanda.
+
+Alocar o total de máquinas em sistema de cobertura.
+
+olhar para cultura, exemplo cooperb que está constando colhedora
+
+soma de todo o parque de máquinas ao lado do GAP
+
+calculo de Industria realizado trazer
+
+remover Realizada em Industria & Meta
+
+Remover o filtro de CEN
+
+Entender como foi feito os cálculos de cenários
+
+revisar quais modelos e máquinas vão ficar em cada categoria de produto.
+
+Revisar o quadro de metas vs realizado por CEN
+
+Demanda da cobertura e a taxa de renovação do PV para 10% de venda no ano. e PL(add anotação do calculo de PV sitar marcas da concorrência, "em conversa com tal marca e tal marca chegamos em tal resultado....")
+
+Usar a planilha de indústria para validar calcular e usar os gráficos. 

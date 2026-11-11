@@ -1,0 +1,111 @@
+/// Cliente 360: resumo do ERP (Protheus) por cliente — financeiro em aberto (SE1), balcão de peças (VS1) e oficina (VO1). Fonte: DB_MKT.c360_erp_resumo (dados/cliente360_erp.py).
+table c360_erp
+	lineageTag: 3c5ed457-ced1-4389-9c9c-360294e437b5
+
+	column cliente_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 91cc44cc-e4bb-47e6-861e-95a48eb8f20f
+		summarizeBy: none
+		sourceColumn: cliente_id
+
+	column qtd_titulos_abertos
+		dataType: int64
+		formatString: #,0
+		lineageTag: 342003d6-25f1-44aa-9ef0-52a2fdf96a19
+		summarizeBy: sum
+		sourceColumn: qtd_titulos_abertos
+
+	column saldo_aberto
+		dataType: double
+		formatString: "R$" #,0
+		lineageTag: 50b4b7cd-f527-46a1-9d53-7e521b3229d6
+		summarizeBy: sum
+		sourceColumn: saldo_aberto
+
+	column saldo_vencido
+		dataType: double
+		formatString: "R$" #,0
+		lineageTag: bf5902fb-0f28-49d9-964d-3edbde0e32b0
+		summarizeBy: sum
+		sourceColumn: saldo_vencido
+
+	column qtd_titulos_vencidos
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0dd7ac4f-c18c-4a41-9ac8-004c23cd693b
+		summarizeBy: sum
+		sourceColumn: qtd_titulos_vencidos
+
+	column maior_atraso_dias
+		dataType: int64
+		formatString: #,0
+		lineageTag: a63ffab8-c599-411b-afd8-2e2a4f97508f
+		summarizeBy: max
+		sourceColumn: maior_atraso_dias
+
+	column proximo_vencimento
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: df05ce54-ffe4-4c29-97c8-df39c0c6260f
+		summarizeBy: none
+		sourceColumn: proximo_vencimento
+
+	column ultima_compra_balcao
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 4225f8fc-be3b-43cf-8bfb-5f7dd1429b6d
+		summarizeBy: none
+		sourceColumn: ultima_compra_balcao
+
+	column balcao_valor_12m
+		dataType: double
+		formatString: "R$" #,0
+		lineageTag: da2544a6-3eb8-4ef7-9156-a299333340ba
+		summarizeBy: sum
+		sourceColumn: balcao_valor_12m
+
+	column balcao_nfs_12m
+		dataType: int64
+		formatString: #,0
+		lineageTag: 06462357-405a-410e-956e-fbffaf83263e
+		summarizeBy: sum
+		sourceColumn: balcao_nfs_12m
+
+	column os_12m
+		dataType: int64
+		formatString: #,0
+		lineageTag: dfeed2c8-b6a2-4624-956b-0af711a7a570
+		summarizeBy: sum
+		sourceColumn: os_12m
+
+	column os_abertas
+		dataType: int64
+		formatString: #,0
+		lineageTag: 94cab9b8-50e7-4b2b-853b-0bfa52016fd9
+		summarizeBy: sum
+		sourceColumn: os_abertas
+
+	column ultima_os
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 026678d9-8821-45e6-8037-6a1fb115a7e2
+		summarizeBy: none
+		sourceColumn: ultima_os
+
+	column data_atualizacao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 42558fc6-9c03-477c-accd-8be4db0e4748
+		summarizeBy: none
+		sourceColumn: data_atualizacao
+
+	partition c360_erp = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Database("10.14.152.11", "DB_MKT", [Query = "WITH cli AS (SELECT cliente_id, documento FROM DB_MKT.dbo.segclientes_vw_clientes_atual) SELECT cli.cliente_id, r.qtd_titulos_abertos, r.saldo_aberto, r.saldo_vencido, r.qtd_titulos_vencidos, r.maior_atraso_dias, r.proximo_vencimento, r.ultima_compra_balcao, r.balcao_valor_12m, r.balcao_nfs_12m, r.os_12m, r.os_abertas, r.ultima_os, r.data_atualizacao FROM DB_MKT.dbo.c360_erp_resumo r JOIN cli ON cli.documento = r.documento"])
+				in
+				  Fonte
+

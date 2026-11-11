@@ -1,0 +1,71 @@
+/// Cliente 360: agenda/visitas do CRM ligadas ao cliente (pela oportunidade ou pelo documento).
+table c360_agenda
+	lineageTag: b5aaf5b8-7ef8-4e70-af4e-92792fb4085a
+
+	column id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9136a452-d737-4ee7-af38-331ab6c8dd53
+		summarizeBy: none
+		sourceColumn: id
+
+	column cliente_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 09582657-e68d-4983-a679-b8d0ae430c56
+		summarizeBy: none
+		sourceColumn: cliente_id
+
+	column titulo
+		dataType: string
+		lineageTag: 12cda5bd-359f-46ba-8d5a-9cb1c266174a
+		summarizeBy: none
+		sourceColumn: titulo
+
+	column data_hora
+		dataType: dateTime
+		formatString: dd/mm/yyyy hh:nn
+		lineageTag: 8142fa5c-f6c5-4eaa-915b-2d39d7c89eb8
+		summarizeBy: none
+		sourceColumn: data_hora
+
+	column tipo
+		dataType: string
+		lineageTag: 1a919654-ce56-4273-becc-7014f7e019e5
+		summarizeBy: none
+		sourceColumn: tipo
+
+	column modalidade
+		dataType: string
+		lineageTag: 5c3b594f-110b-481d-9c74-b3869a67ac26
+		summarizeBy: none
+		sourceColumn: modalidade
+
+	column responsavel
+		dataType: string
+		lineageTag: 48a5d48d-385d-49ba-975c-004168f3715f
+		summarizeBy: none
+		sourceColumn: responsavel
+
+	column status
+		dataType: string
+		lineageTag: 8aaafa83-b8c8-47bc-b09f-5e877f038e07
+		summarizeBy: none
+		sourceColumn: status
+
+	column observacao
+		dataType: string
+		lineageTag: 114ee4b7-ea1c-4a17-a5dc-f43b06c66367
+		summarizeBy: none
+		sourceColumn: observacao
+
+	partition c360_agenda = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Database("10.14.152.11", "DB_MKT", [Query = "WITH cli AS (SELECT cliente_id, documento FROM DB_MKT.dbo.segclientes_vw_clientes_atual) SELECT a.id, COALESCE(o.cliente_id, cli.cliente_id) cliente_id, a.titulo, a.data_hora, ISNULL(t.valor, '-') tipo, a.modalidade, ISNULL(u.nome, '-') AS responsavel, CASE WHEN a.cancelado = 1 THEN 'Cancelada' WHEN a.concluido = 1 THEN N'Concluída' WHEN a.data_hora < GETDATE() THEN 'Pendente' ELSE 'Agendada' END AS status, NULLIF(LTRIM(RTRIM(CAST(a.observacao_conclusao AS nvarchar(400)))), '') observacao FROM DB_MKT_CRM_JD_CE.dbo.agenda a LEFT JOIN DB_MKT_CRM_JD_CE.dbo.oportunidades o ON o.id = a.oportunidade_id LEFT JOIN cli ON cli.documento = REPLACE(REPLACE(REPLACE(a.cliente_documento, '.', ''), '-', ''), '/', '') LEFT JOIN DB_MKT_CRM_JD_CE.dbo.configuracao_valores t ON t.id = a.tipo_id LEFT JOIN DB_MKT_CRM_JD_CE.dbo.usuarios u ON u.id = a.usuario_id WHERE a.deletado = 0 AND COALESCE(o.cliente_id, cli.cliente_id) IN (SELECT cliente_id FROM cli)"])
+				in
+				  Fonte
+

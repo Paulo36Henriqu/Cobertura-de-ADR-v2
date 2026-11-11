@@ -1,0 +1,89 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["segclientes_clientes","segclientes_execucao","segclientes_propriedades","segclientes_referencia_ibge","segclientes_vw_clientes_atual","segclientes_vw_propriedades_atual","segclientes_vw_unidades","segclientes_vw_unidades_atual","logo_nissey","siscobertura_chassis","siscobertura_cidade","siscobertura_cidade_produto","siscobertura_cliente_produto","siscobertura_execucao","siscobertura_param_ca_microrregiao","siscobertura_param_chassi_cidade","siscobertura_param_geral","siscobertura_param_indice_maquina","siscobertura_param_industria","siscobertura_param_metas_cen","siscobertura_param_modelo","siscobertura_projecao_industria","siscobertura_resumo","siscobertura_crm_cen","siscobertura_cen","ci_oportunidades","c360_erp","c360_contatos","c360_oportunidades","c360_agenda","c360_os","c360_maquinas","c360_tickets","c360_alertas","c360_cx","vp_industria"]
+
+annotation PBI_ProTooling = ["MCP-PBIModeling","DevMode"]
+
+ref table segclientes_clientes
+ref table DateTableTemplate_d6526567-b0f6-4072-86aa-cfd105b8c2e5
+ref table LocalDateTable_ce9f514d-8e2c-4d45-916e-4b025d50fd89
+ref table segclientes_execucao
+ref table LocalDateTable_6c81fe3f-1762-4d55-a056-1f01ad761e8c
+ref table LocalDateTable_555c44c4-5a74-41bb-a551-62ba46710430
+ref table LocalDateTable_d689bfb2-b3e4-4472-aaf0-13d7d74fce15
+ref table segclientes_propriedades
+ref table segclientes_referencia_ibge
+ref table segclientes_vw_clientes_atual
+ref table LocalDateTable_67db463e-6580-4238-a758-5a9b2e2390b8
+ref table LocalDateTable_042f9e4b-de03-4758-9212-cef753069b42
+ref table segclientes_vw_propriedades_atual
+ref table LocalDateTable_103179d0-002e-4d99-a451-ffa2b1864609
+ref table segclientes_vw_unidades
+ref table LocalDateTable_8f186df4-f4ff-4ec7-86a0-9e7629976ca7
+ref table segclientes_vw_unidades_atual
+ref table LocalDateTable_7507c327-56bc-4198-917d-c6a2e35d3237
+ref table logo_nissey
+ref table _Medidas
+ref table dSegmento
+ref table siscobertura_chassis
+ref table LocalDateTable_2bf18502-43dd-4bb1-b54d-93bd675ec7b7
+ref table siscobertura_cidade
+ref table LocalDateTable_87ec0838-049b-4dbb-a2d0-a06b5d140945
+ref table siscobertura_cidade_produto
+ref table LocalDateTable_4455a234-7502-4aaf-9b6c-d73aa27c04ba
+ref table siscobertura_cliente_produto
+ref table LocalDateTable_a6dc06f5-1d20-458d-b099-6372d9791612
+ref table siscobertura_execucao
+ref table LocalDateTable_88515a0a-fea4-463a-b01e-3b2deb4316a8
+ref table LocalDateTable_82ef6674-c619-4939-bbb6-9ce8fe3215b6
+ref table siscobertura_param_ca_microrregiao
+ref table siscobertura_param_chassi_cidade
+ref table siscobertura_param_geral
+ref table siscobertura_param_indice_maquina
+ref table siscobertura_param_industria
+ref table siscobertura_param_metas_cen
+ref table siscobertura_param_modelo
+ref table siscobertura_projecao_industria
+ref table LocalDateTable_048d38ec-6b0d-4196-ab81-ce3b56870088
+ref table siscobertura_resumo
+ref table LocalDateTable_056aec87-7fe8-4829-a486-5f59a25cddc3
+ref table dProduto
+ref table siscobertura_projecao_produto
+ref table siscobertura_crm_cen
+ref table siscobertura_cen
+ref table ci_oportunidades
+ref table ci_motivo_perda
+ref table ci_motivo_cancelamento
+ref table dPremissaMaquina
+ref table pctROBMaquinas
+ref table dCenarioMS
+ref table c360_erp
+ref table c360_contatos
+ref table c360_oportunidades
+ref table c360_agenda
+ref table c360_os
+ref table c360_maquinas
+ref table c360_tickets
+ref table c360_alertas
+ref table c360_cx
+ref table dFaixaArea
+ref table fOportunidadeMunicipio
+ref table pctAlvoParticipacao
+ref table vp_industria
+ref table dVPGrupo
+ref table dVPSub
+ref table LocalDateTable_cfbab839-1f60-45d0-84fd-177674cdac5d
+ref table LocalDateTable_f549211b-e147-4f89-b724-b5f68e121824
+ref table dSazonalidade
+
+ref cultureInfo pt-BR
+

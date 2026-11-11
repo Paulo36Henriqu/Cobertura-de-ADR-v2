@@ -1,0 +1,21 @@
+/// Lista oficial de motivos de perda do CRM (Inteligência Competitiva).
+table ci_motivo_perda
+	lineageTag: 6e553590-0429-4bc2-9da3-67858fdb92ce
+
+	column motivo
+		lineageTag: c93f3a9d-99ba-4775-ad18-9a8a9d3f189b
+		isNameInferred
+		sourceColumn: [motivo]
+		sortByColumn: ordem
+
+	column ordem
+		isHidden
+		lineageTag: ea5eb045-752d-44c1-92b1-996f7520724c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [ordem]
+
+	partition ci_motivo_perda = calculated
+		mode: import
+		source = DATATABLE ( "motivo", STRING, "ordem", INTEGER, { { "Preço", 1 }, { "Financiamento", 2 }, { "Preferência de marca", 3 }, { "Produto", 4 }, { "Disponibilidade", 5 }, { "Suporte do distribuidor", 6 }, { "Troca de modelo", 7 }, { "Crédito recusado", 8 }, { "Usado no negócio", 9 }, { "Outros", 10 }, { "(Sem motivo)", 11 } } )
+

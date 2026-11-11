@@ -1,0 +1,305 @@
+table segclientes_clientes
+	lineageTag: 22d74431-5259-400a-bc75-326d0ca114e5
+
+	column execucao_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 98b48936-b829-4db9-bd3d-f4f6317013f6
+		summarizeBy: none
+		sourceColumn: execucao_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column cliente_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 16785691-5a67-4176-9699-6d09ae6c9cfb
+		summarizeBy: sum
+		sourceColumn: cliente_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column documento
+		dataType: string
+		lineageTag: 260ab2a1-9836-4290-94b7-6b87194748ce
+		summarizeBy: none
+		sourceColumn: documento
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome
+		dataType: string
+		lineageTag: 5de562d9-07e6-4690-8be7-3a56517e57a0
+		summarizeBy: none
+		sourceColumn: nome
+
+		annotation SummarizationSetBy = Automatic
+
+	column cidade
+		dataType: string
+		lineageTag: cf54b1c1-4bf2-441b-9328-541810506549
+		summarizeBy: none
+		sourceColumn: cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column uf
+		dataType: string
+		lineageTag: c8219ef1-3c8b-492c-acdc-825aaa3717d5
+		summarizeBy: none
+		sourceColumn: uf
+
+		annotation SummarizationSetBy = Automatic
+
+	column linha_negocio
+		dataType: string
+		lineageTag: 2979aa39-9b48-42b3-8f6d-9f499b361196
+		summarizeBy: none
+		sourceColumn: linha_negocio
+
+		annotation SummarizationSetBy = Automatic
+
+	column vendedor_ag
+		dataType: string
+		lineageTag: 970ad1cb-9b00-4826-a5d3-06bfde8022d1
+		summarizeBy: none
+		sourceColumn: vendedor_ag
+
+		annotation SummarizationSetBy = Automatic
+
+	column vendedor_ce
+		dataType: string
+		lineageTag: 23cf695c-f535-4df9-9099-269f4699ad6c
+		summarizeBy: none
+		sourceColumn: vendedor_ce
+
+		annotation SummarizationSetBy = Automatic
+
+	column grupo_economico_id
+		dataType: int64
+		formatString: 0
+		lineageTag: bcf10d62-e179-4342-84ca-680ee309635f
+		summarizeBy: sum
+		sourceColumn: grupo_economico_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column grupo_economico
+		dataType: string
+		lineageTag: 22d3bcc7-05a1-43f5-9123-d9e1e1cbad29
+		summarizeBy: none
+		sourceColumn: grupo_economico
+
+		annotation SummarizationSetBy = Automatic
+
+	column unidade
+		dataType: string
+		lineageTag: 8a0ca805-25ea-4142-a973-07c8e7e453c8
+		summarizeBy: none
+		sourceColumn: unidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_crm
+		dataType: string
+		lineageTag: f8bdc916-0ac8-4ad9-9a5f-4c1a06d7911b
+		summarizeBy: none
+		sourceColumn: tipo_crm
+
+		annotation SummarizationSetBy = Automatic
+
+	column atividade_crm
+		dataType: string
+		lineageTag: ed6d8442-a4d7-425a-a0a3-d27896f5ff07
+		summarizeBy: none
+		sourceColumn: atividade_crm
+
+		annotation SummarizationSetBy = Automatic
+
+	column segmento
+		dataType: string
+		lineageTag: a4588bc4-3caa-40f6-8b6a-e2601773b6be
+		summarizeBy: none
+		sourceColumn: segmento
+
+		annotation SummarizationSetBy = Automatic
+
+	column classif_potencial
+		dataType: string
+		lineageTag: bc5af43b-f106-4c88-b834-034dc250512b
+		summarizeBy: none
+		sourceColumn: classif_potencial
+
+		annotation SummarizationSetBy = Automatic
+
+	column classif_faturamento
+		dataType: string
+		lineageTag: bab45a2c-6a9a-4503-99a4-cfac3d526fa4
+		summarizeBy: none
+		sourceColumn: classif_faturamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column senioridade_cen
+		dataType: string
+		lineageTag: 64a75090-e917-4a17-91c5-3c7b3e5c5d44
+		summarizeBy: none
+		sourceColumn: senioridade_cen
+
+		annotation SummarizationSetBy = Automatic
+
+	column frequencia_contato
+		dataType: string
+		lineageTag: 06374eca-db07-44af-b73e-ca1026578b15
+		summarizeBy: none
+		sourceColumn: frequencia_contato
+
+		annotation SummarizationSetBy = Automatic
+
+	column rob_base
+		dataType: double
+		lineageTag: 7929ff02-f295-4da5-8c7c-190bdb6365d1
+		summarizeBy: sum
+		sourceColumn: rob_base
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column potencial_base
+		dataType: double
+		lineageTag: 2db2cc03-af08-428f-b40c-73d24b6c513f
+		summarizeBy: sum
+		sourceColumn: potencial_base
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column faturamento_base
+		dataType: double
+		lineageTag: b73af89d-02a4-4b09-90a5-c13105f549d1
+		summarizeBy: sum
+		sourceColumn: faturamento_base
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column participacao
+		dataType: double
+		lineageTag: 1e945553-c7b0-455a-b99d-4df575ad6264
+		summarizeBy: sum
+		sourceColumn: participacao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column propriedades
+		dataType: int64
+		formatString: 0
+		lineageTag: c13fba98-b778-41f7-bf15-497a782b61e1
+		summarizeBy: sum
+		sourceColumn: propriedades
+
+		annotation SummarizationSetBy = Automatic
+
+	column area_ha
+		dataType: double
+		lineageTag: bd734824-29b1-45bd-8dde-015b0963f8c3
+		summarizeBy: sum
+		sourceColumn: area_ha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rob
+		dataType: double
+		lineageTag: f992553d-a9c2-4be3-98ca-772482a4789e
+		summarizeBy: sum
+		sourceColumn: rob
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column potencial
+		dataType: double
+		lineageTag: 9cc4a379-2da0-480c-8bcc-ad876dcad033
+		summarizeBy: sum
+		sourceColumn: potencial
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fat_maquinas
+		dataType: double
+		lineageTag: 817ae145-17e0-46a6-8a8f-2bde9f60a24c
+		summarizeBy: sum
+		sourceColumn: fat_maquinas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fat_pecas
+		dataType: double
+		lineageTag: e96a746f-8a9e-4fcb-b069-fd26aa66a729
+		summarizeBy: sum
+		sourceColumn: fat_pecas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fat_servicos
+		dataType: double
+		lineageTag: aff8dce1-8ea8-4cc4-9ba3-2b0ca1ca01b5
+		summarizeBy: sum
+		sourceColumn: fat_servicos
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column faturamento
+		dataType: double
+		lineageTag: 653723cd-7dfc-4ab1-9a11-d679378100f9
+		summarizeBy: sum
+		sourceColumn: faturamento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ultima_compra
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 91656d5e-1890-4168-ab2d-3885a24bd2b5
+		summarizeBy: none
+		sourceColumn: ultima_compra
+
+		variation Variation
+			isDefault
+			relationship: 5cb0f760-5d2f-464e-a1f6-f79be8ab7605
+			defaultHierarchy: LocalDateTable_ce9f514d-8e2c-4d45-916e-4b025d50fd89.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition segclientes_clientes = m
+		mode: import
+		source =
+				let
+				  Origem = Sql.Databases("10.14.152.11"),
+				  #"Navegação 1" = Origem{[Name = "DB_MKT"]}[Data],
+				  #"Navegação 2" = #"Navegação 1"{[Schema = "dbo", Item = "segclientes_clientes"]}[Data]
+				in
+				  #"Navegação 2"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,149 @@
+/// Cliente 360: oportunidades do CRM (DB_MKT_CRM_JD_CE) do cliente, com fase, temperatura, resultado (Ganha/Perdida/Cancelada/Aberta) e concorrente.
+table c360_oportunidades
+	lineageTag: 749ffd93-717e-4fdc-9980-ceab6dd0e464
+
+	column id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: cdb8d517-dee2-40ce-a89f-bbf579cdc096
+		summarizeBy: none
+		sourceColumn: id
+
+	column cliente_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9d94a766-f3b9-4781-9bd1-8e2219b0b4fa
+		summarizeBy: none
+		sourceColumn: cliente_id
+
+	column linha
+		dataType: string
+		lineageTag: 6d271517-3b34-4c48-9b1a-b114a07063ca
+		summarizeBy: none
+		sourceColumn: linha
+
+	column resultado
+		dataType: string
+		lineageTag: 02ba1c09-5098-4418-91fa-670d811ea430
+		summarizeBy: none
+		sourceColumn: resultado
+
+	column fase
+		dataType: string
+		lineageTag: 08e07887-4ba8-4de0-ac12-735ea2a6b780
+		summarizeBy: none
+		sourceColumn: fase
+
+	column temperatura
+		dataType: string
+		lineageTag: 111462da-5a7c-4378-b4dc-616ae910c2b5
+		summarizeBy: none
+		sourceColumn: temperatura
+
+	column tipo_negocio
+		dataType: string
+		lineageTag: b835c068-52e7-4e89-bb82-93f0c80741dc
+		summarizeBy: none
+		sourceColumn: tipo_negocio
+
+	column produto
+		dataType: string
+		lineageTag: 9729ca63-3550-4915-b0f9-093bf4331b2b
+		summarizeBy: none
+		sourceColumn: produto
+
+	column modelo
+		dataType: string
+		lineageTag: 5de7d0de-0a66-4dd3-98ef-2d4ae1f9818c
+		summarizeBy: none
+		sourceColumn: modelo
+
+	column quantidade
+		dataType: int64
+		formatString: #,0
+		lineageTag: 8bc8496d-a9f2-44fe-ae11-259e9eba28e7
+		summarizeBy: sum
+		sourceColumn: quantidade
+
+	column preco_total
+		dataType: double
+		formatString: "R$" #,0
+		lineageTag: 6b83c439-4ae7-4cb2-a54c-c4358fa314e0
+		summarizeBy: sum
+		sourceColumn: preco_total
+
+	column data_criacao
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 11a341be-6538-4b95-8ead-c8ab16111f58
+		summarizeBy: none
+		sourceColumn: data_criacao
+
+	column data_estimada
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: cd6ccc3e-8cbf-48f1-8ddf-801079f71897
+		summarizeBy: none
+		sourceColumn: data_estimada
+
+	column data_encerramento
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 6ac4d808-8ce0-41b2-aa48-fef7376c96c7
+		summarizeBy: none
+		sourceColumn: data_encerramento
+
+	column data_faturamento
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: cc3eaa18-ea19-4dbc-b1a9-c4d41e30b950
+		summarizeBy: none
+		sourceColumn: data_faturamento
+
+	column data_ref
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: b715617d-98cb-44a2-9a1e-93538bc5fc1d
+		summarizeBy: none
+		sourceColumn: data_ref
+
+	column vendedor
+		dataType: string
+		lineageTag: 9509aeea-7c44-4d9d-8255-531233af50df
+		summarizeBy: none
+		sourceColumn: vendedor
+
+	column concorrente
+		dataType: string
+		lineageTag: 28f3ae94-6d5a-4cc2-93ce-9365dd006a30
+		summarizeBy: none
+		sourceColumn: concorrente
+
+	column modelo_concorrente
+		dataType: string
+		lineageTag: 11ae23fb-3a7b-4ed6-a20d-25969e020bb6
+		summarizeBy: none
+		sourceColumn: modelo_concorrente
+
+	column motivo_perda
+		dataType: string
+		lineageTag: 791571ea-9ea1-4163-ad70-6b2fb55c4c99
+		summarizeBy: none
+		sourceColumn: motivo_perda
+
+	column chassi
+		dataType: string
+		lineageTag: 69a73653-53a6-4cd8-82a1-6b5e5565dd7b
+		summarizeBy: none
+		sourceColumn: chassi
+
+	partition c360_oportunidades = m
+		mode: import
+		source =
+				let
+				  Fonte = Sql.Database("10.14.152.11", "DB_MKT", [Query = "SELECT o.id, o.cliente_id, o.linha, CASE WHEN fa.valor LIKE '%FATURADA%' OR fa.valor = 'REFATURADO' THEN 'Ganha' WHEN fa.valor LIKE '%PERDIDA%' THEN 'Perdida' WHEN fa.valor LIKE '%CANCELADA%' THEN 'Cancelada' ELSE 'Aberta' END AS resultado, ISNULL(fa.valor, '-') AS fase, ISNULL(tp.valor, '-') AS temperatura, ISNULL(tn.valor, '-') AS tipo_negocio, o.produto, o.modelo, o.quantidade, o.preco_total, o.data_criacao, o.data_estimada, o.data_encerramento, o.data_faturamento, COALESCE(o.data_encerramento, o.data_faturamento, o.data_criacao) AS data_ref, ISNULL(u.nome, '(Sem vendedor)') AS vendedor, NULLIF(LTRIM(RTRIM(o.concorrente)), '') AS concorrente, NULLIF(LTRIM(RTRIM(o.modelo_concorrente)), '') AS modelo_concorrente, CASE WHEN fa.valor LIKE '%PERDIDA%' THEN mp.valor END AS motivo_perda, o.chassi FROM DB_MKT_CRM_JD_CE.dbo.oportunidades o JOIN DB_MKT.dbo.segclientes_vw_clientes_atual c ON c.cliente_id = o.cliente_id LEFT JOIN DB_MKT_CRM_JD_CE.dbo.configuracao_valores fa ON fa.id = o.fase_id LEFT JOIN DB_MKT_CRM_JD_CE.dbo.configuracao_valores tp ON tp.id = o.temperatura_id LEFT JOIN DB_MKT_CRM_JD_CE.dbo.configuracao_valores tn ON tn.id = o.tipo_negocio_id LEFT JOIN DB_MKT_CRM_JD_CE.dbo.configuracao_valores mp ON mp.id = o.motivo_perda_id LEFT JOIN DB_MKT_CRM_JD_CE.dbo.usuarios u ON u.id = o.vendedor_id WHERE o.deletado = 0"])
+				in
+				  Fonte
+

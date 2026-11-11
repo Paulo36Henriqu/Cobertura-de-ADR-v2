@@ -1,0 +1,57 @@
+/// Grupos de produto da página Vendas Perdidas, com indústria do relatório Current versus Prior.
+table dVPGrupo
+	lineageTag: 2d7df0e4-527d-4c73-b3ea-74b22dc19f47
+
+	column grupo
+		lineageTag: 9cb876a6-1dd9-4b58-a044-c1eb2afed7e3
+		isNameInferred
+		sourceColumn: [grupo]
+		sortByColumn: ordem
+
+	column descricao
+		lineageTag: 8265367a-5711-4185-a3d5-aa7360940bfa
+		isNameInferred
+		sourceColumn: [descricao]
+
+	column ordem
+		lineageTag: 32b82293-0912-4911-bb2f-58bd5165a968
+		isNameInferred
+		sourceColumn: [ordem]
+
+	column ind1
+		isHidden
+		lineageTag: 7d904f41-955e-4e6f-b274-eb862ac9f5b3
+		isNameInferred
+		sourceColumn: [ind1]
+
+	column ind2
+		isHidden
+		lineageTag: ff39c2d7-70c2-4896-9855-8478d06c08b6
+		isNameInferred
+		sourceColumn: [ind2]
+
+	column ind_atual
+		lineageTag: feaebbad-80bb-4bdc-a05f-3cde327d0637
+		isNameInferred
+		sourceColumn: [ind_atual]
+
+	partition dVPGrupo = calculated
+		mode: import
+		source =
+				VAR _t =
+				    DATATABLE (
+				        "grupo", STRING, "descricao", STRING, "ordem", INTEGER, "ind1", STRING, "ind2", STRING,
+				        {
+				            { "TR", "Tratores", 1, "TRACTORS", "" },
+				            { "CA", "Colheitadeiras", 2, "COMBINES", "" },
+				            { "CH", "Colhedoras de cana", 3, "SUGAR CANE HARVESTERS", "" },
+				            { "PL", "Plantadeiras", 4, "PLANTERS", "" },
+				            { "PV", "Pulverizadores", 5, "SPRAYERS, SELF-PROPELLED, HIGH CLEARANCE", "" }
+				        }
+				    )
+				RETURN
+				    ADDCOLUMNS (
+				        _t,
+				        "ind_atual", SUMX ( FILTER ( vp_industria, vp_industria[produto] = [ind1] || vp_industria[produto] = [ind2] ), vp_industria[ind_atual] )
+				    )
+
