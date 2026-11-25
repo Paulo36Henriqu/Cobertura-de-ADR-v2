@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "a98e663d08c382442118",
   "position": {
-    "x": 965.94427244582039,
-    "y": 702.91021671826616,
+    "x": 966.03773584905662,
+    "y": 702.572898799314,
     "z": 21000,
-    "height": 322.47678018575851,
-    "width": 928.79256965944262,
-    "tabOrder": 19001
+    "height": 322.74442538593485,
+    "width": 928.71355060034307,
+    "tabOrder": 21000
   },
   "visual": {
     "visualType": "tableEx",
@@ -112,12 +112,12 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "MS Conservador"
+                  "Property": "Indústria Conservador"
                 }
               },
-              "queryRef": "_Medidas.MS Conservador",
-              "nativeQueryRef": "M.S. Conserv.",
-              "displayName": "M.S. Conserv."
+              "queryRef": "_Medidas.Indústria Conservador",
+              "nativeQueryRef": "Ind. Conserv.",
+              "displayName": "Ind. Conserv."
             },
             {
               "field": {
@@ -142,12 +142,12 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "MS Moderado"
+                  "Property": "Indústria Moderado"
                 }
               },
-              "queryRef": "_Medidas.MS Moderado",
-              "nativeQueryRef": "M.S. Moderado",
-              "displayName": "M.S. Moderado"
+              "queryRef": "_Medidas.Indústria Moderado",
+              "nativeQueryRef": "Ind. Moderado",
+              "displayName": "Ind. Moderado"
             },
             {
               "field": {
@@ -172,12 +172,12 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "MS Agressivo"
+                  "Property": "Indústria Agressivo"
                 }
               },
-              "queryRef": "_Medidas.MS Agressivo",
-              "nativeQueryRef": "M.S. Agressivo",
-              "displayName": "M.S. Agressivo"
+              "queryRef": "_Medidas.Indústria Agressivo",
+              "nativeQueryRef": "Ind. Agressivo",
+              "displayName": "Ind. Agressivo"
             },
             {
               "field": {
@@ -250,7 +250,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#FBF1D3'"
+                      "Value": "'#E3EDF6'"
                     }
                   }
                 }
@@ -265,7 +265,7 @@
                 }
               }
             ],
-            "metadata": "_Medidas.MS Conservador"
+            "metadata": "_Medidas.Indústria Conservador"
           }
         },
         {
@@ -275,7 +275,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#E2EFD9'"
+                      "Value": "'#FBEFD9'"
                     }
                   }
                 }
@@ -290,7 +290,7 @@
                 }
               }
             ],
-            "metadata": "_Medidas.MS Moderado"
+            "metadata": "_Medidas.Indústria Moderado"
           }
         },
         {
@@ -300,7 +300,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#DCE9F7'"
+                      "Value": "'#F6DED8'"
                     }
                   }
                 }
@@ -315,7 +315,7 @@
                 }
               }
             ],
-            "metadata": "_Medidas.MS Agressivo"
+            "metadata": "_Medidas.Indústria Agressivo"
           }
         },
         {
@@ -325,7 +325,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#FBF1D3'"
+                      "Value": "'#E3EDF6'"
                     }
                   }
                 }
@@ -350,7 +350,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#E2EFD9'"
+                      "Value": "'#FBEFD9'"
                     }
                   }
                 }
@@ -375,7 +375,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#DCE9F7'"
+                      "Value": "'#F6DED8'"
                     }
                   }
                 }
@@ -529,7 +529,7 @@
             }
           },
           "selector": {
-            "metadata": "_Medidas.MS Conservador"
+            "metadata": "_Medidas.Indústria Conservador"
           }
         },
         {
@@ -550,7 +550,7 @@
             }
           },
           "selector": {
-            "metadata": "_Medidas.MS Moderado"
+            "metadata": "_Medidas.Indústria Moderado"
           }
         },
         {
@@ -571,7 +571,7 @@
             }
           },
           "selector": {
-            "metadata": "_Medidas.MS Agressivo"
+            "metadata": "_Medidas.Indústria Agressivo"
           }
         }
       ],
@@ -643,7 +643,7 @@
             }
           },
           "selector": {
-            "metadata": "_Medidas.MS Conservador"
+            "metadata": "_Medidas.Indústria Conservador"
           }
         },
         {
@@ -657,7 +657,7 @@
             }
           },
           "selector": {
-            "metadata": "_Medidas.MS Moderado"
+            "metadata": "_Medidas.Indústria Moderado"
           }
         },
         {
@@ -671,7 +671,7 @@
             }
           },
           "selector": {
-            "metadata": "_Medidas.MS Agressivo"
+            "metadata": "_Medidas.Indústria Agressivo"
           }
         },
         {

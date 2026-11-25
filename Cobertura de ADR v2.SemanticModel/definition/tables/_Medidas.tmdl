@@ -485,192 +485,6 @@ table _Medidas
 		displayFolder: Resumo por Segmento
 		lineageTag: b6af0edf-a6ba-4217-ab5d-47d7fddbc0d3
 
-	/// Participação % de cada segmento (barras 100% empilhadas: unidades, clientes, faturamento, potencial). Usar no visual HTML Content. Responde aos filtros da página.
-	measure 'Participação por Segmento HTML' =
-			VAR _TotU = [Unidades]
-			VAR _TotC = [Clientes]
-			VAR _TotF = [Faturamento Total]
-			VAR _TotP = [Potencial Total]
-			
-			VAR _Seg =
-			    FILTER (
-			        ADDCOLUMNS (
-			            dSegmento,
-			            "@cor", SWITCH ( dSegmento[segmento], "KAM/SAM", "#3a8a3a", "Cliente Estratégico", "#8a5bc4", "Varejo Foco", "#e2862a", "Varejo", "#4a6fd1", "#a3a3a3" ),
-			            "@u", DIVIDE ( [Unidades], _TotU ),
-			            "@c", DIVIDE ( [Clientes], _TotC ),
-			            "@f", DIVIDE ( [Faturamento Total], _TotF ),
-			            "@p", DIVIDE ( [Potencial Total], _TotP )
-			        ),
-			        NOT ISBLANK ( [@c] )
-			    )
-			
-			VAR _Legenda =
-			    CONCATENATEX (
-			        _Seg,
-			        "<span class='lg'><span class='sq' style='background:" & [@cor] & "'></span>" & dSegmento[segmento] & "</span>",
-			        "",
-			        dSegmento[segmento_ordem], ASC
-			    )
-			
-			-- barras: largura via flex-grow inteiro (evita decimal com vírgula no CSS)
-			VAR _BarU = CONCATENATEX ( FILTER ( _Seg, [@u] > 0 ), "<div class='sgm' style='flex-grow:" & INT ( [@u] * 10000 ) & ";background:" & [@cor] & "' title='" & dSegmento[segmento] & ": " & FORMAT ( [@u], "0.0%" ) & "'>" & IF ( [@u] >= 0.07, FORMAT ( [@u], "0.0%" ) ) & "</div>", "", dSegmento[segmento_ordem], ASC )
-			VAR _BarC = CONCATENATEX ( FILTER ( _Seg, [@c] > 0 ), "<div class='sgm' style='flex-grow:" & INT ( [@c] * 10000 ) & ";background:" & [@cor] & "' title='" & dSegmento[segmento] & ": " & FORMAT ( [@c], "0.0%" ) & "'>" & IF ( [@c] >= 0.07, FORMAT ( [@c], "0.0%" ) ) & "</div>", "", dSegmento[segmento_ordem], ASC )
-			VAR _BarF = CONCATENATEX ( FILTER ( _Seg, [@f] > 0 ), "<div class='sgm' style='flex-grow:" & INT ( [@f] * 10000 ) & ";background:" & [@cor] & "' title='" & dSegmento[segmento] & ": " & FORMAT ( [@f], "0.0%" ) & "'>" & IF ( [@f] >= 0.07, FORMAT ( [@f], "0.0%" ) ) & "</div>", "", dSegmento[segmento_ordem], ASC )
-			VAR _BarP = CONCATENATEX ( FILTER ( _Seg, [@p] > 0 ), "<div class='sgm' style='flex-grow:" & INT ( [@p] * 10000 ) & ";background:" & [@cor] & "' title='" & dSegmento[segmento] & ": " & FORMAT ( [@p], "0.0%" ) & "'>" & IF ( [@p] >= 0.07, FORMAT ( [@p], "0.0%" ) ) & "</div>", "", dSegmento[segmento_ordem], ASC )
-			
-			VAR _Css =
-			    "<style>"
-			    & ".pz{font-family:Segoe UI,Arial,sans-serif;color:#222;display:flex;flex-direction:column;gap:7px;padding:2px 4px}"
-			    & ".pz .lgs{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 18px;font-size:17px;color:#333;margin-bottom:3px}"
-			    & ".pz .lg{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}"
-			    & ".pz .sq{display:inline-block;width:14px;height:14px;border-radius:3px}"
-			    & ".pz .row{display:flex;align-items:center;gap:12px}"
-			    & ".pz .lb{width:120px;flex:none;font-size:18px;font-weight:600;color:#333;text-align:right}"
-			    & ".pz .bar{flex:1;display:flex;height:30px;border-radius:5px;overflow:hidden;background:#eee}"
-			    & ".pz .sgm{display:flex;align-items:center;justify-content:center;flex-basis:0;min-width:3px;font-size:17px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;border-right:2px solid #fff}"
-			    & ".pz .sgm:last-child{border-right:0}"
-			    & "</style>"
-			
-			RETURN
-			    "<div class='pz'>" & _Css
-			    & "<div class='lgs'>" & _Legenda & "</div>"
-			    & "<div class='row'><div class='lb'>Unidades</div><div class='bar'>" & _BarU & "</div></div>"
-			    & "<div class='row'><div class='lb'>Clientes</div><div class='bar'>" & _BarC & "</div></div>"
-			    & "<div class='row'><div class='lb'>Faturamento</div><div class='bar'>" & _BarF & "</div></div>"
-			    & "<div class='row'><div class='lb'>Potencial</div><div class='bar'>" & _BarP & "</div></div>"
-			    & "</div>"
-		displayFolder: Resumo por Segmento
-		lineageTag: dcc7418f-66ce-422a-a9a6-26ab5db62a13
-
-	/// Matriz Power Sales com todas as unidades em cinza e a unidade selecionada destacada (Ficha do cliente). Usar no visual HTML Content. Requer uma única unidade no contexto (segmentação ou drill-through).
-	measure 'Matriz Posição Cliente HTML' =
-			-- área do gráfico (px no viewBox)
-			VAR _W = 520
-			VAR _H = 480
-			VAR _L = 74
-			VAR _R = 20
-			VAR _T = 12
-			VAR _B = 52
-			VAR _Strip = 26                    -- faixa "sem compra"
-			VAR _X0 = _L + _Strip + 6
-			VAR _X1 = _W - _R
-			VAR _Y0 = _T
-			VAR _Y1 = _H - _B
-			VAR _XMin = 3
-			VAR _XMax = 8
-			VAR _YMin = 4
-			VAR _YMax = 9
-			
-			VAR _CorteF = [Corte Faturamento]
-			VAR _CorteP = [Corte Potencial]
-			VAR _xc = INT ( _X0 + ( MIN ( MAX ( LOG10 ( MAX ( _CorteF, 1 ) ), _XMin ), _XMax ) - _XMin ) / ( _XMax - _XMin ) * ( _X1 - _X0 ) )
-			VAR _yc = INT ( _Y1 - ( MIN ( MAX ( LOG10 ( MAX ( _CorteP, 1 ) ), _YMin ), _YMax ) - _YMin ) / ( _YMax - _YMin ) * ( _Y1 - _Y0 ) )
-			
-			-- unidade selecionada
-			VAR _Sel = VALUES ( segclientes_vw_clientes_atual[unidade] )
-			VAR _TemSel = COUNTROWS ( _Sel ) = 1
-			VAR _SelPot = MAX ( segclientes_vw_clientes_atual[potencial_base] )
-			VAR _SelFat = MAX ( segclientes_vw_clientes_atual[faturamento_base] ) + 0
-			VAR _SelSeg = MAX ( segclientes_vw_clientes_atual[segmento] )
-			VAR _SelNome = COALESCE ( MAX ( segclientes_vw_clientes_atual[grupo_economico] ), MIN ( segclientes_vw_clientes_atual[nome] ) )
-			VAR _SelCor = SWITCH ( _SelSeg, "KAM/SAM", "#3a8a3a", "Cliente Estratégico", "#8a5bc4", "Varejo Foco", "#e2862a", "Varejo", "#4a6fd1", "#898781" )
-			
-			-- todas as unidades (ignora filtros) como fundo cinza
-			VAR _Pts =
-			    CALCULATETABLE (
-			        FILTER (
-			            ADDCOLUMNS (
-			                VALUES ( segclientes_vw_clientes_atual[unidade] ),
-			                "@pot", CALCULATE ( MAX ( segclientes_vw_clientes_atual[potencial_base] ) ),
-			                "@fat", CALCULATE ( MAX ( segclientes_vw_clientes_atual[faturamento_base] ) )
-			            ),
-			            [@pot] > 0
-			        ),
-			        REMOVEFILTERS ( segclientes_vw_clientes_atual ),
-			        REMOVEFILTERS ( dSegmento )
-			    )
-			VAR _Fundo =
-			    CONCATENATEX (
-			        _Pts,
-			        VAR _x = INT ( IF ( [@fat] > 0, _X0 + ( MIN ( MAX ( LOG10 ( [@fat] ), _XMin ), _XMax ) - _XMin ) / ( _XMax - _XMin ) * ( _X1 - _X0 ), _L + 4 + MOD ( INT ( [@pot] / 7 ), 97 ) / 97 * ( _Strip - 8 ) ) )
-			        VAR _y = INT ( _Y1 - ( MIN ( MAX ( LOG10 ( [@pot] ), _YMin ), _YMax ) - _YMin ) / ( _YMax - _YMin ) * ( _Y1 - _Y0 ) )
-			        RETURN "<circle cx='" & _x & "' cy='" & _y & "' r='2'/>",
-			        ""
-			    )
-			
-			-- quadrantes, grade e eixos
-			VAR _Quad =
-			    "<rect x='" & _L & "' y='" & _Y0 & "' width='" & _Strip & "' height='" & ( _Y1 - _Y0 ) & "' fill='#ececec'/>"
-			    & "<rect x='" & _X0 & "' y='" & _Y0 & "' width='" & ( _xc - _X0 ) & "' height='" & ( _yc - _Y0 ) & "' fill='#f1eef9'/>"
-			    & "<rect x='" & _xc & "' y='" & _Y0 & "' width='" & ( _X1 - _xc ) & "' height='" & ( _yc - _Y0 ) & "' fill='#ebf4eb'/>"
-			    & "<rect x='" & _X0 & "' y='" & _yc & "' width='" & ( _xc - _X0 ) & "' height='" & ( _Y1 - _yc ) & "' fill='#ebeffa'/>"
-			    & "<rect x='" & _xc & "' y='" & _yc & "' width='" & ( _X1 - _xc ) & "' height='" & ( _Y1 - _yc ) & "' fill='#fcf2e7'/>"
-			VAR _GradeX =
-			    CONCATENATEX (
-			        GENERATESERIES ( 0, 5 ),
-			        VAR _px = INT ( _X0 + [Value] / 5 * ( _X1 - _X0 ) )
-			        RETURN
-			            "<line x1='" & _px & "' y1='" & _Y0 & "' x2='" & _px & "' y2='" & _Y1 & "' stroke='#000' stroke-opacity='.07'/>"
-			            & "<text x='" & _px & "' y='" & ( _Y1 + 18 ) & "' text-anchor='middle' fill='#444'>"
-			            & SWITCH ( [Value], 0, "1 mil", 1, "10 mil", 2, "100 mil", 3, "1 MM", 4, "10 MM", 5, "100 MM" ) & "</text>",
-			        ""
-			    )
-			VAR _GradeY =
-			    CONCATENATEX (
-			        GENERATESERIES ( 0, 5 ),
-			        VAR _py = INT ( _Y1 - [Value] / 5 * ( _Y1 - _Y0 ) )
-			        RETURN
-			            "<line x1='" & _L & "' y1='" & _py & "' x2='" & _X1 & "' y2='" & _py & "' stroke='#000' stroke-opacity='.07'/>"
-			            & "<text x='" & ( _L - 5 ) & "' y='" & ( _py + 5 ) & "' text-anchor='end' fill='#444'>"
-			            & SWITCH ( [Value], 0, "10 mil", 1, "100 mil", 2, "1 MM", 3, "10 MM", 4, "100 MM", 5, "1 bi" ) & "</text>",
-			        ""
-			    )
-			VAR _Cortes =
-			    "<line x1='" & _xc & "' y1='" & _Y0 & "' x2='" & _xc & "' y2='" & _Y1 & "' stroke='#222' stroke-width='1.3' stroke-dasharray='5 3'/>"
-			    & "<line x1='" & _X0 & "' y1='" & _yc & "' x2='" & _X1 & "' y2='" & _yc & "' stroke='#222' stroke-width='1.3' stroke-dasharray='5 3'/>"
-			VAR _Rotulos =
-			    "<text x='" & ( _X0 + 6 ) & "' y='" & ( _Y0 + 19 ) & "' class='h q' fill='#6f42b0'>Cliente Estratégico</text>"
-			    & "<text x='" & ( _X1 - 6 ) & "' y='" & ( _Y0 + 19 ) & "' class='h q' text-anchor='end' fill='#2f6f2f'>KAM/SAM</text>"
-			    & "<text x='" & ( _X0 + 6 ) & "' y='" & ( _Y1 - 9 ) & "' class='h q' fill='#3556b0'>Varejo</text>"
-			    & "<text x='" & ( _X1 - 6 ) & "' y='" & ( _Y1 - 9 ) & "' class='h q' text-anchor='end' fill='#c06a14'>Varejo Foco</text>"
-			    & "<text transform='translate(" & INT ( _L + _Strip / 2 + 4 ) & "," & INT ( ( _Y0 + _Y1 ) / 2 ) & ") rotate(-90)' text-anchor='middle' class='h' font-size='11' font-weight='700' fill='#555' letter-spacing='1'>SEM COMPRA</text>"
-			VAR _Eixos =
-			    "<text x='" & INT ( ( _X0 + _X1 ) / 2 ) & "' y='" & ( _H - 6 ) & "' text-anchor='middle' font-size='13' fill='#333'>Faturamento médio anual, últimos 36 meses (R$/ano)</text>"
-			    & "<text transform='translate(15," & INT ( ( _Y0 + _Y1 ) / 2 ) & ") rotate(-90)' text-anchor='middle' font-size='13' fill='#333'>Potencial de compra (R$/ano)</text>"
-			
-			-- ponto destacado
-			VAR _sx = INT ( IF ( _SelFat > 0, _X0 + ( MIN ( MAX ( LOG10 ( _SelFat ), _XMin ), _XMax ) - _XMin ) / ( _XMax - _XMin ) * ( _X1 - _X0 ), _L + _Strip / 2 ) )
-			VAR _sy = INT ( _Y1 - ( MIN ( MAX ( LOG10 ( MAX ( _SelPot, 1 ) ), _YMin ), _YMax ) - _YMin ) / ( _YMax - _YMin ) * ( _Y1 - _Y0 ) )
-			VAR _NomeEsc = SUBSTITUTE ( SUBSTITUTE ( _SelNome, "&", "&amp;" ), "<", "&lt;" )
-			VAR _LblDir = _sx < _W - 200
-			VAR _Destaque =
-			    "<line x1='" & _L & "' y1='" & _sy & "' x2='" & _sx & "' y2='" & _sy & "' stroke='#222' stroke-opacity='.6' stroke-dasharray='2 3'/>"
-			    & "<line x1='" & _sx & "' y1='" & _sy & "' x2='" & _sx & "' y2='" & _Y1 & "' stroke='#222' stroke-opacity='.6' stroke-dasharray='2 3'/>"
-			    & "<circle cx='" & _sx & "' cy='" & _sy & "' r='11' fill='#fff' stroke='#222' stroke-width='2.2'/>"
-			    & "<circle cx='" & _sx & "' cy='" & _sy & "' r='6' fill='" & _SelCor & "'/>"
-			    & "<text x='" & IF ( _LblDir, _sx + 16, _sx - 16 ) & "' y='" & ( _sy - 12 ) & "' text-anchor='" & IF ( _LblDir, "start", "end" ) & "' class='h' font-size='16' font-weight='700' fill='#111'>" & _NomeEsc & "</text>"
-			
-			VAR _Msg =
-			    VAR _txt = IF ( NOT _TemSel, "Selecione uma unidade para ver a posição", "Unidade sem potencial calculado (fora da matriz)" )
-			    RETURN
-			        "<rect x='" & INT ( ( _X0 + _X1 ) / 2 - 175 ) & "' y='" & INT ( ( _Y0 + _Y1 ) / 2 - 20 ) & "' width='350' height='40' rx='6' fill='#fff' stroke='#ccc'/>"
-			        & "<text x='" & INT ( ( _X0 + _X1 ) / 2 ) & "' y='" & INT ( ( _Y0 + _Y1 ) / 2 + 5 ) & "' text-anchor='middle' font-size='14' fill='#444'>" & _txt & "</text>"
-			
-			VAR _Css =
-			    "<style>.h{paint-order:stroke;stroke:#fff;stroke-width:3.5px;stroke-linejoin:round}.q{font-size:14px;font-weight:700}</style>"
-			
-			RETURN
-			    "<div style='font-family:Segoe UI,Arial,sans-serif'>" & _Css
-			    & "<svg viewBox='0 0 " & _W & " " & _H & "' width='100%' style='display:block;font-size:12px'>"
-			    & _Quad & _GradeX & _GradeY
-			    & "<g fill='#8c8c8c' fill-opacity='.35'>" & _Fundo & "</g>"
-			    & _Cortes & _Rotulos & _Eixos
-			    & IF ( _TemSel && _SelPot > 0, _Destaque, _Msg )
-			    & "</svg></div>"
-		displayFolder: Ficha do cliente
-		lineageTag: 5a9a1143-a190-46c8-b2d0-315b7c330b4a
-
 	/// Quadro principal da Ficha do cliente (nome, segmento, regra de atendimento e dados cadastrais da unidade). Usar no visual HTML Content. Requer uma única unidade no contexto.
 	measure 'Ficha Cabeçalho HTML' =
 			VAR _TemSel = COUNTROWS ( VALUES ( segclientes_vw_clientes_atual[unidade] ) ) = 1
@@ -1342,11 +1156,6 @@ table _Medidas
 		displayFolder: Cobertura\3. Cidades
 		lineageTag: ace8c298-0f47-40f8-8365-9fb5e315bf34
 
-	measure 'Área Grãos' = SUM ( siscobertura_cidade[area_graos_ha] )
-		formatString: #,0 "ha"
-		displayFolder: Cobertura\3. Cidades
-		lineageTag: 32c40293-a145-4967-8f68-9992c4cea634
-
 	measure 'Área Pastagem' = SUM ( siscobertura_cidade[area_pastagem_ha] )
 		formatString: #,0 "ha"
 		displayFolder: Cobertura\3. Cidades
@@ -1924,26 +1733,9 @@ table _Medidas
 		displayFolder: Cobertura\9. Por produto (cliente)
 		lineageTag: 6d2dc95b-d84d-4260-b1d8-cd05a3bc397c
 
-	/// Indústria do contexto ÷ indústria do(s) estado(s)/grupo(s) envolvidos. Na linha cidade x produto = fatia da cidade no estado; no total geral = 100%; com um produto filtrado = participação do produto na indústria do grupo.
-	measure 'Participação Estado' =
-			VAR _ind = [Indústria Projetada]
-			VAR _base =
-			    SUMX (
-			        SUMMARIZE ( siscobertura_projecao_produto, siscobertura_projecao_produto[estado], siscobertura_projecao_produto[chave_param] ),
-			        CALCULATE ( MAX ( siscobertura_projecao_produto[industria_estado] ) )
-			    )
-			RETURN DIVIDE ( _ind, _base )
-		formatString: 0.0%;-0.0%;0.0%
-		displayFolder: Cobertura\4. Indústria e meta
-		lineageTag: cd300b8a-9023-477a-a3c1-e9e4d02d418d
-
 	measure 'Rótulo Demanda' = "máquinas que a área comporta"
 		displayFolder: Cobertura\7. Rótulos
 		lineageTag: 7ebd31b9-ae6a-43d5-80d6-b60c50d8a97e
-
-	measure 'Rótulo Área Grãos' = "base TR G · TR6 · CA · PV · PL"
-		displayFolder: Cobertura\7. Rótulos
-		lineageTag: 70107de0-3916-4618-880c-d38176d2bf67
 
 	measure 'Rótulo Área Pastagem' = "base TR5"
 		displayFolder: Cobertura\7. Rótulos
@@ -1998,10 +1790,6 @@ table _Medidas
 			    & IF ( ISFILTERED ( dProduto ), [Rótulo Produtos] & " (meta rateada pelo mix)", "TR + CA" )
 		displayFolder: Cobertura\7. Rótulos
 		lineageTag: e9b8361a-5f72-4e4f-8daa-82c35f9f1a33
-
-	measure 'Título Projeção Cidade' = "PROJEÇÃO POR CIDADE × PRODUTO  ·  " & [Rótulo Produtos]
-		displayFolder: Cobertura\7. Rótulos
-		lineageTag: 4b2126a5-5dc9-44b9-9a27-a18b2921c453
 
 	measure 'Aviso Indústria' =
 			VAR _sem =
@@ -2239,11 +2027,6 @@ table _Medidas
 		formatString: #,0
 		displayFolder: Inteligência Competitiva\1. Base
 		lineageTag: 039fff86-3b74-4423-a836-996dbd594435
-
-	measure 'CI Conversão %' = DIVIDE ( [CI Ganhas], [CI Encerradas] )
-		formatString: 0.0%
-		displayFolder: Inteligência Competitiva\1. Base
-		lineageTag: b08bd7ee-fb01-43f1-a95e-f510721dc126
 
 	measure 'CI % Perdidas' = DIVIDE ( [CI Perdidas], [CI Encerradas] )
 		formatString: 0.0%
@@ -2514,12 +2297,6 @@ table _Medidas
 		displayFolder: Inteligência Competitiva\5. Preço
 		lineageTag: 245f56b0-201c-4642-a7ba-d08e0138d097
 
-	measure 'CI Cor Conversão' =
-			VAR p = [CI Conversão %]
-			RETURN SWITCH ( TRUE (), ISBLANK ( p ), "#FFFFFF", p < 0.30, "#C0392B", p < 0.34, "#E67E22", p < 0.38, "#A4C639", "#2E7D32" )
-		displayFolder: Inteligência Competitiva\9. Cores
-		lineageTag: 5c79ef0c-1bf4-48b2-8068-1541f57d7595
-
 	measure 'CI Cor Vitória' =
 			VAR p = [CI Vitória Confronto %]
 			RETURN SWITCH ( TRUE (), ISBLANK ( p ), "#FFFFFF", p < 0.15, "#C0392B", p < 0.30, "#E67E22", p < 0.40, "#A4C639", "#2E7D32" )
@@ -2626,21 +2403,6 @@ table _Medidas
 		displayFolder: Inteligência Competitiva\1. Base
 		lineageTag: 60479875-f047-4372-b3ee-bf68475c7473
 
-	measure 'CI Insight Visão Geral' =
-			VAR p = [CI Perdidas] + 0
-			VAR c = [CI Canceladas] + 0
-			VAR _min = TOPN ( 1, FILTER ( VALUES ( ci_oportunidades[produto] ), [CI Encerradas] >= 10 ), COALESCE ( [CI Conversão %], 0 ), ASC, ci_oportunidades[produto], ASC )
-			VAR pn = MAXX ( _min, ci_oportunidades[produto] )
-			VAR pc = MAXX ( _min, COALESCE ( [CI Conversão %], 0 ) )
-			RETURN
-			    "<style>html,body{margin:0;overflow:hidden}</style><div style='font-family:Segoe UI,Arial,sans-serif;font-size:14px;line-height:20px;color:#333;background:#FDF2F1;border:1px solid #C0392B;border-radius:4px;padding:8px 12px'>"
-			        & "<b style='color:#C0392B'>" & IF ( p >= c, "A perda", "O cancelamento" ) & " é o principal desfecho negativo em " & [CI Linha] & ":</b> "
-			        & FORMAT ( p, "#,0" ) & " perdidas (" & FORMAT ( [CI % Perdidas], "0.0%" ) & ") × " & FORMAT ( c, "#,0" ) & " canceladas (" & FORMAT ( [CI % Canceladas], "0.0%" ) & ")."
-			        & IF ( NOT ISBLANK ( pn ), "<br>" & pn & " tem a menor conversão (" & FORMAT ( pc, "0.0%" ) & ")." )
-			        & "</div>"
-		displayFolder: Inteligência Competitiva\8. HTML
-		lineageTag: a172a26c-13f7-4f69-a13d-adca6c7a3eac
-
 	measure 'CI Insight Perdas' =
 			VAR m = [CI Motivo Nº1 Identificável]
 			VAR mq = CALCULATE ( [CI Perdidas], ci_motivo_perda[motivo] = m )
@@ -2681,16 +2443,6 @@ table _Medidas
 		displayFolder: Inteligência Competitiva\8. HTML
 		lineageTag: a5418ae1-a9d9-42bf-8479-82e4e0840605
 
-	measure 'CI Legenda Conversão' =
-			VAR it = "<span style='display:inline-flex;align-items:center;gap:4px;margin-right:12px'><span style='width:11px;height:11px;background:{c};display:inline-block'></span>{n}</span>"
-			RETURN "<style>html,body{margin:0;overflow:hidden}</style><div style='font-family:Segoe UI,Arial,sans-serif;font-size:12px;color:#444;padding:2px 6px'>Conversão:  "
-			    & SUBSTITUTE ( SUBSTITUTE ( it, "{c}", "#C0392B" ), "{n}", "&lt; 30%" )
-			    & SUBSTITUTE ( SUBSTITUTE ( it, "{c}", "#E67E22" ), "{n}", "30–34%" )
-			    & SUBSTITUTE ( SUBSTITUTE ( it, "{c}", "#A4C639" ), "{n}", "34–38%" )
-			    & SUBSTITUTE ( SUBSTITUTE ( it, "{c}", "#2E7D32" ), "{n}", "≥ 38%" ) & "</div>"
-		displayFolder: Inteligência Competitiva\8. HTML
-		lineageTag: dc5824c4-7026-4241-8a1c-bae0264e5145
-
 	measure 'CI Legenda Preenchimento' =
 			VAR it = "<div style='display:flex;align-items:center;gap:6px;margin-top:5px'><span style='width:12px;height:12px;background:{c};display:inline-block'></span>{n}</div>"
 			RETURN "<style>html,body{margin:0;overflow:hidden}</style><div style='font-family:Segoe UI,Arial,sans-serif;font-size:12px;color:#333;padding:4px 8px'><b>Meta de preenchimento</b>"
@@ -2700,14 +2452,6 @@ table _Medidas
 			    & SUBSTITUTE ( SUBSTITUTE ( it, "{c}", "#2E7D32" ), "{n}", "≥ 75% (meta)" ) & "</div>"
 		displayFolder: Inteligência Competitiva\8. HTML
 		lineageTag: 1e19540c-1d4c-45a9-a612-34b786d33f9b
-
-	measure 'CI Nota Dispersão' =
-			VAR _t = CALCULATETABLE ( ci_oportunidades, KEEPFILTERS ( ci_oportunidades[resultado] IN { "Ganha", "Perdida", "Cancelada" } ), KEEPFILTERS ( NOT ISBLANK ( ci_oportunidades[delta_preco] ) ) )
-			VAR n = COUNTROWS ( _t )
-			VAR a = COUNTROWS ( FILTER ( _t, ci_oportunidades[delta_preco] > 0 ) )
-			RETURN IF ( n > 0, FORMAT ( DIVIDE ( a, n ), "0%" ) & " dos " & FORMAT ( n, "#,0" ) & " negócios ficam acima da paridade (JD mais caro) · apenas preço do concorrente > R$ 1.000", "Sem negócios com preço do concorrente no filtro" )
-		displayFolder: Inteligência Competitiva\5. Preço
-		lineageTag: 10875d88-6b18-4a97-91ba-64bbfdb69a1c
 
 	measure 'CI Filial Principal (P+C)' = MAXX ( TOPN ( 1, FILTER ( VALUES ( ci_oportunidades[filial_sigla] ), [CI Perdidas + Canceladas] > 0 ), [CI Perdidas + Canceladas], DESC, ci_oportunidades[filial_sigla], ASC ), ci_oportunidades[filial_sigla] )
 		displayFolder: Inteligência Competitiva\4. Onde perdemos
@@ -3015,12 +2759,6 @@ table _Medidas
 		displayFolder: Cobertura\10. Grupos econômicos
 		lineageTag: a2030ba1-e1f2-4b36-84d7-0b0879ed796d
 
-	/// Demanda calculada no grupo menos a soma das demandas por cliente (efeito do arredondamento e da área mínima aplicados ao grupo).
-	measure 'Demanda Consolidação' = [Demanda Grupos] - [Demanda Clientes]
-		formatString: +#,0;-#,0;0
-		displayFolder: Cobertura\10. Grupos econômicos
-		lineageTag: 77dfa37c-c94c-49e0-a63a-4c233aa5d064
-
 	measure 'Cor Cobertura Grupos' = ```
 			
 					VAR p = [% Cobertura Grupos]
@@ -3284,28 +3022,6 @@ table _Medidas
 		formatString: 0.0%
 		displayFolder: Segmentação\Potencial de Máquinas\1. Frota
 		lineageTag: fe0db21d-4f27-4b90-ab8f-1743d86ec06e
-
-	/// Máquinas que o grupo precisa comprar por ano para manter a frota necessária: necessidade ÷ vida útil, por grupo × produto. PL em linhas só entra com apenas PL no contexto.
-	measure 'Máq Renovação/Ano' =
-			VAR _min = VALUE ( LOOKUPVALUE ( siscobertura_param_geral[valor], siscobertura_param_geral[chave], "area_minima_ha" ) )
-			VAR _soPL = SELECTEDVALUE ( dProduto[produto] ) = "PL"
-			VAR _t =
-			    FILTER (
-			        SUMMARIZE ( siscobertura_cliente_produto, siscobertura_cliente_produto[grupo_chave], siscobertura_cliente_produto[produto] ),
-			        _soPL || siscobertura_cliente_produto[produto] <> "PL"
-			    )
-			RETURN
-			    SUMX (
-			        _t,
-			        VAR _f = CALCULATE ( SUM ( siscobertura_cliente_produto[demanda_fracionada] ) )
-			        VAR _a = CALCULATE ( SUM ( siscobertura_cliente_produto[area_base_ha] ) )
-			        VAR _d = IF ( _a >= _min || siscobertura_cliente_produto[produto] = "TRCE", ROUNDUP ( ROUND ( _f, 6 ), 0 ), 0 )
-			        VAR _v = LOOKUPVALUE ( dPremissaMaquina[vida_util], dPremissaMaquina[produto], siscobertura_cliente_produto[produto] )
-			        RETURN DIVIDE ( _d, _v )
-			    )
-		formatString: #,0
-		displayFolder: Segmentação\Potencial de Máquinas\1. Frota
-		lineageTag: 3c192f94-3638-4082-9a15-4f35072d4dda
 
 	/// Valor anual de renovação da frota necessária: Σ (necessidade ÷ vida útil × preço de referência) por grupo × produto. Inclui PL (linhas × preço por linha).
 	measure 'Mercado Máq Físico R$' =
@@ -3573,43 +3289,51 @@ table _Medidas
 		displayFolder: Cobertura\4. Indústria e meta\Cenários
 		lineageTag: 29237aed-87f3-4e28-8e4f-2d44c6cda5df
 
-	/// Máquinas/ano da meta do cenário = Σ indústria da cidade×produto × meta de M.S. do cenário. Meta = MAX(piso × meta oficial; MIN(share frota + fator × (1 − share frota); MAX(teto; share frota))). Premissas em dCenarioMS.
+	/// Volume Nissey (máq./ano) do cenário = Σ indústria projetada da cidade×produto × % Indústria do cenário × meta de M.S. JD (fixa). Premissas em dCenarioMS.
 	measure 'Vendas Cenário' =
 			VAR _cen = [Cenário Selecionado]
-			VAR _fator = LOOKUPVALUE ( dCenarioMS[Fator Gap], dCenarioMS[Cenário], _cen )
-			VAR _piso = LOOKUPVALUE ( dCenarioMS[Piso Meta Oficial], dCenarioMS[Cenário], _cen )
-			VAR _teto = LOOKUPVALUE ( dCenarioMS[Teto], dCenarioMS[Cenário], _cen )
+			VAR _g = SUMMARIZE ( siscobertura_projecao_produto, siscobertura_projecao_produto[chave_sr], siscobertura_projecao_produto[produto] )
 			RETURN
 			    SUMX (
-			        FILTER ( siscobertura_projecao_produto, siscobertura_projecao_produto[industria_cidade] > 0 ),
-			        VAR sf = siscobertura_projecao_produto[share_frota]
-			        VAR alvo = sf + _fator * ( 1 - sf )
-			        VAR meta = MAX ( _piso * siscobertura_projecao_produto[meta_ms], MIN ( alvo, MAX ( _teto, sf ) ) )
-			        RETURN siscobertura_projecao_produto[industria_cidade] * meta
+			        _g,
+			        VAR _s = siscobertura_projecao_produto[chave_sr]
+			        VAR _p = siscobertura_projecao_produto[produto]
+			        VAR _f =
+			            SWITCH (
+			                _cen,
+			                "Conservador", LOOKUPVALUE ( dFolgaCenario[pct_conservador], dFolgaCenario[chave_sr], _s, dFolgaCenario[produto], _p ),
+			                "Agressivo", LOOKUPVALUE ( dFolgaCenario[pct_agressivo], dFolgaCenario[chave_sr], _s, dFolgaCenario[produto], _p ),
+			                1
+			            )
+			        RETURN COALESCE ( _f, 1 ) * CALCULATE ( SUMX ( FILTER ( siscobertura_projecao_produto, siscobertura_projecao_produto[industria_cidade] > 0 ), siscobertura_projecao_produto[industria_cidade] * siscobertura_projecao_produto[meta_ms] ) )
 			    )
 		formatString: #,0
 		displayFolder: Cobertura\4. Indústria e meta\Cenários
 		lineageTag: 6156fb26-b059-42b2-91e2-e4bec90c991e
 
-	/// Meta de market share do cenário selecionado (ponderada pela indústria).
-	measure 'Meta MS Cenário' = DIVIDE ( [Vendas Cenário], [Indústria Projetada] )
+	/// Share do cenário: igual à meta de M.S. da John Deere (fixa em todos os cenários).
+	measure 'Meta MS Cenário' = DIVIDE ( [Vendas Cenário], [Indústria Cenário] )
 		formatString: 0.0%
 		displayFolder: Cobertura\4. Indústria e meta\Cenários
 		lineageTag: c14552f2-4541-44e7-912c-26012838a88f
 
-	/// Oportunidades a trabalhar no CRM para bater a meta do cenário (vendas ÷ taxa de conversão).
+	/// Oportunidades a trabalhar no CRM para o volume do cenário (vendas ÷ taxa de conversão).
 	measure 'Negócios Cenário' =
 			VAR _cen = [Cenário Selecionado]
-			VAR _fator = LOOKUPVALUE ( dCenarioMS[Fator Gap], dCenarioMS[Cenário], _cen )
-			VAR _piso = LOOKUPVALUE ( dCenarioMS[Piso Meta Oficial], dCenarioMS[Cenário], _cen )
-			VAR _teto = LOOKUPVALUE ( dCenarioMS[Teto], dCenarioMS[Cenário], _cen )
+			VAR _g = SUMMARIZE ( siscobertura_projecao_produto, siscobertura_projecao_produto[chave_sr], siscobertura_projecao_produto[produto] )
 			RETURN
 			    SUMX (
-			        FILTER ( siscobertura_projecao_produto, siscobertura_projecao_produto[industria_cidade] > 0 ),
-			        VAR sf = siscobertura_projecao_produto[share_frota]
-			        VAR alvo = sf + _fator * ( 1 - sf )
-			        VAR meta = MAX ( _piso * siscobertura_projecao_produto[meta_ms], MIN ( alvo, MAX ( _teto, sf ) ) )
-			        RETURN DIVIDE ( siscobertura_projecao_produto[industria_cidade] * meta, siscobertura_projecao_produto[taxa_conversao], 0 )
+			        _g,
+			        VAR _s = siscobertura_projecao_produto[chave_sr]
+			        VAR _p = siscobertura_projecao_produto[produto]
+			        VAR _f =
+			            SWITCH (
+			                _cen,
+			                "Conservador", LOOKUPVALUE ( dFolgaCenario[pct_conservador], dFolgaCenario[chave_sr], _s, dFolgaCenario[produto], _p ),
+			                "Agressivo", LOOKUPVALUE ( dFolgaCenario[pct_agressivo], dFolgaCenario[chave_sr], _s, dFolgaCenario[produto], _p ),
+			                1
+			            )
+			        RETURN COALESCE ( _f, 1 ) * CALCULATE ( SUMX ( FILTER ( siscobertura_projecao_produto, siscobertura_projecao_produto[industria_cidade] > 0 ), DIVIDE ( siscobertura_projecao_produto[industria_cidade] * siscobertura_projecao_produto[meta_ms], siscobertura_projecao_produto[taxa_conversao], 0 ) ) )
 			    )
 		formatString: #,0
 		displayFolder: Cobertura\4. Indústria e meta\Cenários
@@ -3641,17 +3365,20 @@ table _Medidas
 		displayFolder: Cobertura\4. Indústria e meta\Cenários\Fixos
 		lineageTag: 3a7ae6b8-3a6d-42f9-8e70-89f3988084ca
 
-	measure 'MS Conservador' = DIVIDE ( [Vendas Conservador], [Indústria Projetada] )
+	/// Share no cenário Conservador (= meta JD).
+	measure 'MS Conservador' = DIVIDE ( [Vendas Conservador], [Indústria Conservador] )
 		formatString: 0.0%
 		displayFolder: Cobertura\4. Indústria e meta\Cenários\Fixos
 		lineageTag: 01d86867-cc17-4582-bca1-4e700e7e218d
 
-	measure 'MS Moderado' = DIVIDE ( [Vendas Moderado], [Indústria Projetada] )
+	/// Share no cenário Moderado (= meta JD).
+	measure 'MS Moderado' = DIVIDE ( [Vendas Moderado], [Indústria Moderado] )
 		formatString: 0.0%
 		displayFolder: Cobertura\4. Indústria e meta\Cenários\Fixos
 		lineageTag: e426ade0-3726-427c-bc6f-2219547524dd
 
-	measure 'MS Agressivo' = DIVIDE ( [Vendas Agressivo], [Indústria Projetada] )
+	/// Share no cenário Agressivo (= meta JD).
+	measure 'MS Agressivo' = DIVIDE ( [Vendas Agressivo], [Indústria Agressivo] )
 		formatString: 0.0%
 		displayFolder: Cobertura\4. Indústria e meta\Cenários\Fixos
 		lineageTag: df7e7549-2223-440b-863b-ab2e32642950
@@ -3668,7 +3395,7 @@ table _Medidas
 		displayFolder: Cobertura\4. Indústria e meta\Cenários\Rótulos
 		lineageTag: 903276c6-4257-4bfc-9176-8f83a4e1d7e5
 
-	measure 'Rótulo Cen Meta Cenário' = [Cenário Selecionado] & " · " & FORMAT ( [Vendas Cenário], "#,0" ) & " máq./ano"
+	measure 'Rótulo Cen Meta Cenário' = [Cenário Selecionado] & " · " & FORMAT ( [Vendas Cenário], "#,0" ) & " máq./ano Nissey"
 		displayFolder: Cobertura\4. Indústria e meta\Cenários\Rótulos
 		lineageTag: 5e9378aa-c014-4ecc-a0ac-8b934a460b53
 
@@ -3676,15 +3403,9 @@ table _Medidas
 		displayFolder: Cobertura\4. Indústria e meta\Cenários\Rótulos
 		lineageTag: 86d17389-2d9e-4ae9-a500-35559ca96a1e
 
-	measure 'Título Cenário' = "TOP 15 CIDADES · MÁQUINAS A MAIS P/ META " & UPPER ( [Cenário Selecionado] )
+	measure 'Título Cenário' = "TOP 15 CIDADES · MÁQUINAS A MAIS P/ CENÁRIO " & UPPER ( [Cenário Selecionado] )
 		displayFolder: Cobertura\4. Indústria e meta\Cenários\Rótulos
 		lineageTag: 94616f61-9103-4f0f-8654-20b8cd4c4953
-
-	/// TRUE quando há uma única unidade (cliente ou grupo econômico) no contexto — mesma regra da Ficha do Cliente.
-	measure 'C360 Tem Seleção' = COUNTROWS ( VALUES ( segclientes_vw_clientes_atual[unidade] ) ) = 1
-		isHidden
-		displayFolder: Cliente 360\0. Apoio
-		lineageTag: e03886aa-c0f6-4171-b620-eef94db9e12c
 
 	/// Estilo comum dos quadros HTML do Cliente 360.
 	measure 'C360 CSS' =
@@ -4247,12 +3968,6 @@ table _Medidas
 				        "\R$ #,0"
 				    )
 
-	/// % alvo de participação (faturamento ÷ potencial de investimento) escolhido no slicer pctAlvoParticipacao; padrão 15%.
-	measure '% Alvo Participação' = SELECTEDVALUE ( pctAlvoParticipacao[Value], 0.3 )
-		formatString: 0%
-		displayFolder: Visão geral\4. Participação
-		lineageTag: d5699411-5110-4a3d-827b-c213297abaeb
-
 	/// Faturamento necessário para atingir o % alvo de participação sobre o potencial de investimento em máquinas (10% do ROB).
 	measure 'Faturamento Alvo' = [Potencial Investimento Máquinas] * [% Alvo Participação]
 		formatString: \R$ #,0.0
@@ -4264,21 +3979,6 @@ table _Medidas
 		formatString: \R$ #,0.0
 		displayFolder: Visão geral\4. Participação
 		lineageTag: 40323cae-30ad-42a5-895d-830cd0666700
-
-	/// Subtítulo do cartão Alvo de participação.
-	measure 'Rótulo Alvo Participação' =
-			VAR _mm = "R$ #,0.0"
-			VAR _gap = [Gap Faturamento Alvo]
-			RETURN
-			    "Faturamento Alvo: " & FORMAT ( [Faturamento Alvo] / 1E6, _mm ) & " MM"
-			        & UNICHAR ( 10 )
-		displayFolder: Visão geral\6. Rótulos dos cartões
-		lineageTag: e57cc0e8-5ca2-4dd1-a9a7-1226c88a1b14
-
-	/// Subtítulo do cartão Participação: de onde vem o valor.
-	measure 'Rótulo Participação' = "Faturamento Nissey ÷ potencial de investimento em máquinas (" & FORMAT ( [% ROB Investimento Máquinas], "0%" ) & " do ROB)"
-		displayFolder: Visão geral\6. Rótulos dos cartões
-		lineageTag: 9455b0bc-d978-480f-ab78-3c9a22ec4190
 
 	/// Rodapé do cartão Potencial de investimento: % do ROB que vira potencial (1 − custo operacional da execução vigente).
 	measure 'Rótulo Potencial Investimento' =
@@ -4484,6 +4184,366 @@ table _Medidas
 			        & IF ( _filtro, "  •  com filtro de filial/vendedor" )
 		displayFolder: Vendas Perdidas
 		lineageTag: 8cf261db-9ec9-45e1-b57a-cccbc0c8a40c
+
+	/// % efetivo da indústria informada no cenário selecionado (resultado da folga de cada sub-região × produto).
+	measure '% Indústria Cenário' = DIVIDE ( [Indústria Cenário], SUMX ( FILTER ( siscobertura_projecao_produto, siscobertura_projecao_produto[industria_cidade] > 0 ), siscobertura_projecao_produto[industria_cidade] ) )
+		formatString: 0.0%
+		displayFolder: Cobertura\4. Indústria e meta\Cenários
+		lineageTag: 33a4c1c9-4409-45d5-8f44-52738bf09867
+
+	/// Máquinas/ano da indústria no cenário: indústria informada × % do cenário da sub-região × produto (dFolgaCenario).
+	measure 'Indústria Cenário' =
+			VAR _cen = [Cenário Selecionado]
+			VAR _g = SUMMARIZE ( siscobertura_projecao_produto, siscobertura_projecao_produto[chave_sr], siscobertura_projecao_produto[produto] )
+			RETURN
+			    SUMX (
+			        _g,
+			        VAR _s = siscobertura_projecao_produto[chave_sr]
+			        VAR _p = siscobertura_projecao_produto[produto]
+			        VAR _f =
+			            SWITCH (
+			                _cen,
+			                "Conservador", LOOKUPVALUE ( dFolgaCenario[pct_conservador], dFolgaCenario[chave_sr], _s, dFolgaCenario[produto], _p ),
+			                "Agressivo", LOOKUPVALUE ( dFolgaCenario[pct_agressivo], dFolgaCenario[chave_sr], _s, dFolgaCenario[produto], _p ),
+			                1
+			            )
+			        RETURN COALESCE ( _f, 1 ) * CALCULATE ( SUMX ( FILTER ( siscobertura_projecao_produto, siscobertura_projecao_produto[industria_cidade] > 0 ), siscobertura_projecao_produto[industria_cidade] ) )
+			    )
+		formatString: #,0
+		displayFolder: Cobertura\4. Indústria e meta\Cenários
+		lineageTag: d6202f5e-0ec2-4c90-b381-64c94a2aad1a
+
+	/// Indústria (máq./ano) no cenário Conservador.
+	measure 'Indústria Conservador' = CALCULATE ( [Indústria Cenário], dCenarioMS[Cenário] = "Conservador" )
+		formatString: #,0
+		displayFolder: Cobertura\4. Indústria e meta\Cenários\Fixos
+		lineageTag: 90f7b671-74a4-4cd2-bb79-241e72637e6e
+
+	/// Indústria (máq./ano) no cenário Moderado.
+	measure 'Indústria Moderado' = CALCULATE ( [Indústria Cenário], dCenarioMS[Cenário] = "Moderado" )
+		formatString: #,0
+		displayFolder: Cobertura\4. Indústria e meta\Cenários\Fixos
+		lineageTag: 54dbc3a7-52ec-43fd-a587-f0dea6bce8f7
+
+	/// Indústria (máq./ano) no cenário Agressivo.
+	measure 'Indústria Agressivo' = CALCULATE ( [Indústria Cenário], dCenarioMS[Cenário] = "Agressivo" )
+		formatString: #,0
+		displayFolder: Cobertura\4. Indústria e meta\Cenários\Fixos
+		lineageTag: 85d77cb2-19e0-4227-8bc9-190a7461dd95
+
+	measure 'Rótulo Cen Indústria Cenário' = [Cenário Selecionado] & " · " & FORMAT ( [% Indústria Cenário], "0%" ) & " da indústria projetada"
+		displayFolder: Cobertura\4. Indústria e meta\Cenários\Rótulos
+		lineageTag: 78593c2f-8772-4786-bdc7-7c8073130c11
+
+	measure 'Área Grãos' = SUM ( siscobertura_cidade[area_graos_ha] )
+		formatString: #,0 "ha"
+		displayFolder: Cobertura\3. Cidades
+		lineageTag: 32c40293-a145-4967-8f68-9992c4cea634
+
+	measure 'Rótulo Área Grãos' = "base TR G · TR6 · CA · PV · PL"
+		displayFolder: Cobertura\7. Rótulos
+		lineageTag: 70107de0-3916-4618-880c-d38176d2bf67
+
+	/// % alvo de participação (faturamento ÷ potencial de investimento) escolhido no slicer pctAlvoParticipacao; padrão 15%.
+	measure '% Alvo Participação' = SELECTEDVALUE ( pctAlvoParticipacao[Value], 0.3 )
+		formatString: 0%
+		displayFolder: Visão geral\4. Participação
+		lineageTag: d5699411-5110-4a3d-827b-c213297abaeb
+
+	measure 'CI Conversão %' = DIVIDE ( [CI Ganhas], [CI Encerradas] )
+		formatString: 0.0%
+		displayFolder: Inteligência Competitiva\1. Base
+		lineageTag: b08bd7ee-fb01-43f1-a95e-f510721dc126
+
+	measure 'CI Insight Visão Geral' =
+			VAR p = [CI Perdidas] + 0
+			VAR c = [CI Canceladas] + 0
+			VAR _min = TOPN ( 1, FILTER ( VALUES ( ci_oportunidades[produto] ), [CI Encerradas] >= 10 ), COALESCE ( [CI Conversão %], 0 ), ASC, ci_oportunidades[produto], ASC )
+			VAR pn = MAXX ( _min, ci_oportunidades[produto] )
+			VAR pc = MAXX ( _min, COALESCE ( [CI Conversão %], 0 ) )
+			RETURN
+			    "<style>html,body{margin:0;overflow:hidden}</style><div style='font-family:Segoe UI,Arial,sans-serif;font-size:14px;line-height:20px;color:#333;background:#FDF2F1;border:1px solid #C0392B;border-radius:4px;padding:8px 12px'>"
+			        & "<b style='color:#C0392B'>" & IF ( p >= c, "A perda", "O cancelamento" ) & " é o principal desfecho negativo em " & [CI Linha] & ":</b> "
+			        & FORMAT ( p, "#,0" ) & " perdidas (" & FORMAT ( [CI % Perdidas], "0.0%" ) & ") × " & FORMAT ( c, "#,0" ) & " canceladas (" & FORMAT ( [CI % Canceladas], "0.0%" ) & ")."
+			        & IF ( NOT ISBLANK ( pn ), "<br>" & pn & " tem a menor conversão (" & FORMAT ( pc, "0.0%" ) & ")." )
+			        & "</div>"
+		displayFolder: Inteligência Competitiva\8. HTML
+		lineageTag: a172a26c-13f7-4f69-a13d-adca6c7a3eac
+
+	measure 'CI Legenda Conversão' =
+			VAR it = "<span style='display:inline-flex;align-items:center;gap:4px;margin-right:12px'><span style='width:11px;height:11px;background:{c};display:inline-block'></span>{n}</span>"
+			RETURN "<style>html,body{margin:0;overflow:hidden}</style><div style='font-family:Segoe UI,Arial,sans-serif;font-size:12px;color:#444;padding:2px 6px'>Conversão:  "
+			    & SUBSTITUTE ( SUBSTITUTE ( it, "{c}", "#C0392B" ), "{n}", "&lt; 30%" )
+			    & SUBSTITUTE ( SUBSTITUTE ( it, "{c}", "#E67E22" ), "{n}", "30–34%" )
+			    & SUBSTITUTE ( SUBSTITUTE ( it, "{c}", "#A4C639" ), "{n}", "34–38%" )
+			    & SUBSTITUTE ( SUBSTITUTE ( it, "{c}", "#2E7D32" ), "{n}", "≥ 38%" ) & "</div>"
+		displayFolder: Inteligência Competitiva\8. HTML
+		lineageTag: dc5824c4-7026-4241-8a1c-bae0264e5145
+
+	/// Máquinas que o grupo precisa comprar por ano para manter a frota necessária: necessidade ÷ vida útil, por grupo × produto. PL em linhas só entra com apenas PL no contexto.
+	measure 'Máq Renovação/Ano' =
+			VAR _min = VALUE ( LOOKUPVALUE ( siscobertura_param_geral[valor], siscobertura_param_geral[chave], "area_minima_ha" ) )
+			VAR _soPL = SELECTEDVALUE ( dProduto[produto] ) = "PL"
+			VAR _t =
+			    FILTER (
+			        SUMMARIZE ( siscobertura_cliente_produto, siscobertura_cliente_produto[grupo_chave], siscobertura_cliente_produto[produto] ),
+			        _soPL || siscobertura_cliente_produto[produto] <> "PL"
+			    )
+			RETURN
+			    SUMX (
+			        _t,
+			        VAR _f = CALCULATE ( SUM ( siscobertura_cliente_produto[demanda_fracionada] ) )
+			        VAR _a = CALCULATE ( SUM ( siscobertura_cliente_produto[area_base_ha] ) )
+			        VAR _d = IF ( _a >= _min || siscobertura_cliente_produto[produto] = "TRCE", ROUNDUP ( ROUND ( _f, 6 ), 0 ), 0 )
+			        VAR _v = LOOKUPVALUE ( dPremissaMaquina[vida_util], dPremissaMaquina[produto], siscobertura_cliente_produto[produto] )
+			        RETURN DIVIDE ( _d, _v )
+			    )
+		formatString: #,0
+		displayFolder: Segmentação\Potencial de Máquinas\1. Frota
+		lineageTag: 3c192f94-3638-4082-9a15-4f35072d4dda
+
+	/// Matriz Power Sales com todas as unidades em cinza e a unidade selecionada destacada (Ficha do cliente). Usar no visual HTML Content. Requer uma única unidade no contexto (segmentação ou drill-through).
+	measure 'Matriz Posição Cliente HTML' =
+			-- área do gráfico (px no viewBox)
+			VAR _W = 520
+			VAR _H = 480
+			VAR _L = 74
+			VAR _R = 20
+			VAR _T = 12
+			VAR _B = 52
+			VAR _Strip = 26                    -- faixa "sem compra"
+			VAR _X0 = _L + _Strip + 6
+			VAR _X1 = _W - _R
+			VAR _Y0 = _T
+			VAR _Y1 = _H - _B
+			VAR _XMin = 3
+			VAR _XMax = 8
+			VAR _YMin = 4
+			VAR _YMax = 9
+			
+			VAR _CorteF = [Corte Faturamento]
+			VAR _CorteP = [Corte Potencial]
+			VAR _xc = INT ( _X0 + ( MIN ( MAX ( LOG10 ( MAX ( _CorteF, 1 ) ), _XMin ), _XMax ) - _XMin ) / ( _XMax - _XMin ) * ( _X1 - _X0 ) )
+			VAR _yc = INT ( _Y1 - ( MIN ( MAX ( LOG10 ( MAX ( _CorteP, 1 ) ), _YMin ), _YMax ) - _YMin ) / ( _YMax - _YMin ) * ( _Y1 - _Y0 ) )
+			
+			-- unidade selecionada
+			VAR _Sel = VALUES ( segclientes_vw_clientes_atual[unidade] )
+			VAR _TemSel = COUNTROWS ( _Sel ) = 1
+			VAR _SelPot = MAX ( segclientes_vw_clientes_atual[potencial_base] )
+			VAR _SelFat = MAX ( segclientes_vw_clientes_atual[faturamento_base] ) + 0
+			VAR _SelSeg = MAX ( segclientes_vw_clientes_atual[segmento] )
+			VAR _SelNome = COALESCE ( MAX ( segclientes_vw_clientes_atual[grupo_economico] ), MIN ( segclientes_vw_clientes_atual[nome] ) )
+			VAR _SelCor = SWITCH ( _SelSeg, "KAM/SAM", "#3a8a3a", "Cliente Estratégico", "#8a5bc4", "Varejo Foco", "#e2862a", "Varejo", "#4a6fd1", "#898781" )
+			
+			-- todas as unidades (ignora filtros) como fundo cinza
+			VAR _Pts =
+			    CALCULATETABLE (
+			        FILTER (
+			            ADDCOLUMNS (
+			                VALUES ( segclientes_vw_clientes_atual[unidade] ),
+			                "@pot", CALCULATE ( MAX ( segclientes_vw_clientes_atual[potencial_base] ) ),
+			                "@fat", CALCULATE ( MAX ( segclientes_vw_clientes_atual[faturamento_base] ) )
+			            ),
+			            [@pot] > 0
+			        ),
+			        REMOVEFILTERS ( segclientes_vw_clientes_atual ),
+			        REMOVEFILTERS ( dSegmento )
+			    )
+			VAR _Fundo =
+			    CONCATENATEX (
+			        _Pts,
+			        VAR _x = INT ( IF ( [@fat] > 0, _X0 + ( MIN ( MAX ( LOG10 ( [@fat] ), _XMin ), _XMax ) - _XMin ) / ( _XMax - _XMin ) * ( _X1 - _X0 ), _L + 4 + MOD ( INT ( [@pot] / 7 ), 97 ) / 97 * ( _Strip - 8 ) ) )
+			        VAR _y = INT ( _Y1 - ( MIN ( MAX ( LOG10 ( [@pot] ), _YMin ), _YMax ) - _YMin ) / ( _YMax - _YMin ) * ( _Y1 - _Y0 ) )
+			        RETURN "<circle cx='" & _x & "' cy='" & _y & "' r='2'/>",
+			        ""
+			    )
+			
+			-- quadrantes, grade e eixos
+			VAR _Quad =
+			    "<rect x='" & _L & "' y='" & _Y0 & "' width='" & _Strip & "' height='" & ( _Y1 - _Y0 ) & "' fill='#ececec'/>"
+			    & "<rect x='" & _X0 & "' y='" & _Y0 & "' width='" & ( _xc - _X0 ) & "' height='" & ( _yc - _Y0 ) & "' fill='#f1eef9'/>"
+			    & "<rect x='" & _xc & "' y='" & _Y0 & "' width='" & ( _X1 - _xc ) & "' height='" & ( _yc - _Y0 ) & "' fill='#ebf4eb'/>"
+			    & "<rect x='" & _X0 & "' y='" & _yc & "' width='" & ( _xc - _X0 ) & "' height='" & ( _Y1 - _yc ) & "' fill='#ebeffa'/>"
+			    & "<rect x='" & _xc & "' y='" & _yc & "' width='" & ( _X1 - _xc ) & "' height='" & ( _Y1 - _yc ) & "' fill='#fcf2e7'/>"
+			VAR _GradeX =
+			    CONCATENATEX (
+			        GENERATESERIES ( 0, 5 ),
+			        VAR _px = INT ( _X0 + [Value] / 5 * ( _X1 - _X0 ) )
+			        RETURN
+			            "<line x1='" & _px & "' y1='" & _Y0 & "' x2='" & _px & "' y2='" & _Y1 & "' stroke='#000' stroke-opacity='.07'/>"
+			            & "<text x='" & _px & "' y='" & ( _Y1 + 18 ) & "' text-anchor='middle' fill='#444'>"
+			            & SWITCH ( [Value], 0, "1 mil", 1, "10 mil", 2, "100 mil", 3, "1 MM", 4, "10 MM", 5, "100 MM" ) & "</text>",
+			        ""
+			    )
+			VAR _GradeY =
+			    CONCATENATEX (
+			        GENERATESERIES ( 0, 5 ),
+			        VAR _py = INT ( _Y1 - [Value] / 5 * ( _Y1 - _Y0 ) )
+			        RETURN
+			            "<line x1='" & _L & "' y1='" & _py & "' x2='" & _X1 & "' y2='" & _py & "' stroke='#000' stroke-opacity='.07'/>"
+			            & "<text x='" & ( _L - 5 ) & "' y='" & ( _py + 5 ) & "' text-anchor='end' fill='#444'>"
+			            & SWITCH ( [Value], 0, "10 mil", 1, "100 mil", 2, "1 MM", 3, "10 MM", 4, "100 MM", 5, "1 bi" ) & "</text>",
+			        ""
+			    )
+			VAR _Cortes =
+			    "<line x1='" & _xc & "' y1='" & _Y0 & "' x2='" & _xc & "' y2='" & _Y1 & "' stroke='#222' stroke-width='1.3' stroke-dasharray='5 3'/>"
+			    & "<line x1='" & _X0 & "' y1='" & _yc & "' x2='" & _X1 & "' y2='" & _yc & "' stroke='#222' stroke-width='1.3' stroke-dasharray='5 3'/>"
+			VAR _Rotulos =
+			    "<text x='" & ( _X0 + 6 ) & "' y='" & ( _Y0 + 19 ) & "' class='h q' fill='#6f42b0'>Cliente Estratégico</text>"
+			    & "<text x='" & ( _X1 - 6 ) & "' y='" & ( _Y0 + 19 ) & "' class='h q' text-anchor='end' fill='#2f6f2f'>KAM/SAM</text>"
+			    & "<text x='" & ( _X0 + 6 ) & "' y='" & ( _Y1 - 9 ) & "' class='h q' fill='#3556b0'>Varejo</text>"
+			    & "<text x='" & ( _X1 - 6 ) & "' y='" & ( _Y1 - 9 ) & "' class='h q' text-anchor='end' fill='#c06a14'>Varejo Foco</text>"
+			    & "<text transform='translate(" & INT ( _L + _Strip / 2 + 4 ) & "," & INT ( ( _Y0 + _Y1 ) / 2 ) & ") rotate(-90)' text-anchor='middle' class='h' font-size='11' font-weight='700' fill='#555' letter-spacing='1'>SEM COMPRA</text>"
+			VAR _Eixos =
+			    "<text x='" & INT ( ( _X0 + _X1 ) / 2 ) & "' y='" & ( _H - 6 ) & "' text-anchor='middle' font-size='13' fill='#333'>Faturamento médio anual, últimos 36 meses (R$/ano)</text>"
+			    & "<text transform='translate(15," & INT ( ( _Y0 + _Y1 ) / 2 ) & ") rotate(-90)' text-anchor='middle' font-size='13' fill='#333'>Potencial de compra (R$/ano)</text>"
+			
+			-- ponto destacado
+			VAR _sx = INT ( IF ( _SelFat > 0, _X0 + ( MIN ( MAX ( LOG10 ( _SelFat ), _XMin ), _XMax ) - _XMin ) / ( _XMax - _XMin ) * ( _X1 - _X0 ), _L + _Strip / 2 ) )
+			VAR _sy = INT ( _Y1 - ( MIN ( MAX ( LOG10 ( MAX ( _SelPot, 1 ) ), _YMin ), _YMax ) - _YMin ) / ( _YMax - _YMin ) * ( _Y1 - _Y0 ) )
+			VAR _NomeEsc = SUBSTITUTE ( SUBSTITUTE ( _SelNome, "&", "&amp;" ), "<", "&lt;" )
+			VAR _LblDir = _sx < _W - 200
+			VAR _Destaque =
+			    "<line x1='" & _L & "' y1='" & _sy & "' x2='" & _sx & "' y2='" & _sy & "' stroke='#222' stroke-opacity='.6' stroke-dasharray='2 3'/>"
+			    & "<line x1='" & _sx & "' y1='" & _sy & "' x2='" & _sx & "' y2='" & _Y1 & "' stroke='#222' stroke-opacity='.6' stroke-dasharray='2 3'/>"
+			    & "<circle cx='" & _sx & "' cy='" & _sy & "' r='11' fill='#fff' stroke='#222' stroke-width='2.2'/>"
+			    & "<circle cx='" & _sx & "' cy='" & _sy & "' r='6' fill='" & _SelCor & "'/>"
+			    & "<text x='" & IF ( _LblDir, _sx + 16, _sx - 16 ) & "' y='" & ( _sy - 12 ) & "' text-anchor='" & IF ( _LblDir, "start", "end" ) & "' class='h' font-size='16' font-weight='700' fill='#111'>" & _NomeEsc & "</text>"
+			
+			VAR _Msg =
+			    VAR _txt = IF ( NOT _TemSel, "Selecione uma unidade para ver a posição", "Unidade sem potencial calculado (fora da matriz)" )
+			    RETURN
+			        "<rect x='" & INT ( ( _X0 + _X1 ) / 2 - 175 ) & "' y='" & INT ( ( _Y0 + _Y1 ) / 2 - 20 ) & "' width='350' height='40' rx='6' fill='#fff' stroke='#ccc'/>"
+			        & "<text x='" & INT ( ( _X0 + _X1 ) / 2 ) & "' y='" & INT ( ( _Y0 + _Y1 ) / 2 + 5 ) & "' text-anchor='middle' font-size='14' fill='#444'>" & _txt & "</text>"
+			
+			VAR _Css =
+			    "<style>.h{paint-order:stroke;stroke:#fff;stroke-width:3.5px;stroke-linejoin:round}.q{font-size:14px;font-weight:700}</style>"
+			
+			RETURN
+			    "<div style='font-family:Segoe UI,Arial,sans-serif'>" & _Css
+			    & "<svg viewBox='0 0 " & _W & " " & _H & "' width='100%' style='display:block;font-size:12px'>"
+			    & _Quad & _GradeX & _GradeY
+			    & "<g fill='#8c8c8c' fill-opacity='.35'>" & _Fundo & "</g>"
+			    & _Cortes & _Rotulos & _Eixos
+			    & IF ( _TemSel && _SelPot > 0, _Destaque, _Msg )
+			    & "</svg></div>"
+		displayFolder: Ficha do cliente
+		lineageTag: 5a9a1143-a190-46c8-b2d0-315b7c330b4a
+
+	/// Indústria do contexto ÷ indústria do(s) estado(s)/grupo(s) envolvidos. Na linha cidade x produto = fatia da cidade no estado; no total geral = 100%; com um produto filtrado = participação do produto na indústria do grupo.
+	measure 'Participação Estado' =
+			VAR _ind = [Indústria Projetada]
+			VAR _base =
+			    SUMX (
+			        SUMMARIZE ( siscobertura_projecao_produto, siscobertura_projecao_produto[estado], siscobertura_projecao_produto[chave_param] ),
+			        CALCULATE ( MAX ( siscobertura_projecao_produto[industria_estado] ) )
+			    )
+			RETURN DIVIDE ( _ind, _base )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Cobertura\4. Indústria e meta
+		lineageTag: cd300b8a-9023-477a-a3c1-e9e4d02d418d
+
+	/// Participação % de cada segmento (barras 100% empilhadas: unidades, clientes, faturamento, potencial). Usar no visual HTML Content. Responde aos filtros da página.
+	measure 'Participação por Segmento HTML' =
+			VAR _TotU = [Unidades]
+			VAR _TotC = [Clientes]
+			VAR _TotF = [Faturamento Total]
+			VAR _TotP = [Potencial Total]
+			
+			VAR _Seg =
+			    FILTER (
+			        ADDCOLUMNS (
+			            dSegmento,
+			            "@cor", SWITCH ( dSegmento[segmento], "KAM/SAM", "#3a8a3a", "Cliente Estratégico", "#8a5bc4", "Varejo Foco", "#e2862a", "Varejo", "#4a6fd1", "#a3a3a3" ),
+			            "@u", DIVIDE ( [Unidades], _TotU ),
+			            "@c", DIVIDE ( [Clientes], _TotC ),
+			            "@f", DIVIDE ( [Faturamento Total], _TotF ),
+			            "@p", DIVIDE ( [Potencial Total], _TotP )
+			        ),
+			        NOT ISBLANK ( [@c] )
+			    )
+			
+			VAR _Legenda =
+			    CONCATENATEX (
+			        _Seg,
+			        "<span class='lg'><span class='sq' style='background:" & [@cor] & "'></span>" & dSegmento[segmento] & "</span>",
+			        "",
+			        dSegmento[segmento_ordem], ASC
+			    )
+			
+			-- barras: largura via flex-grow inteiro (evita decimal com vírgula no CSS)
+			VAR _BarU = CONCATENATEX ( FILTER ( _Seg, [@u] > 0 ), "<div class='sgm' style='flex-grow:" & INT ( [@u] * 10000 ) & ";background:" & [@cor] & "' title='" & dSegmento[segmento] & ": " & FORMAT ( [@u], "0.0%" ) & "'>" & IF ( [@u] >= 0.07, FORMAT ( [@u], "0.0%" ) ) & "</div>", "", dSegmento[segmento_ordem], ASC )
+			VAR _BarC = CONCATENATEX ( FILTER ( _Seg, [@c] > 0 ), "<div class='sgm' style='flex-grow:" & INT ( [@c] * 10000 ) & ";background:" & [@cor] & "' title='" & dSegmento[segmento] & ": " & FORMAT ( [@c], "0.0%" ) & "'>" & IF ( [@c] >= 0.07, FORMAT ( [@c], "0.0%" ) ) & "</div>", "", dSegmento[segmento_ordem], ASC )
+			VAR _BarF = CONCATENATEX ( FILTER ( _Seg, [@f] > 0 ), "<div class='sgm' style='flex-grow:" & INT ( [@f] * 10000 ) & ";background:" & [@cor] & "' title='" & dSegmento[segmento] & ": " & FORMAT ( [@f], "0.0%" ) & "'>" & IF ( [@f] >= 0.07, FORMAT ( [@f], "0.0%" ) ) & "</div>", "", dSegmento[segmento_ordem], ASC )
+			VAR _BarP = CONCATENATEX ( FILTER ( _Seg, [@p] > 0 ), "<div class='sgm' style='flex-grow:" & INT ( [@p] * 10000 ) & ";background:" & [@cor] & "' title='" & dSegmento[segmento] & ": " & FORMAT ( [@p], "0.0%" ) & "'>" & IF ( [@p] >= 0.07, FORMAT ( [@p], "0.0%" ) ) & "</div>", "", dSegmento[segmento_ordem], ASC )
+			
+			VAR _Css =
+			    "<style>"
+			    & ".pz{font-family:Segoe UI,Arial,sans-serif;color:#222;display:flex;flex-direction:column;gap:7px;padding:2px 4px}"
+			    & ".pz .lgs{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 18px;font-size:17px;color:#333;margin-bottom:3px}"
+			    & ".pz .lg{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}"
+			    & ".pz .sq{display:inline-block;width:14px;height:14px;border-radius:3px}"
+			    & ".pz .row{display:flex;align-items:center;gap:12px}"
+			    & ".pz .lb{width:120px;flex:none;font-size:18px;font-weight:600;color:#333;text-align:right}"
+			    & ".pz .bar{flex:1;display:flex;height:30px;border-radius:5px;overflow:hidden;background:#eee}"
+			    & ".pz .sgm{display:flex;align-items:center;justify-content:center;flex-basis:0;min-width:3px;font-size:17px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;border-right:2px solid #fff}"
+			    & ".pz .sgm:last-child{border-right:0}"
+			    & "</style>"
+			
+			RETURN
+			    "<div class='pz'>" & _Css
+			    & "<div class='lgs'>" & _Legenda & "</div>"
+			    & "<div class='row'><div class='lb'>Unidades</div><div class='bar'>" & _BarU & "</div></div>"
+			    & "<div class='row'><div class='lb'>Clientes</div><div class='bar'>" & _BarC & "</div></div>"
+			    & "<div class='row'><div class='lb'>Faturamento</div><div class='bar'>" & _BarF & "</div></div>"
+			    & "<div class='row'><div class='lb'>Potencial</div><div class='bar'>" & _BarP & "</div></div>"
+			    & "</div>"
+		displayFolder: Resumo por Segmento
+		lineageTag: dcc7418f-66ce-422a-a9a6-26ab5db62a13
+
+	measure 'Título Projeção Cidade' = "PROJEÇÃO POR CIDADE × PRODUTO  ·  " & [Rótulo Produtos]
+		displayFolder: Cobertura\7. Rótulos
+		lineageTag: 4b2126a5-5dc9-44b9-9a27-a18b2921c453
+
+	measure 'CI Cor Conversão' =
+			VAR p = [CI Conversão %]
+			RETURN SWITCH ( TRUE (), ISBLANK ( p ), "#FFFFFF", p < 0.30, "#C0392B", p < 0.34, "#E67E22", p < 0.38, "#A4C639", "#2E7D32" )
+		displayFolder: Inteligência Competitiva\9. Cores
+		lineageTag: 5c79ef0c-1bf4-48b2-8068-1541f57d7595
+
+	measure 'CI Nota Dispersão' =
+			VAR _t = CALCULATETABLE ( ci_oportunidades, KEEPFILTERS ( ci_oportunidades[resultado] IN { "Ganha", "Perdida", "Cancelada" } ), KEEPFILTERS ( NOT ISBLANK ( ci_oportunidades[delta_preco] ) ) )
+			VAR n = COUNTROWS ( _t )
+			VAR a = COUNTROWS ( FILTER ( _t, ci_oportunidades[delta_preco] > 0 ) )
+			RETURN IF ( n > 0, FORMAT ( DIVIDE ( a, n ), "0%" ) & " dos " & FORMAT ( n, "#,0" ) & " negócios ficam acima da paridade (JD mais caro) · apenas preço do concorrente > R$ 1.000", "Sem negócios com preço do concorrente no filtro" )
+		displayFolder: Inteligência Competitiva\5. Preço
+		lineageTag: 10875d88-6b18-4a97-91ba-64bbfdb69a1c
+
+	/// Demanda calculada no grupo menos a soma das demandas por cliente (efeito do arredondamento e da área mínima aplicados ao grupo).
+	measure 'Demanda Consolidação' = [Demanda Grupos] - [Demanda Clientes]
+		formatString: +#,0;-#,0;0
+		displayFolder: Cobertura\10. Grupos econômicos
+		lineageTag: 77dfa37c-c94c-49e0-a63a-4c233aa5d064
+
+	/// TRUE quando há uma única unidade (cliente ou grupo econômico) no contexto — mesma regra da Ficha do Cliente.
+	measure 'C360 Tem Seleção' = COUNTROWS ( VALUES ( segclientes_vw_clientes_atual[unidade] ) ) = 1
+		displayFolder: Cliente 360\0. Apoio
+		lineageTag: e03886aa-c0f6-4171-b620-eef94db9e12c
+
+	/// Subtítulo do cartão Alvo de participação.
+	measure 'Rótulo Alvo Participação' =
+			VAR _mm = "R$ #,0.0"
+			VAR _gap = [Gap Faturamento Alvo]
+			RETURN
+			    "Faturamento Alvo: " & FORMAT ( [Faturamento Alvo] / 1E6, _mm ) & " MM"
+			        & UNICHAR ( 10 )
+		displayFolder: Visão geral\6. Rótulos dos cartões
+		lineageTag: e57cc0e8-5ca2-4dd1-a9a7-1226c88a1b14
+
+	/// Subtítulo do cartão Participação: de onde vem o valor.
+	measure 'Rótulo Participação' = "Faturamento Nissey ÷ potencial de investimento em máquinas (" & FORMAT ( [% ROB Investimento Máquinas], "0%" ) & " do ROB)"
+		displayFolder: Visão geral\6. Rótulos dos cartões
+		lineageTag: 9455b0bc-d978-480f-ab78-3c9a22ec4190
 
 	column Coluna
 		isHidden

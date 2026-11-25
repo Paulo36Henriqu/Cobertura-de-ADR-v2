@@ -84,6 +84,7 @@ ref table dVPSub
 ref table LocalDateTable_cfbab839-1f60-45d0-84fd-177674cdac5d
 ref table LocalDateTable_f549211b-e147-4f89-b724-b5f68e121824
 ref table dSazonalidade
+ref table dFolgaCenario
 
 ref cultureInfo pt-BR
 
