@@ -7,7 +7,7 @@
     "z": 14000,
     "height": 150.2264927934111,
     "width": 362.38846945778994,
-    "tabOrder": 12000
+    "tabOrder": 14000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -23,12 +23,12 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Meta MS Cenário"
+                  "Property": "Indústria Cenário"
                 }
               },
-              "queryRef": "_Medidas.Meta MS Cenário",
-              "nativeQueryRef": "Meta M.S. do cenário",
-              "displayName": "Meta M.S. do cenário"
+              "queryRef": "_Medidas.Indústria Cenário",
+              "nativeQueryRef": "Indústria do cenário",
+              "displayName": "Indústria do cenário"
             }
           ]
         }
@@ -55,6 +55,27 @@
           },
           "selector": {
             "id": "default"
+          }
+        },
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Medidas.Indústria Cenário"
           }
         }
       ],
@@ -148,7 +169,7 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Rótulo Cen Meta Cenário"
+                  "Property": "Rótulo Cen Indústria Cenário"
                 }
               }
             }
@@ -161,7 +182,7 @@
                 }
               }
             ],
-            "metadata": "_Medidas.Meta MS Cenário",
+            "metadata": "_Medidas.Indústria Cenário",
             "id": "field-e01e69c7-0ddf-7a16-e648-15f859d55ce1",
             "order": 0
           }
@@ -179,7 +200,7 @@
             }
           },
           "selector": {
-            "metadata": "_Medidas.Meta MS Cenário"
+            "metadata": "_Medidas.Indústria Cenário"
           }
         },
         {
@@ -200,7 +221,7 @@
             }
           },
           "selector": {
-            "metadata": "_Medidas.Meta MS Cenário",
+            "metadata": "_Medidas.Indústria Cenário",
             "id": "field-e01e69c7-0ddf-7a16-e648-15f859d55ce1"
           }
         }
@@ -228,7 +249,7 @@
             }
           },
           "selector": {
-            "metadata": "_Medidas.Meta MS Cenário"
+            "metadata": "_Medidas.Indústria Cenário"
           }
         }
       ]

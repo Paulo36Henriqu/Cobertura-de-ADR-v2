@@ -1,4 +1,4 @@
-/// Premissas dos cenários de meta de market share por município (Sistema de Cobertura). Meta da cidade×produto = MAX( piso × meta oficial do estado ; MIN( share de frota + fator × (1 − share de frota) ; MAX(teto ; share de frota) ) ). Share de frota = MIN(100%, parque válido ÷ demanda). Edite os valores aqui (DATATABLE).
+/// Cenários de indústria. Moderado = indústria informada (projetada). Conservador e Agressivo variam por sub-região × produto (cálculo em dFolgaCenario): folga = renovação pela demanda (demanda ÷ vida útil) ÷ indústria; cobertura = parque JD válido ÷ demanda (máx. 100%); amplitude = Amplitude Base − cobertura. Agressivo = 1 + Intensidade × (folga − 1) × amplitude; Conservador = 1 − Intensidade × amplitude ÷ folga; o ajuste fica entre Piso e Teto. Edite os parâmetros aqui (DATATABLE).
 table dCenarioMS
 	lineageTag: 8f46e804-c844-4684-bc02-41a55bd1b755
 
@@ -15,31 +15,44 @@ table dCenarioMS
 		isNameInferred
 		sourceColumn: [Ordem]
 
-	column 'Fator Gap'
-		formatString: 0%
-		lineageTag: 5daeb9be-1fcd-46dc-bafc-c97da88aab9d
+	column Descrição
+		dataType: string
+		lineageTag: f2f89308-46f7-4182-a262-c33e91f87d4e
 		summarizeBy: none
 		isNameInferred
-		sourceColumn: [Fator Gap]
+		sourceColumn: [Descrição]
 
-	column 'Piso Meta Oficial'
+	column Intensidade
+		dataType: double
 		formatString: 0%
-		lineageTag: cafdaeaa-9070-4dbb-84f8-08a3d195adda
+		lineageTag: ec668674-d60c-491a-bcd6-663ea15c148f
 		summarizeBy: none
 		isNameInferred
-		sourceColumn: [Piso Meta Oficial]
+		sourceColumn: [Intensidade]
+
+	column Piso
+		dataType: double
+		formatString: 0%
+		lineageTag: fa049a7a-4b07-4564-8255-1aa50930ebd0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Piso]
 
 	column Teto
+		dataType: double
 		formatString: 0%
-		lineageTag: df80f142-f93d-4053-b88e-20c6bf1858d0
+		lineageTag: 49fa4e16-38b3-4f93-96d5-6e77064d94e2
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Teto]
 
-	column Descrição
-		lineageTag: cc08d04e-66d2-41c3-8772-8552644551d2
+	column 'Amplitude Base'
+		dataType: double
+		formatString: 0.0
+		lineageTag: 3b21c878-2268-4605-aa0d-ef5de75928d1
+		summarizeBy: none
 		isNameInferred
-		sourceColumn: [Descrição]
+		sourceColumn: [Amplitude Base]
 
 	partition dCenarioMS = calculated
 		mode: import
@@ -47,14 +60,15 @@ table dCenarioMS
 				DATATABLE (
 				    "Cenário", STRING,
 				    "Ordem", INTEGER,
-				    "Fator Gap", DOUBLE,
-				    "Piso Meta Oficial", DOUBLE,
+				    "Intensidade", DOUBLE,
+				    "Piso", DOUBLE,
 				    "Teto", DOUBLE,
+				    "Amplitude Base", DOUBLE,
 				    "Descrição", STRING,
 				    {
-				        { "Conservador", 1, 0.10, 0.50, 0.60, "Mantém o share de frota e conquista 10% do gap; piso = 50% da meta oficial; teto 60%" },
-				        { "Moderado", 2, 0.25, 0.75, 0.75, "Conquista 25% do gap de frota; piso = 75% da meta oficial; teto 75%" },
-				        { "Agressivo", 3, 0.40, 1.00, 0.90, "Conquista 40% do gap de frota; piso = meta oficial; teto 90%" }
+				        { "Conservador", 1, 0.20, 0.05, 0.30, 1.5, "Recua 20% × amplitude ÷ folga: cai mais onde a folga é pequena e a cobertura da frota JD é baixa (mín. 5%, máx. 30%)" },
+				        { "Moderado", 2, 0, 0, 0, 1.5, "Indústria informada (base do Sistema de Cobertura)" },
+				        { "Agressivo", 3, 0.50, 0.05, 0.50, 1.5, "Avança 50% da folga × amplitude: sobe mais onde a renovação supera a indústria e a cobertura da frota JD é baixa (mín. 5%, máx. 50%)" }
 				    }
 				)
 

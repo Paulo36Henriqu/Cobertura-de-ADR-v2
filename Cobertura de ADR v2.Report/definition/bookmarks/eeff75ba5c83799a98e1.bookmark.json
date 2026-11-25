@@ -3,8 +3,7 @@
   "displayName": "Info Cobertura OFF",
   "name": "eeff75ba5c83799a98e1",
   "options": {
-    "targetVisualNames": [],
-    "preserveNewVisualVisibility": true
+    "targetVisualNames": []
   },
   "explorationState": {
     "version": "1.3",

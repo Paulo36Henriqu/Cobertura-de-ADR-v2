@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "mp0000000000porte01",
   "position": {
-    "x": 25,
-    "y": 407.18266253869967,
+    "x": 25.037748798901852,
+    "y": 407.19286204529851,
     "z": 24000,
-    "height": 240,
-    "width": 923,
-    "tabOrder": 19003
+    "height": 239.83527796842827,
+    "width": 922.4433768016471,
+    "tabOrder": 24000
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -43,25 +43,10 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Meta MS"
+                  "Property": "Vendas Conservador"
                 }
               },
-              "queryRef": "_Medidas.Meta MS",
-              "nativeQueryRef": "Objetivo JD",
-              "displayName": "Objetivo JD"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Medidas"
-                    }
-                  },
-                  "Property": "MS Conservador"
-                }
-              },
-              "queryRef": "_Medidas.MS Conservador",
+              "queryRef": "_Medidas.Vendas Conservador",
               "nativeQueryRef": "Conservador",
               "displayName": "Conservador"
             },
@@ -73,10 +58,10 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "MS Moderado"
+                  "Property": "Vendas Moderado"
                 }
               },
-              "queryRef": "_Medidas.MS Moderado",
+              "queryRef": "_Medidas.Vendas Moderado",
               "nativeQueryRef": "Moderado",
               "displayName": "Moderado"
             },
@@ -88,10 +73,10 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "MS Agressivo"
+                  "Property": "Vendas Agressivo"
                 }
               },
-              "queryRef": "_Medidas.MS Agressivo",
+              "queryRef": "_Medidas.Vendas Agressivo",
               "nativeQueryRef": "Agressivo",
               "displayName": "Agressivo"
             }
@@ -172,7 +157,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#367C2B'"
+                      "Value": "'#5B8DB8'"
                     }
                   }
                 }
@@ -180,7 +165,7 @@
             }
           },
           "selector": {
-            "metadata": "_Medidas.Meta MS"
+            "metadata": "_Medidas.Vendas Conservador"
           }
         },
         {
@@ -190,7 +175,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#F3E586'"
+                      "Value": "'#E8A33D'"
                     }
                   }
                 }
@@ -198,7 +183,7 @@
             }
           },
           "selector": {
-            "metadata": "_Medidas.MS Conservador"
+            "metadata": "_Medidas.Vendas Moderado"
           }
         },
         {
@@ -208,7 +193,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#A9D18E'"
+                      "Value": "'#C8553D'"
                     }
                   }
                 }
@@ -216,25 +201,7 @@
             }
           },
           "selector": {
-            "metadata": "_Medidas.MS Moderado"
-          }
-        },
-        {
-          "properties": {
-            "fill": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#8DC2E0'"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "_Medidas.MS Agressivo"
+            "metadata": "_Medidas.Vendas Agressivo"
           }
         }
       ],
@@ -438,7 +405,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'META M.S. POR PORTE · OBJETIVO JD × CENÁRIOS'"
+                  "Value": "'VOLUME NISSEY POR PORTE · MÁQ./ANO POR CENÁRIO (SHARE = OBJETIVO JD)'"
                 }
               }
             },

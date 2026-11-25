@@ -20,7 +20,7 @@
                 "name": {
                   "expr": {
                     "Literal": {
-                      "Value": "'INFO_Cobertura_p2 (1).png'"
+                      "Value": "'INFO_Cobertura_p2 (2).png'"
                     }
                   }
                 },
@@ -29,7 +29,7 @@
                     "ResourcePackageItem": {
                       "PackageName": "RegisteredResources",
                       "PackageType": 1,
-                      "ItemName": "INFO_Cobertura_p2_(1)8663338553902065.png"
+                      "ItemName": "INFO_Cobertura_p2_(2)01838355503318645.png"
                     }
                   }
                 },
@@ -51,7 +51,7 @@
                 "name": {
                   "expr": {
                     "Literal": {
-                      "Value": "'INFO_Cobertura_p2 (1).png'"
+                      "Value": "'INFO_Cobertura_p2 (2).png'"
                     }
                   }
                 },
@@ -60,7 +60,7 @@
                     "ResourcePackageItem": {
                       "PackageName": "RegisteredResources",
                       "PackageType": 1,
-                      "ItemName": "INFO_Cobertura_p2_(1)32809979851369786.png"
+                      "ItemName": "INFO_Cobertura_p2_(2)9782777296230684.png"
                     }
                   }
                 },

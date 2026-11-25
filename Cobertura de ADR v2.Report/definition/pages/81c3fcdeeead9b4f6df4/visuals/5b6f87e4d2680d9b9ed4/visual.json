@@ -7,7 +7,7 @@
     "z": 19000,
     "height": 719.50583390528482,
     "width": 657.570350034317,
-    "tabOrder": 17000
+    "tabOrder": 19000
   },
   "visual": {
     "visualType": "azureMap",
@@ -154,21 +154,21 @@
             "zoom": {
               "expr": {
                 "Literal": {
-                  "Value": "4.65D"
+                  "Value": "4.2D"
                 }
               }
             },
             "centerLatitude": {
               "expr": {
                 "Literal": {
-                  "Value": "-8.174171921365925D"
+                  "Value": "-6.784587324476277D"
                 }
               }
             },
             "centerLongitude": {
               "expr": {
                 "Literal": {
-                  "Value": "-64.80819892883301D"
+                  "Value": "-63.68084399658676D"
                 }
               }
             },

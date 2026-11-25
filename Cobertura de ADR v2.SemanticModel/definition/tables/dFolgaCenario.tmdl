@@ -1,0 +1,143 @@
+/// Por sub-região × produto: folga = renovação pela demanda (demanda ÷ vida útil) ÷ indústria informada; cobertura = parque JD válido ÷ demanda (máx. 100%); amplitude = Amplitude Base − cobertura; e o % de indústria resultante em cada cenário (parâmetros em dCenarioMS).
+table dFolgaCenario
+	lineageTag: d43485e0-9569-4693-b5fb-39e37c55daba
+
+	column chave_sr
+		dataType: string
+		lineageTag: 310b5cad-09ff-4b45-ab99-eb7c4aff7306
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [chave_sr]
+
+	column produto
+		dataType: string
+		lineageTag: 21b59238-177e-43ef-811b-892469587293
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [produto]
+
+	column industria
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 8730b381-2320-4441-b812-ed73c5a3e75c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [industria]
+
+	column demanda
+		dataType: double
+		formatString: #,0.0
+		lineageTag: d5d278f9-cd08-42f2-a90d-af9424f25865
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [demanda]
+
+	column vida_util
+		dataType: double
+		formatString: #,0.0
+		lineageTag: e0cdec35-6086-41a8-b61a-df4c9932133c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [vida_util]
+
+	column renovacao
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 9c60dc72-3abe-437b-b9e9-8ee50bc02b6a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [renovacao]
+
+	column folga
+		dataType: double
+		formatString: 0.00
+		lineageTag: f77eda33-a887-42f6-8dc4-052ae06cbca9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [folga]
+
+	column pct_conservador
+		dataType: double
+		formatString: 0.0%
+		lineageTag: ca3fe5e5-45e8-4c30-929b-377da8133ef7
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [pct_conservador]
+
+	column pct_agressivo
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 4f64db88-f125-40b9-b89b-436bd31f959b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [pct_agressivo]
+
+	column parque
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 307ff161-10c4-48da-b4b8-9312496ce82f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [parque]
+
+	column cobertura
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 620ea057-06de-49bb-968d-b70d427d4ece
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [cobertura]
+
+	column amplitude
+		dataType: double
+		formatString: 0.00
+		lineageTag: 676dfc11-70c0-4369-b085-2b9f2b59cbb1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [amplitude]
+
+	partition dFolgaCenario = calculated
+		mode: import
+		source =
+				VAR _cons = LOOKUPVALUE ( dCenarioMS[Intensidade], dCenarioMS[Cenário], "Conservador" )
+				VAR _consPiso = LOOKUPVALUE ( dCenarioMS[Piso], dCenarioMS[Cenário], "Conservador" )
+				VAR _consTeto = LOOKUPVALUE ( dCenarioMS[Teto], dCenarioMS[Cenário], "Conservador" )
+				VAR _consAmp = LOOKUPVALUE ( dCenarioMS[Amplitude Base], dCenarioMS[Cenário], "Conservador" )
+				VAR _agr = LOOKUPVALUE ( dCenarioMS[Intensidade], dCenarioMS[Cenário], "Agressivo" )
+				VAR _agrPiso = LOOKUPVALUE ( dCenarioMS[Piso], dCenarioMS[Cenário], "Agressivo" )
+				VAR _agrTeto = LOOKUPVALUE ( dCenarioMS[Teto], dCenarioMS[Cenário], "Agressivo" )
+				VAR _agrAmp = LOOKUPVALUE ( dCenarioMS[Amplitude Base], dCenarioMS[Cenário], "Agressivo" )
+				VAR _base =
+				    ADDCOLUMNS (
+				        SUMMARIZE ( siscobertura_projecao_produto, siscobertura_projecao_produto[chave_sr], siscobertura_projecao_produto[produto] ),
+				        "industria", CALCULATE ( SUM ( siscobertura_projecao_produto[industria_cidade] ) ),
+				        "demanda", CALCULATE ( SUM ( siscobertura_projecao_produto[demanda] ) ),
+				        "parque", CALCULATE ( SUM ( siscobertura_projecao_produto[parque_valido] ) ),
+				        "vida_util", LOOKUPVALUE ( dPremissaMaquina[vida_util], dPremissaMaquina[produto], siscobertura_projecao_produto[produto] )
+				    )
+				-- PL: demanda em linhas; indústria em unidades (22 linhas por PL)
+				VAR _calc =
+				    ADDCOLUMNS (
+				        _base,
+				        "renovacao", DIVIDE ( [demanda], [vida_util] ) / IF ( siscobertura_projecao_produto[produto] = "PL", 22, 1 ),
+				        "cobertura", MIN ( 1, DIVIDE ( [parque], [demanda], 0 ) )
+				    )
+				VAR _folga =
+				    ADDCOLUMNS ( _calc, "folga", DIVIDE ( [renovacao], [industria] ) )
+				RETURN
+				    SELECTCOLUMNS (
+				        _folga,
+				        "chave_sr", siscobertura_projecao_produto[chave_sr],
+				        "produto", siscobertura_projecao_produto[produto],
+				        "industria", [industria],
+				        "demanda", [demanda],
+				        "parque", [parque],
+				        "vida_util", [vida_util],
+				        "renovacao", [renovacao],
+				        "folga", [folga],
+				        "cobertura", [cobertura],
+				        "amplitude", _agrAmp - [cobertura],
+				        "pct_conservador", IF ( ISBLANK ( [folga] ), 1, 1 - MIN ( _consTeto, MAX ( _consPiso, _cons * ( _consAmp - [cobertura] ) / [folga] ) ) ),
+				        "pct_agressivo", IF ( ISBLANK ( [folga] ), 1, 1 + MIN ( _agrTeto, MAX ( _agrPiso, _agr * ( [folga] - 1 ) * ( _agrAmp - [cobertura] ) ) ) )
+				    )
+

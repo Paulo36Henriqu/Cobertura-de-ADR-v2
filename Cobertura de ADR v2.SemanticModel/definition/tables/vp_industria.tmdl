@@ -87,8 +87,8 @@ table vp_industria
 		source =
 				let
 				    Pasta = "C:\Users\Paulo.Santos\OneDrive - Nissey Participações Ltda\Documentos\PowerBI\Cobertura de ADR\Cobertura de ADR v2",
-				    Arquivos = Table.SelectRows(Folder.Files(Pasta), each Text.StartsWith([Name], "Current_versus_Prior") and [Extension] = ".xlsx" and [Folder Path] = Pasta & "\"),
-				    Ultimo = Table.First(Table.Sort(Arquivos, {{"Date modified", Order.Descending}})),
+				    Arquivos = Table.SelectRows(Folder.Files(Pasta), each Text.StartsWith([Name], "Current_versus_Prior") and [Extension] = ".xlsx" and List.Contains({Pasta & "\", Pasta & "\docs\"}, [Folder Path])),
+				    Ultimo = if Table.IsEmpty(Arquivos) then error "Nenhum Current_versus_Prior*.xlsx na pasta do projeto nem em docs\" else Table.First(Table.Sort(Arquivos, {{"Date modified", Order.Descending}})),
 				    Livro = Excel.Workbook(Ultimo[Content], null, true),
 				    Folha = Livro{0}[Data],
 				    Periodo = Text.Trim(Text.From(Folha{5}[Column2])),

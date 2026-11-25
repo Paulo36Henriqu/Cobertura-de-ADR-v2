@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "e3159ad0aa050091c925",
   "position": {
-    "x": 965.94427244582039,
-    "y": 407.18266253869967,
+    "x": 965.929993136582,
+    "y": 407.19286204529851,
     "z": 22000,
-    "height": 277.89473684210526,
-    "width": 930.27863777089772,
-    "tabOrder": 19002
+    "height": 278.05078929306791,
+    "width": 929.0322580645161,
+    "tabOrder": 22000
   },
   "visual": {
     "visualType": "hundredPercentStackedBarChart",
@@ -43,20 +43,6 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Vendas Agressivo"
-                }
-              },
-              "queryRef": "_Medidas.Vendas Agressivo",
-              "nativeQueryRef": "Vendas Agressivo"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Medidas"
-                    }
-                  },
                   "Property": "Vendas Conservador"
                 }
               },
@@ -76,6 +62,20 @@
               },
               "queryRef": "_Medidas.Vendas Moderado",
               "nativeQueryRef": "Vendas Moderado"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Vendas Agressivo"
+                }
+              },
+              "queryRef": "_Medidas.Vendas Agressivo",
+              "nativeQueryRef": "Vendas Agressivo"
             }
           ]
         }
@@ -134,6 +134,13 @@
                   }
                 }
               }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "13D"
+                }
+              }
             }
           }
         },
@@ -158,10 +165,48 @@
                   "Value": "false"
                 }
               }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
             }
           },
           "selector": {
             "metadata": "_Medidas.Vendas Conservador"
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "15D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Medidas.Vendas Agressivo"
           }
         }
       ],
@@ -173,7 +218,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#8DC2E0'"
+                      "Value": "'#C8553D'"
                     }
                   }
                 }
@@ -191,7 +236,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#F3E586'"
+                      "Value": "'#5B8DB8'"
                     }
                   }
                 }
@@ -208,9 +253,8 @@
               "solid": {
                 "color": {
                   "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 2,
-                      "Percent": 0.6
+                    "Literal": {
+                      "Value": "'#E8A33D'"
                     }
                   }
                 }
@@ -243,6 +287,13 @@
                   }
                 }
               }
+            },
+            "innerPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "26L"
+                }
+              }
             }
           }
         }
@@ -254,6 +305,19 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "layout": [
+        {
+          "properties": {
+            "stackedGapSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "3D"
                 }
               }
             }
